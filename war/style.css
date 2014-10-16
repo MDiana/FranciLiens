@@ -1,0 +1,35 @@
+@CHARSET "ISO-8859-1";
+
+@font-face {
+    font-family: 'coolvetica';
+    src: url('./fonts/coolvetica rg.eot#coolvetica') format('truetype');
+}
+
+.titre
+{
+	font-family: 'coolvetica', 'Arial Black', Arial;
+	font-size: 5em;
+	color: white;
+	font-weight: bold;
+	
+	text-align: center;
+	margin-top: 0.5em;
+	margin-bottom: 0.25em;
+	
+}
+
+.accroche
+{
+	font-size: large;
+	font-style: italic;
+	color: white;
+	
+	text-align: center;
+}
+
+.accueil
+{
+    background-image: url("images/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
