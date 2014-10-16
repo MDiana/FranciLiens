@@ -14,17 +14,22 @@
 	
 	text-align: center;
 	margin-top: 0.5em;
-	margin-bottom: 0.25em;
+	margin-bottom: 0.20em;
+	
+	text-shadow: 2px 2px #000000;
 	
 }
 
 .accroche
 {
+	font-family: 'coolvetica', 'Arial Black', Arial;
 	font-size: large;
 	font-style: italic;
+	font-weight: bold;
 	color: white;
 	
 	text-align: center;
+	text-shadow: 2px 2px #000000;
 }
 
 .accueil
