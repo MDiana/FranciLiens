@@ -5,10 +5,13 @@
     src: url('./fonts/coolvetica rg.eot#coolvetica') format('truetype');
 }
 
+
 body
 {
 	font-family: 'coolvetica', 'Arial Black', Arial;
+	
 }
+
 
 .titre
 {
@@ -69,22 +72,25 @@ a:hover
 	color: red;
 }
 
+
 .listeformulaire{
 	
 	padding-top: 5em;
-	padding-bottom: 5em;
-	
-	background-color: #40A497;
-	opacity:0.5;
-	
+	padding-bottom: 2em;
+	background: rgba(255,255,255,.9);
+
+	border-radius: 25px;
 	
 	width: 40%;
 	margin:auto;
+	
+	
 } 
 
 .tablelogin{
 	margin:auto;
 	font-size: x-large;
+	
 }
 
 
@@ -96,6 +102,7 @@ input[type=submit] {
 	font-weight: bold;
 	color: white;
 	background-color: black;
+	
 }
 
 input {
@@ -103,5 +110,19 @@ input {
 	width: 300px;
 	height: 35px;
 	font-size: large;
-	
+	border-radius: 5px;
+		
+}
+
+.inscrivezvous{
+	text-align: center;
+}
+.inscrivezvous a{
+	font-weight: bold;
+	color: black;	
+}
+
+.inscrivezvous a:hover{
+	font-weight: bold;
+	color: red;	
 }
