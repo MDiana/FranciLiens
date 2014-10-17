@@ -34,6 +34,7 @@ body
 	
 	text-align: center;
 	text-shadow: 2px 2px #000000;
+	margin-bottom: 3em;
 }
 
 .accueil
@@ -66,4 +67,41 @@ body
 a:hover
 {
 	color: red;
+}
+
+.listeformulaire{
+	
+	padding-top: 5em;
+	padding-bottom: 5em;
+	
+	background-color: #40A497;
+	opacity:0.5;
+	
+	
+	width: 40%;
+	margin:auto;
+} 
+
+.tablelogin{
+	margin:auto;
+	font-size: x-large;
+}
+
+
+input[type=submit] {
+	border: 2px solid white;
+	width: 150px;
+	height: 60px;
+	float: right;
+	font-weight: bold;
+	color: white;
+	background-color: black;
+}
+
+input {
+	border: 1px solid black;
+	width: 300px;
+	height: 35px;
+	font-size: large;
+	
 }
