@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'coolvetica';
-    src: url('./fonts/coolvetica rg.eot#coolvetica') format('truetype');
+    src: url('./fonts/coolvetica_rg.ttf#coolvetica') format('truetype');
 }
 
 
@@ -67,7 +67,7 @@ body
 	color: white;
 }
 
-a:hover
+.lien:hover
 {
 	color: red;
 }
@@ -75,21 +75,22 @@ a:hover
 
 .listeformulaire{
 	
-	padding-top: 5em;
-	padding-bottom: 2em;
+	padding-top: 2em;
+	padding-bottom: 1em;
 	background: rgba(255,255,255,.9);
 
-	border-radius: 25px;
+	border-radius: 1.5em;
 	
-	width: 40%;
-	margin:auto;
+	width: 30em;
+	height: 12em;
+	margin: auto;
 	
 	
 } 
 
 .tablelogin{
-	margin:auto;
-	font-size: x-large;
+	margin: auto;
+	font-size: large;
 	
 }
 
