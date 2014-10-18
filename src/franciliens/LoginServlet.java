@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		firstGetDone=false;
-		isErrorMessageDisplayed=false;
+		isErrorMessageDisplayed=false; 
 	}
 	
 	public void destroy() {
