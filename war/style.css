@@ -73,7 +73,7 @@ body
 }
 
 
-.listeformulaire{
+.loginform{
 	
 	padding-top: 2em;
 	padding-bottom: 1em;
@@ -88,7 +88,7 @@ body
 	
 } 
 
-.tablelogin{
+.logintable{
 	margin: auto;
 	font-size: large;
 	
@@ -126,4 +126,11 @@ input {
 .inscrivezvous a:hover{
 	font-weight: bold;
 	color: red;	
+}
+
+.errorMessage
+{
+	text-align: center;
+	font-style: italic;
+	color: red;
 }
