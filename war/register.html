@@ -1,0 +1,42 @@
+<div name ="formulaireinscription" class="registerform" id="RegisterDiv">
+	
+	<form id="Register" name="formulaireinscription" action="Register" method="post"
+		accept-charset="utf-8" >
+		<table class="logintable" title="Incrivez-vous">
+			<tr>
+				<th><label for="login">Login* </label></th>
+				<td><input type="text" name="login" id="Login"
+					placeholder="votre identifiant" required autofocus ></td>
+				<td class="tableauinfoverif"><p class="rouge" id="veriflogin"></p></td>
+			</tr>
+			<tr>
+				<th><label for="mail">Email* </label></th>
+				<td><input type="email" name="mail" id="email"
+					placeholder="votremail@email.com" required autofocus></td>
+				<td class="tableauinfoverif"><p class="rouge" id="verifmail1"></p></td>
+			</tr>
+			<tr>
+				<th><label for="mailconf">Confirmation de l'email* </label></th>
+				<td><input type="email" name="mailconf" id="emailconf"
+					placeholder="votremail@email.com" required autofocus></td>
+				<td class="tableauinfoverif"><p class="rouge" id="verifmail"></p></td>
+			</tr>
+			<tr>
+				<th><label for="password">Mot de passe * </label></th>
+				<td><input type="password" name="password" id="Password"
+					placeholder="password" required ></td>
+				<td class="tableauinfoverif"><p class="rouge" id="verifpassword"></p></td>
+			</tr>
+			<tr>
+				<th><label for="age">Age </label></th>
+				<td><input type="text" name="age"
+					placeholder="votre age"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="button" value="S'inscrire" onclick="compareMail()"></td>
+			</tr>
+		</table>
+	</form>
+	<p id ="notif" class="inscrivezvous" >Les champs marqués d'une * sont obligatoires. Huit caractères minimum pour le mot de passe.</p>
+	</div>
