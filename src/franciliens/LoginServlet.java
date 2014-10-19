@@ -167,7 +167,6 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
 		
 		/*
 		 * Envoyer le résultat

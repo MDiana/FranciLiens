@@ -75,15 +75,50 @@ public class RegisterServlet extends HttpServlet {
 	@Override
 	protected void doHead(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doHead(req, resp);
+
+		/*
+		 * Envoyer le résultat
+		 */
+		resp.setContentType("text/html; charset=UTF-8");
+		resp.setStatus(400);
+		PrintWriter out = resp.getWriter();
+		out.println(squelette.head());
+		
+		out.flush();
+		out.close();
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+
+		/*
+		 * TODO Récupérer les différentes infos
+		 */
+		
+		/*
+		 * TODO Vérifier si l'email choisi est déjà utilisé
+		 */
+		
+		/*
+		 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
+		 * déjà à cette adresse"
+		 */
+		
+		/*
+		 * TODO Mail non utilisé : Vérifier si le pseudo est déjà utilisé
+		 * (indépendamment de la casse)
+		 */
+		
+		/*
+		 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
+		 */
+		
+		/*
+		 * TODO Tout va bien : Stocker dans le Datastore et
+		 * rediriger vers l'accueil en loggant automatiquement
+		 * l'utilisateur
+		 */
 	}
 
 	@Override

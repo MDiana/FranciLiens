@@ -42,7 +42,7 @@ body
 
 .accueil
 {
-    background-image: url("images/background.png");
+    background-image: url("images/background.jpg");
     background-repeat: no-repeat;
     background-size: 100% auto;
     
@@ -76,14 +76,14 @@ body
 
 .loginform{
 	
-	padding-top: 2em;
+	padding-top: 1em;
 	padding-bottom: 1em;
 	background: rgba(255,255,255,.9);
 
 	border-radius: 1.5em;
 	
 	width: 30em;
-	height: 24em;
+	height: auto;
 	margin: auto;
 		
 } 
@@ -98,14 +98,14 @@ body
 
 .registerform{
 	
-	padding-top: 2em;
-	padding-bottom: 10em;
+	padding-top: 1em;
+	padding-bottom: 1em;
 	background: rgba(255,255,255,.9);
 
 	border-radius: 1.5em;
 	
 	width: 30em;
-	height: 34em;
+	height: auto;
 	margin: auto;
 	
 }
