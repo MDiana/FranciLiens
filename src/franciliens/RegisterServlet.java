@@ -96,6 +96,12 @@ public class RegisterServlet extends HttpServlet {
 		 * TODO Récupérer les différentes infos
 		 */
 		
+		String pseudo = req.getParameter("login");
+		String mail = req.getParameter("mail");
+		String pass = req.getParameter("password");
+		int age = Integer.parseInt(req.getParameter("age"));
+		
+		
 		/*
 		 * TODO Vérifier si l'email choisi est déjà utilisé
 		 */
@@ -112,6 +118,14 @@ public class RegisterServlet extends HttpServlet {
 		
 		/*
 		 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
+		 */
+		
+		/*
+		 * TODO Pseudo non existant : Vérifier si l'âge est valide
+		 */
+		
+		/*
+		 * TODO Âge invalide : Message d'erreur "Âge invalide"
 		 */
 		
 		/*
