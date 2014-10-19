@@ -7,10 +7,10 @@ import com.googlecode.objectify.annotation.*;
 @Entity
 @Index
 public class User {
-	@Id String id;
+	String id;
 	String login;
 	String password;
-	String email;
+	@Id String email;
 	@Unindex Character sexe;
 	@Unindex Image avatar;
 	@Unindex Text description;

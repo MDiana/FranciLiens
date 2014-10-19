@@ -10,12 +10,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.googlecode.objectify.ObjectifyService;
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on d√©j√† fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il pr√©sent ?
+	private User u;
 	
 	public void init() {
 		try {
@@ -26,7 +30,12 @@ public class LoginServlet extends HttpServlet {
 		firstGetDone=false;
 		isErrorMessageDisplayed=false; 
 	}
-	
+	/*
+	 * au chargement de l'application il faut enregistrer les classes auprËs d'Objectify
+	 */
+	//static{
+	//	ObjectifyService.register(User.class);
+	//}
 	public void destroy() {
 		
 	}
@@ -58,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		/*
-		 * Envoyer le r√©sultat
+		 * Envoyer le rÈsultat
 		 */
 		resp.setContentType("text/html; charset=UTF-8");
 		resp.setStatus(400);
@@ -75,7 +84,7 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		/*
-		 * Envoyer le r√©sultat
+		 * Envoyer le rÈsultat
 		 */
 		resp.setContentType("text/html; charset=UTF-8");
 		resp.setStatus(501);
@@ -87,7 +96,7 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		/*
-		 * Envoyer le r√©sultat
+		 * Envoyer le rÈsultat
 		 */
 		resp.setContentType("text/html; charset=UTF-8");
 		resp.setStatus(400);
@@ -103,7 +112,7 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		/*
-		 * R√©cup√©rer le mail et le mot de passe
+		 * RÈcupÈrer le mail et le mot de passe
 		 */
 		
 		String mail = req.getParameter("mail");
@@ -121,6 +130,10 @@ public class LoginServlet extends HttpServlet {
 		 * TODO V√©rifier si l'utilisateur existe dans la BDD
 		 */
 		
+		//u = ofy().load().type(User.class).id(mail).now();
+		//if (u==null){
+			// L'utilisateur n'existe pas
+		//}
 		/*
 		 * TODO L'utilisateur existe : V√©rifier si le mot de passe est correct
 		 */
@@ -129,7 +142,9 @@ public class LoginServlet extends HttpServlet {
 		 * TODO Le mot de passe est correct : Logger l'utilisateur
 		 * et le rediriger vers l'accueil
 		 */
-		
+		//if (u.password.equals(pass)){
+			
+		//}
 		// /!\ Retirer le message d'erreur s'il est pr√©sent
 		if (isErrorMessageDisplayed) {
 			Element errorMessage = squelette.getElementById("errorMessage");
