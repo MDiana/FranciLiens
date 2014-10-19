@@ -106,6 +106,8 @@ public class RegisterServlet extends HttpServlet {
 		 * TODO Vérifier si l'email choisi est déjà utilisé
 		 */
 		
+		
+		
 		/*
 		 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
 		 * déjà à cette adresse"
