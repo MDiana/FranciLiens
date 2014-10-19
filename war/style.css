@@ -158,12 +158,13 @@ input {
 	height: 35px;
 	font-size: large;
 	border-radius: 5px;
-	margin-bottom:1em;
+	margin-bottom:0.3em;
 		
 }
 
 .inscrivezvous{
 	text-align: center;
+
 }
 .inscrivezvous a{
 	font-weight: bold;
@@ -173,6 +174,7 @@ input {
 .inscrivezvous a:hover{
 	font-weight: bold;
 	color: red;	
+
 }
 
 .errorMessage
@@ -182,9 +184,7 @@ input {
 	color: red;
 }
 
-.tableauinfoverif{
-	min-width:200px;
-}
+
 .rouge{
 	color: red;
 	display: inline;
