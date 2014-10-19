@@ -124,6 +124,10 @@ public class LoginServlet extends HttpServlet {
 		/*
 		 * TODO VÃ©rifier si l'utilisateur existe dans la BDD
 		 */
+		// créer un user bidon juste pour testser
+		User u1= new User("fiori","fiori","fiori@hotmail.com", "lule");
+		ofy().save().entity(u1).now();
+		
 		
 		u = ofy().load().type(User.class).id(mail).now();
 		//if (u==null){
