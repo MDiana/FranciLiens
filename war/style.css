@@ -56,7 +56,7 @@ body
 	text-align: center;
 	text-shadow: 2px 2px #000000;
 	
-	position: fixed;
+	position: relative;
 	bottom: 0;
 	height: 1em;
 	width: 100%;
@@ -83,7 +83,7 @@ body
 	border-radius: 1.5em;
 	
 	width: 30em;
-	height: 21em;
+	height: 24em;
 	margin: auto;
 		
 } 
@@ -104,8 +104,8 @@ body
 
 	border-radius: 1.5em;
 	
-	width: 26em;
-	height: 27em;
+	width: 30em;
+	height: 34em;
 	margin: auto;
 	
 }
@@ -115,12 +115,12 @@ body
 	font-size: large;
 	border: 1px black solid;
 	border-radius: 1.5em;
-	width: 75%;
+	width: 80%;
 }
 
 form label {
     float: left;
-    width: 95%%
+    width: 14em;
     margin: 1em 0em 0em 0em;
 }
 

@@ -20,8 +20,13 @@ public class LoginServlet extends HttpServlet {
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
 	
+	static {
+        ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
+    }
+	
 	@Override
 	public void init() {
+		
 		try {
 			squelette = Jsoup.connect("http://localhost:8888/index.html").get();
 		} catch (IOException e) {
@@ -29,6 +34,10 @@ public class LoginServlet extends HttpServlet {
 		}
 		firstGetDone=false;
 		isErrorMessageDisplayed=false; 
+
+		// TODO créer un user bidon juste pour tester
+		User u1= new User("fiori","fiori@hotmail.com", "lule");
+		ofy().save().entity(u1).now();
 	}
 
 	@Override
@@ -119,9 +128,6 @@ public class LoginServlet extends HttpServlet {
 		 * TODO Vérifier si l'utilisateur existe dans la BDD
 		 * et si le mdp saisi est correct
 		 */
-		// créer un user bidon juste pour tester
-		User u1= new User("fiori","fiori","fiori@hotmail.com", "lule");
-		ofy().save().entity(u1).now();
 		
 		
 		User u = ofy().load().type(User.class).id(mail).now();
@@ -146,6 +152,7 @@ public class LoginServlet extends HttpServlet {
 				form.attr("height", "14em");
 				form.attr("padding-top", "1em");
 			}
+			
 			doGet(req, resp);
 			
 		} else {

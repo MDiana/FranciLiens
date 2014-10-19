@@ -12,11 +12,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.googlecode.objectify.ObjectifyService;
+
 @SuppressWarnings("serial")
 public class RegisterServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
+	
+	static {
+        ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
+    }
 
 	@Override
 	public void init() {

@@ -11,7 +11,7 @@ function compareMail() {
 		para.innerHTML = 'Le mail et sa confirmation ne sont pas les mêmes.';
 		return false;
 	} else {
-		para.innerHTML = 'Les champs marqués d\'une * sont obligatoires. Mot de passe: 8 caractères min.';
+		para.innerHTML = 'Les champs marqués d\'une * sont obligatoires. Huit caractères minimum pour le mot de passe.';
 		return true;
 	}
 }
@@ -49,7 +49,7 @@ function verifmail(){
 	if((document.getElementById('email').value.length<1)
 		|| (!regex.test(document.getElementById('email').value))){
 		
-		document.getElementById('verifmail1').innerHTML = ' Invalide.';
+		document.getElementById('verifmail1').innerHTML = ' Invalide';
 		return false;
 	} else {
 		document.getElementById('verifmail1').innerHTML = '';

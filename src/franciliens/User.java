@@ -1,34 +1,26 @@
 package franciliens;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.appengine.api.images.Image;
 import com.googlecode.objectify.annotation.*;
 
 @Entity
 @Index
 public class User {
-	String id;
 	String login;
-	String password;
+	@Unindex String password;
 	@Id String email;
-	@Unindex Character sexe;
-	@Unindex Image avatar;
+	Character sexe;
+	@Unindex String avatarURL;
 	@Unindex Text description;
-	 int age;
-	
-	public User(String id, String login, String email,String password){
-		this.id=id;
+	int age;
+
+	@SuppressWarnings("unused")
+	private User() {}
+
+	public User(String login, String email, String password){
 		this.login=login;
 		this.password=password;
 		this.email=email;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getLogin() {
@@ -63,14 +55,6 @@ public class User {
 		this.sexe = sexe;
 	}
 
-	public Image getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(Image avatar) {
-		this.avatar = avatar;
-	}
-
 	public Text getDescription() {
 		return description;
 	}
@@ -86,6 +70,14 @@ public class User {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
+
+	public String getAvatarURL() {
+		return avatarURL;
+	}
+
+	public void setAvatarURL(String avatarURL) {
+		this.avatarURL = avatarURL;
+	}
+
 	
 }
