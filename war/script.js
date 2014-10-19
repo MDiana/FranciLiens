@@ -22,7 +22,8 @@ function veriflogin(){
 		|| (document.getElementById('Login').value.length >15)){
 		
 		document.getElementById('veriflogin').innerHTML= ' Incorrect';
-		return false
+		return false;
+		
 	} else {
 		document.getElementById('veriflogin').innerHTML= '';
 		return true;
@@ -73,6 +74,19 @@ function verifmail2(){
 	
 }
 
+
+function verifage(){
+	//véifier les données de l'âge
+	if((document.getElementById('ageu').value < 16)||(document.getElementById('ageu').value > 120)){
+		document.getElementById('verifage').innerHTML = ' Incorrect';
+		return false;
+	}else{
+		document.getElementById('verifage').innerHTML = '';
+		return true;
+	}
+	
+}
+
 function compare(){
 	//submit si tout est ok
 	var comparemailOK= compareMail();
@@ -80,8 +94,9 @@ function compare(){
 	var verifpasswordOK=verifpassword();
 	var verifmailOk = verifmail2();
 	var verifmail2Ok= verifmail();
+	var verifageOk= verifage();
 	
-	if(comparemailOK && verifloginOk && verifpasswordOK && verifmailOk && verifmail2Ok)
+	if(comparemailOK && verifloginOk && verifpasswordOK && verifmailOk && verifmail2Ok && verifageOk)
 	{
 	document.getElementById('Register').submit();
 	}
