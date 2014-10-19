@@ -21,7 +21,7 @@ function veriflogin(){
 	if( (document.getElementById('Login').value.length<1)
 		|| (document.getElementById('Login').value.length >15)){
 		
-		document.getElementById('veriflogin').innerHTML= ' Login invalide';
+		document.getElementById('veriflogin').innerHTML= ' Incorrect';
 		return false
 	} else {
 		document.getElementById('veriflogin').innerHTML= '';
@@ -34,7 +34,7 @@ function verifpassword(){
 	//verif du password
 	if(document.getElementById('Password').value.length <8){
 		
-		document.getElementById('verifpassword').innerHTML = ' Mot de passe invalide ';
+		document.getElementById('verifpassword').innerHTML = ' Invalide ';
 		return false;
 	} else {
 		document.getElementById('verifpassword').innerHTML = '';
@@ -49,7 +49,7 @@ function verifmail(){
 	if((document.getElementById('email').value.length<1)
 		|| (!regex.test(document.getElementById('email').value))){
 		
-		document.getElementById('verifmail1').innerHTML = ' Mail invalide.';
+		document.getElementById('verifmail1').innerHTML = ' Invalide.';
 		return false;
 	} else {
 		document.getElementById('verifmail1').innerHTML = '';
@@ -64,7 +64,7 @@ function verifmail2(){
 	if((document.getElementById('emailconf').value.length<1) 
 		|| (!regex.test(document.getElementById('emailconf').value))){
 		
-		document.getElementById('verifmail').innerHTML = ' Mail invalide';
+		document.getElementById('verifmail').innerHTML = ' Invalide';
 		return false;
 	} else {
 		document.getElementById('verifmail').innerHTML = '';
