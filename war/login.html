@@ -2,23 +2,26 @@
 <div name="formulaireconnexion" class="loginform" id="login">
 	<form name="formulairelogin" action="login" method="post"
 		accept-charset="utf-8">
-		<table class="logintable" title="Connectez-vous">
-			<tr>
-				<th><label for="mail">Email</label></th>
-				<td><input type="email" name="mail"
-					placeholder="votremail@email.com" required autofocus></td>
-			<tr>
-				<th><label for="password">Mot de passe</label></th>
-				<td><input type="password" name="password"
-					placeholder="password" required></td>
-			<tr>
-				<td></td>
-				<td><input type="submit" value="Se connecter"></td>
-			</tr>
-		</table>
+		<fieldset class="loginfieldset">
+			<legend>Connexion</legend>
+			<label for="mail">Email</label>
+			<input type="email" name="mail"
+				placeholder="votremail@email.com" required autofocus>
+			<br />
+
+			<label for="password">Mot de passe</label>
+			<input type="password"
+				name="password" placeholder="password" required>
+			<br /> <br />
+			
+			<input type="submit" value="Se connecter">
+			<br /> <br />
+
+			<p class="inscrivezvous">
+				Pas encore de compte? <a class="lien" href="/register">Inscrivez-vous!</a>
+			</p>
+		</fieldset>
+
 	</form>
-	<p class="inscrivezvous">
-		Pas encore de compte? <a class="lien" href="/register">Inscrivez-vous!</a>
-	</p>
 </div>
 <!--Fin de la partie à ajouter dans notre squelette-->

@@ -10,7 +10,7 @@ function compareMail() {
 	if (document.getElementById('email').value != document.getElementById('emailconf').value) {
 		para.innerHTML = 'Le mail et sa confirmation ne sont pas les mêmes.';
 		return false;
-	}else{
+	} else {
 		para.innerHTML = 'Les champs marqués d\'une * sont obligatoires. Mot de passe: 8 caractères min.';
 		return true;
 	}
@@ -23,7 +23,7 @@ function veriflogin(){
 		
 		document.getElementById('veriflogin').innerHTML= ' Login invalide';
 		return false
-	}else{
+	} else {
 		document.getElementById('veriflogin').innerHTML= '';
 		return true;
 	}
@@ -36,7 +36,7 @@ function verifpassword(){
 		
 		document.getElementById('verifpassword').innerHTML = ' Mot de passe invalide ';
 		return false;
-	}else{
+	} else {
 		document.getElementById('verifpassword').innerHTML = '';
 		return true;
 	}
@@ -51,7 +51,7 @@ function verifmail(){
 		
 		document.getElementById('verifmail1').innerHTML = ' Mail invalide.';
 		return false;
-	}else{
+	} else {
 		document.getElementById('verifmail1').innerHTML = '';
 		return true;
 	}
@@ -66,7 +66,7 @@ function verifmail2(){
 		
 		document.getElementById('verifmail').innerHTML = ' Mail invalide';
 		return false;
-	}else{
+	} else {
 		document.getElementById('verifmail').innerHTML = '';
 		return true;
 	}

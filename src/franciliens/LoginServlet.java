@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet {
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
 	
+	@Override
 	public void init() {
 		try {
 			squelette = Jsoup.connect("http://localhost:8888/index.html").get();
@@ -29,10 +30,6 @@ public class LoginServlet extends HttpServlet {
 		firstGetDone=false;
 		isErrorMessageDisplayed=false; 
 	}
-	
-	public void destroy() {
-		
-	}
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
@@ -41,12 +38,15 @@ public class LoginServlet extends HttpServlet {
 	}
 	
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
 		/*
 		 * TODO Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
+//		if ("userloggé") {
+//			resp.sendRedirect("/accueil");
+//		}
 		
 		/*
 		 * Ne créer la page que si on accède à la page pour la première fois
@@ -153,6 +153,7 @@ public class LoginServlet extends HttpServlet {
 			 * TODO L'utilisateur existe et le mot de passe est correct :
 			 * Logger l'utilisateur et le rediriger vers l'accueil
 			 */
+			resp.sendRedirect("/accueil");
 		}
 	}
 

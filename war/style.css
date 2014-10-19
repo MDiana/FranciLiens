@@ -82,32 +82,49 @@ body
 	border-radius: 1.5em;
 	
 	width: 30em;
-	height: 12em;
+	height: 21em;
 	margin: auto;
-	
-	
+		
 } 
+
+.loginfieldset{
+	margin: auto;
+	font-size: large;
+	border: 1px black solid;
+	border-radius: 1.5em;
+	width: 75%;
+}
 
 .registerform{
 	
 	padding-top: 2em;
 	padding-bottom: 10em;
-	padding-right: 5.5em;
 	background: rgba(255,255,255,.9);
 
 	border-radius: 1.5em;
 	
-	width: 30em;
-	height: 12em;
+	width: 26em;
+	height: 27em;
 	margin: auto;
 	
-	
-} 
+}
 
-.logintable{
+.registerfieldset{
 	margin: auto;
 	font-size: large;
-	
+	border: 1px black solid;
+	border-radius: 1.5em;
+	width: 75%;
+}
+
+form label {
+    float: left;
+    width: 95%%
+    margin: 1em 0em 0em 0em;
+}
+
+form legend {
+	margin-left: 1em;
 }
 
 
