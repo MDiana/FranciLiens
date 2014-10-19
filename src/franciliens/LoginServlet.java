@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.googlecode.objectify.ObjectifyService;
-import static com.googlecode.objectify.ObjectifyService.ofy;
+import static franciliens.OfyService.ofy;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
@@ -30,12 +30,7 @@ public class LoginServlet extends HttpServlet {
 		firstGetDone=false;
 		isErrorMessageDisplayed=false; 
 	}
-	/*
-	 * au chargement de l'application il faut enregistrer les classes auprès d'Objectify
-	 */
-	//static{
-	//	ObjectifyService.register(User.class);
-	//}
+	
 	public void destroy() {
 		
 	}
@@ -130,7 +125,7 @@ public class LoginServlet extends HttpServlet {
 		 * TODO VÃ©rifier si l'utilisateur existe dans la BDD
 		 */
 		
-		//u = ofy().load().type(User.class).id(mail).now();
+		u = ofy().load().type(User.class).id(mail).now();
 		//if (u==null){
 			// L'utilisateur n'existe pas
 		//}
