@@ -19,6 +19,7 @@ public class RegisterServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
+	private String url= "http://franci-liens.appspot.com/";
 	
 	static {
         ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
@@ -27,7 +28,7 @@ public class RegisterServlet extends HttpServlet {
 	@Override
 	public void init() {
 		try {
-			squelette = Jsoup.connect("http://localhost:8888/index.html").get();
+			squelette = Jsoup.connect(url+"index.html").get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +55,7 @@ public class RegisterServlet extends HttpServlet {
 			 * Construction de la page register
 			 */
 			Element contentElem = squelette.getElementById("content");
-			Document register = Jsoup.connect("http://localhost:8888/register.html").get();
+			Document register = Jsoup.connect(url+"register.html").get();
 			Element registerElem = register.getElementById("register");
 			contentElem.appendChild(registerElem);
 			firstGetDone=true;

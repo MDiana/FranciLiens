@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.googlecode.objectify.ObjectifyService;
+
 import static franciliens.OfyService.ofy;
 
 @SuppressWarnings("serial")
@@ -19,6 +20,7 @@ public class LoginServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
+	private String url= "http://franci-liens.appspot.com/";
 	
 	static {
         ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
@@ -28,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 	public void init() {
 		
 		try {
-			squelette = Jsoup.connect("http://localhost:8888/index.html").get();
+			squelette = Jsoup.connect(url+"index.html").get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +68,7 @@ public class LoginServlet extends HttpServlet {
 			 * Construction de la page login
 			 */
 			Element contentElem = squelette.getElementById("content");
-			Document login = Jsoup.connect("http://localhost:8888/login.html").get();
+			Document login = Jsoup.connect(url+"login.html").get();
 			Element loginElem = login.getElementById("login");
 			contentElem.appendChild(loginElem);
 			firstGetDone=true;
