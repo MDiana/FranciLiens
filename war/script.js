@@ -98,7 +98,7 @@ function compare(){
 	
 	if(comparemailOK && verifloginOk && verifpasswordOK && verifmailOk && verifmail2Ok && verifageOk)
 	{
-	document.getElementById('Register').submit();
+		document.getElementById('Register').submit();
 	}
 }
 	
