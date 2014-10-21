@@ -37,9 +37,9 @@ public class LoginServlet extends HttpServlet {
 		firstGetDone=false;
 		isErrorMessageDisplayed=false; 
 
-		// TODO créer un user bidon juste pour tester
-		User u1= new User("fiori","fiori@hotmail.com", "lule");
-		ofy().save().entity(u1).now();
+//		// TODO créer un user bidon juste pour tester
+//		User u1= new User("fiori","fiori@hotmail.com", "lule");
+//		ofy().save().entity(u1).now();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 		/*
 		 * Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
-		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		boolean isSessionNew = VerifSession.isSessionNew(req);
 		if (!isSessionNew) {
 			resp.sendRedirect("/accueil");
 		} else {
@@ -101,7 +101,7 @@ public class LoginServlet extends HttpServlet {
 		 * Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
 
-		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		boolean isSessionNew = VerifSession.isSessionNew(req);
 		if (!isSessionNew) {
 			resp.sendRedirect("/accueil");
 		} else {
@@ -113,7 +113,7 @@ public class LoginServlet extends HttpServlet {
 			String pass = req.getParameter("password");
 
 			/*
-			 * TODO Vérifier si l'utilisateur existe dans la BDD
+			 * Vérifier si l'utilisateur existe dans la BDD
 			 * et si le mdp saisi est correct
 			 */
 
@@ -122,7 +122,7 @@ public class LoginServlet extends HttpServlet {
 			if (u==null || !u.password.equals(pass)){
 
 				/*
-				 * TODO Le mot de passe est incorrect ou l'utilisateur n'existe pas : 
+				 * Le mot de passe est incorrect ou l'utilisateur n'existe pas : 
 				 * Rediriger vers la fenêtre de login avec
 				 * le message "Adresse mail / Mot de passe incorrect(s)"
 				 */
