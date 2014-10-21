@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
-	private String url= "http://localhost:8888/";
+	private String url= "http://franci-liens.appspot.com/";
 
 	static {
 		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 				 * Construction de la page login
 				 */
 				Element contentElem = squelette.getElementById("content");
-				Document login = Jsoup.connect("http://localhost:8888/login.html").get();
+				Document login = Jsoup.connect(url+"login.html").get();
 				Element loginElem = login.getElementById("login");
 				contentElem.appendChild(loginElem);
 				firstGetDone=true;
