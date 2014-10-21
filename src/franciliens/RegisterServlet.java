@@ -39,53 +39,38 @@ public class RegisterServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		/*
-		 * TODO Vérifier que l'utilisateur n'est pas déjà loggé
+		 * Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
-//		if ("userloggé") {
-//		resp.sendRedirect("/accueil");
-//	}
-		
-		/*
-		 * Ne créer la page que si on accède à la page pour la première fois
-		 */
-		if (!firstGetDone) {
+		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		if (! isSessionNew) {
+			resp.sendRedirect("/accueil");
+		} else {
+			/*
+			 * Ne créer la page que si on accède à la page pour la première fois
+			 */
+			if (!firstGetDone) {
+				
+				/*
+				 * Construction de la page register
+				 */
+				Element contentElem = squelette.getElementById("content");
+				Document register = Jsoup.connect("http://localhost:8888/register.html").get();
+				Element registerElem = register.getElementById("register");
+				contentElem.appendChild(registerElem);
+				firstGetDone=true;
+			}
 			
 			/*
-			 * Construction de la page register
+			 * Envoyer le résultat
 			 */
-			Element contentElem = squelette.getElementById("content");
-			Document register = Jsoup.connect("http://localhost:8888/register.html").get();
-			Element registerElem = register.getElementById("register");
-			contentElem.appendChild(registerElem);
-			firstGetDone=true;
+			resp.setContentType("text/html; charset=UTF-8");
+			resp.setStatus(400);
+			PrintWriter out = resp.getWriter();
+			out.println(squelette.html());
+			
+			out.flush();
+			out.close();
 		}
-		
-		/*
-		 * Envoyer le résultat
-		 */
-		resp.setContentType("text/html; charset=UTF-8");
-		resp.setStatus(400);
-		PrintWriter out = resp.getWriter();
-		out.println(squelette.html());
-		
-		out.flush();
-		out.close();
-	}
-
-	@Override
-	protected void doHead(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-
-		/*
-		 * Envoyer le résultat
-		 */
-		resp.setContentType("text/html; charset=UTF-8");
-		resp.setStatus(400);
-		PrintWriter out = resp.getWriter();
-		out.println(squelette.head());
-		
-		out.flush();
-		out.close();
 	}
 
 	@Override
@@ -93,7 +78,7 @@ public class RegisterServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		/*
-		 * TODO Récupérer les différentes infos
+		 * Récupérer les différentes infos
 		 */
 		
 		String pseudo = req.getParameter("login");

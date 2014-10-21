@@ -39,50 +39,44 @@ public class LoginServlet extends HttpServlet {
 		User u1= new User("fiori","fiori@hotmail.com", "lule");
 		ofy().save().entity(u1).now();
 	}
-
-	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		super.service(req, resp);
-	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
 		/*
-		 * TODO Vérifier que l'utilisateur n'est pas déjà loggé
+		 * Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
-//		if ("userloggé") {
-//			resp.sendRedirect("/accueil");
-//		}
-		
-		/*
-		 * Ne créer la page que si on accède à la page pour la première fois
-		 */
-		if (!firstGetDone) {
+		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		if (!isSessionNew) {
+			resp.sendRedirect("/accueil");
+		} else {
+			/*
+			 * Ne créer la page que si on accède à la page pour la première fois
+			 */
+			if (!firstGetDone) {
+				
+				/*
+				 * Construction de la page login
+				 */
+				Element contentElem = squelette.getElementById("content");
+				Document login = Jsoup.connect("http://localhost:8888/login.html").get();
+				Element loginElem = login.getElementById("login");
+				contentElem.appendChild(loginElem);
+				firstGetDone=true;
+			}
 			
 			/*
-			 * Construction de la page login
+			 * Envoyer le résultat
 			 */
-			Element contentElem = squelette.getElementById("content");
-			Document login = Jsoup.connect("http://localhost:8888/login.html").get();
-			Element loginElem = login.getElementById("login");
-			contentElem.appendChild(loginElem);
-			firstGetDone=true;
-		}
-		
-		/*
-		 * Envoyer le résultat
-		 */
-		resp.setContentType("text/html; charset=UTF-8");
-		resp.setStatus(400);
-		PrintWriter out = resp.getWriter();
-		out.println(squelette.html());
-		
-		out.flush();
-		out.close();
-		
+			resp.setContentType("text/html; charset=UTF-8");
+			resp.setStatus(400);
+			PrintWriter out = resp.getWriter();
+			out.println(squelette.html());
+			
+			out.flush();
+			out.close();
+		}		
 	}
 
 	@Override
@@ -98,70 +92,64 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doHead(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
-		/*
-		 * Envoyer le résultat
-		 */
-		resp.setContentType("text/html; charset=UTF-8");
-		resp.setStatus(400);
-		PrintWriter out = resp.getWriter();
-		out.println(squelette.head());
-		
-		out.flush();
-		out.close();
-	}
-
-	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
 		/*
-		 * Récupérer le mail et le mot de passe
+		 * Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
 		
-		String mail = req.getParameter("mail");
-		String pass = req.getParameter("password");
-		
-		/*
-		 * TODO Vérifier si l'utilisateur existe dans la BDD
-		 * et si le mdp saisi est correct
-		 */
-		
-		
-		User u = ofy().load().type(User.class).id(mail).now();
-		if (u==null || !u.password.equals(pass)){
-			
-			/*
-			 * TODO Le mot de passe est incorrect ou l'utilisateur n'existe pas : 
-			 * Rediriger vers la fenêtre de login avec
-			 * le message "Adresse mail / Mot de passe incorrect(s)"
-			 */
-			
-			// /!\ Ajouter le message à la partie login s'il n'est pas déjà présent
-			
-			if (!isErrorMessageDisplayed) {
-				Element form = squelette.getElementById("login");
-				form.children().first().before(""
-						+ "<p id=\"errorMessage\" class=\"errorMessage\">"
-						+ "Adresse mail / Mot de passe incorrect(s)</p>");
-				isErrorMessageDisplayed=true;
-
-				form = squelette.select("div.loginform").first();
-				form.attr("height", "14em");
-				form.attr("padding-top", "1em");
-			}
-			
-			doGet(req, resp);
-			
+		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		if (!isSessionNew) {
+			resp.sendRedirect("/accueil");
 		} else {
 			/*
-			 * TODO L'utilisateur existe et le mot de passe est correct :
-			 * Logger l'utilisateur et le rediriger vers l'accueil
+			 * Récupérer le mail et le mot de passe
 			 */
-			resp.sendRedirect("/accueil");
-		}
+			
+			String mail = req.getParameter("mail");
+			String pass = req.getParameter("password");
+			
+			/*
+			 * TODO Vérifier si l'utilisateur existe dans la BDD
+			 * et si le mdp saisi est correct
+			 */
+			
+			
+			User u = ofy().load().type(User.class).id(mail).now();
+			if (u==null || !u.password.equals(pass)){
+				
+				/*
+				 * TODO Le mot de passe est incorrect ou l'utilisateur n'existe pas : 
+				 * Rediriger vers la fenêtre de login avec
+				 * le message "Adresse mail / Mot de passe incorrect(s)"
+				 */
+				
+				// /!\ Ajouter le message à la partie login s'il n'est pas déjà présent
+				
+				if (!isErrorMessageDisplayed) {
+					Element form = squelette.getElementById("login");
+					form.children().first().before(""
+							+ "<p id=\"errorMessage\" class=\"errorMessage\">"
+							+ "Adresse mail / Mot de passe incorrect(s)</p>");
+					isErrorMessageDisplayed=true;
+
+					form = squelette.select("div.loginform").first();
+					form.attr("height", "14em");
+					form.attr("padding-top", "1em");
+				}
+				
+				doGet(req, resp);
+				
+			} else {
+				/*
+				 * L'utilisateur existe et le mot de passe est correct :
+				 * Logger l'utilisateur et le rediriger vers l'accueil
+				 */
+				req.getSession(true); // créer une session
+				resp.sendRedirect("/accueil");
+			}
+		}		
 	}
 
 	@Override
