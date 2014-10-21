@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -35,11 +36,7 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		firstGetDone=false;
-		isErrorMessageDisplayed=false; 
-
-//		// TODO créer un user bidon juste pour tester
-//		User u1= new User("fiori","fiori@hotmail.com", "lule");
-//		ofy().save().entity(u1).now();
+		isErrorMessageDisplayed=false;
 	}
 
 	@Override
@@ -62,7 +59,7 @@ public class LoginServlet extends HttpServlet {
 				 * Construction de la page login
 				 */
 				Element contentElem = squelette.getElementById("content");
-				Document login = Jsoup.connect("http://localhost:8888/login.html").get();
+				Document login = Jsoup.connect(url+"login.html").get();
 				Element loginElem = login.getElementById("login");
 				contentElem.appendChild(loginElem);
 				firstGetDone=true;
@@ -109,14 +106,13 @@ public class LoginServlet extends HttpServlet {
 			 * Récupérer le mail et le mot de passe
 			 */
 
-			String mail = req.getParameter("mail");
-			String pass = req.getParameter("password");
+			String mail = StringEscapeUtils.escapeHtml4(req.getParameter("mail"));
+			String pass = StringEscapeUtils.escapeHtml4(req.getParameter("password"));
 
 			/*
 			 * Vérifier si l'utilisateur existe dans la BDD
 			 * et si le mdp saisi est correct
 			 */
-
 
 			User u = ofy().load().type(User.class).id(mail).now();
 			if (u==null || !u.password.equals(pass)){
@@ -135,10 +131,6 @@ public class LoginServlet extends HttpServlet {
 							+ "<p id=\"errorMessage\" class=\"errorMessage\">"
 							+ "Adresse mail / Mot de passe incorrect(s)</p>");
 					isErrorMessageDisplayed=true;
-
-					form = squelette.select("div.loginform").first();
-					form.attr("height", "14em");
-					form.attr("padding-top", "1em");
 				}
 
 				doGet(req, resp);
@@ -148,7 +140,12 @@ public class LoginServlet extends HttpServlet {
 				 * L'utilisateur existe et le mot de passe est correct :
 				 * Logger l'utilisateur et le rediriger vers l'accueil
 				 */
+				
+				squelette.getElementById("errorMessage").remove();
+				isErrorMessageDisplayed=false;
+				
 				req.getSession(true); // créer une session
+				req.setAttribute("login", u.login);
 				resp.sendRedirect("/accueil");
 			}
 		}		
