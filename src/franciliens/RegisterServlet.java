@@ -16,18 +16,19 @@ import com.googlecode.objectify.ObjectifyService;
 
 @SuppressWarnings("serial")
 public class RegisterServlet extends HttpServlet {
-	
+
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	
+	private String url= "http://franci-liens.appspot.com/";
+
 	static {
-        ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
-    }
+		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
+	}
 
 	@Override
 	public void init() {
 		try {
-			squelette = Jsoup.connect("http://localhost:8888/index.html").get();
+			squelette = Jsoup.connect(url+"index.html").get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -37,7 +38,7 @@ public class RegisterServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+
 		/*
 		 * Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
@@ -49,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
 			 * Ne créer la page que si on accède à la page pour la première fois
 			 */
 			if (!firstGetDone) {
-				
+
 				/*
 				 * Construction de la page register
 				 */
@@ -59,7 +60,7 @@ public class RegisterServlet extends HttpServlet {
 				contentElem.appendChild(registerElem);
 				firstGetDone=true;
 			}
-			
+
 			/*
 			 * Envoyer le résultat
 			 */
@@ -67,7 +68,7 @@ public class RegisterServlet extends HttpServlet {
 			resp.setStatus(400);
 			PrintWriter out = resp.getWriter();
 			out.println(squelette.html());
-			
+
 			out.flush();
 			out.close();
 		}
@@ -80,41 +81,41 @@ public class RegisterServlet extends HttpServlet {
 		/*
 		 * Récupérer les différentes infos
 		 */
-		
+
 		String pseudo = req.getParameter("login");
 		String mail = req.getParameter("mail");
 		String pass = req.getParameter("password");
 		int age = Integer.parseInt(req.getParameter("age"));
-		
-		
+
+
 		/*
 		 * TODO Vérifier si l'email choisi est déjà utilisé
 		 */
-		
-		
-		
+
+
+
 		/*
 		 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
 		 * déjà à cette adresse"
 		 */
-		
+
 		/*
 		 * TODO Mail non utilisé : Vérifier si le pseudo est déjà utilisé
 		 * (indépendamment de la casse)
 		 */
-		
+
 		/*
 		 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
 		 */
-		
+
 		/*
 		 * TODO Pseudo non existant : Vérifier si l'âge est valide
 		 */
-		
+
 		/*
 		 * TODO Âge invalide : Message d'erreur "Âge invalide"
 		 */
-		
+
 		/*
 		 * TODO Tout va bien : Stocker dans le Datastore et
 		 * rediriger vers l'accueil en loggant automatiquement

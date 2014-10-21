@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+	<cron>
+		<url>/trajetload</url>
+		<description>Met à jour la liste des départs dans le base de données</description>
+		<schedule>every 1 minutes</schedule>
+	</cron>
+</cronentries>
