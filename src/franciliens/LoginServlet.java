@@ -141,7 +141,9 @@ public class LoginServlet extends HttpServlet {
 				 * Logger l'utilisateur et le rediriger vers l'accueil
 				 */
 				
-				squelette.getElementById("errorMessage").remove();
+				if (isErrorMessageDisplayed) {
+					squelette.getElementById("errorMessage").remove();
+				}
 				isErrorMessageDisplayed=false;
 				
 				req.getSession(true); // créer une session
