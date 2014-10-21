@@ -1,12 +1,11 @@
 package franciliens;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public final class VerifSession {
 	
-	public static boolean isSessionNew(HttpServletRequest req, HttpServletResponse resp) {
+	public static boolean isSessionNew(HttpServletRequest req) {
 		
 		HttpSession session = req.getSession(true);
 		

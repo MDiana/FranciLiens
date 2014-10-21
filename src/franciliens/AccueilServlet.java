@@ -20,7 +20,7 @@ public class AccueilServlet extends HttpServlet {
 		/*
 		 * Vérifier que l'utilisateur est connecté
 		 */
-		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		boolean isSessionNew = VerifSession.isSessionNew(req);
 		if (isSessionNew) {
 			// L'utilisateur n'était pas loggé :
 			// Le redériger vers la page de login
@@ -38,7 +38,7 @@ public class AccueilServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		boolean isSessionNew = VerifSession.isSessionNew(req);
 		
 		if (isSessionNew) {
 			resp.sendRedirect("/login");
@@ -50,7 +50,7 @@ public class AccueilServlet extends HttpServlet {
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		boolean isSessionNew = VerifSession.isSessionNew(req);
 		
 		if (isSessionNew) {
 			resp.sendRedirect("/login");

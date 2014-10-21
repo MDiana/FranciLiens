@@ -19,7 +19,7 @@ public class RegisterServlet extends HttpServlet {
 
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 
 	static {
 		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
 		/*
 		 * Vérifier que l'utilisateur n'est pas déjà loggé
 		 */
-		boolean isSessionNew = VerifSession.isSessionNew(req, resp);
+		boolean isSessionNew = VerifSession.isSessionNew(req);
 		if (! isSessionNew) {
 			resp.sendRedirect("/accueil");
 		} else {
@@ -55,7 +55,7 @@ public class RegisterServlet extends HttpServlet {
 				 * Construction de la page register
 				 */
 				Element contentElem = squelette.getElementById("content");
-				Document register = Jsoup.connect("http://localhost:8888/register.html").get();
+				Document register = Jsoup.connect(url+"register.html").get();
 				Element registerElem = register.getElementById("register");
 				contentElem.appendChild(registerElem);
 				firstGetDone=true;
