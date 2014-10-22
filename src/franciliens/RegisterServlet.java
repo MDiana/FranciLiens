@@ -25,7 +25,6 @@ public class RegisterServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private String url= "http://localhost:8888/";
-	private boolean atLeastOneError; // il existe au moins une erreur
 	private ArrayList<String> errorList;
 	
 	static {
@@ -40,7 +39,6 @@ public class RegisterServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		firstGetDone=false;
-		atLeastOneError = false;
 		errorList=new ArrayList<String>();
 	}
 
@@ -202,12 +200,17 @@ public class RegisterServlet extends HttpServlet {
 			 * rediriger vers l'accueil en loggant automatiquement
 			 * l'utilisateur
 			 */
-
+			
 			User newUser = new User(pseudo, mail, pass);
 			ofy().save().entity(newUser).now();
+			if(!errorList.isEmpty()){
+					squelette.getElementById("errorMessage").remove();
+					errorList.clear();
+			}
 			HttpSession session = req.getSession(true);
 			session.setAttribute("login", pseudo);
 			resp.sendRedirect("/accueil");
+			
 
 		} else {
 
