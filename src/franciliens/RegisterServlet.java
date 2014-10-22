@@ -101,42 +101,23 @@ public class RegisterServlet extends HttpServlet {
 
 		boolean infosOk = true;
 		
-		if(pseudo==null && mail ==null && pass == null && age ==-1){
-			infosOk=false;
-			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un pseudonyme </p>";
-			errorList.add(e);
-			e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez remplir votre adresse mail. </p>";
-			errorList.add(e);
-			e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un mot de passe. </p>";
-			errorList.add(e);
-			e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer votre age. </p>";
-			errorList.add(e);
-		}
-		if(pseudo==null){
+		if(pseudo == null){
 			infosOk=false;
 			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un pseudonyme </p>";
 			errorList.add(e);
 		}
+		
 		if(mail == null ){
 			infosOk=false;
 			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez remplir votre adresse mail. </p>";
 			errorList.add(e);
 		}
-		if(pass == null){
-			infosOk=false;
-			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un mot de passe. </p>";
-			errorList.add(e);
-		}
-		if(age == -1){
-			infosOk=false;
-			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer votre age. </p>";
-			errorList.add(e);
-		}
+		
 		/*
 		 * TODO Vérifier si l'email choisi est déjà utilisé
 		 */
 
-		if (ofy().load().type(User.class).id(mail).now() != null) {
+		if (mail != null && ofy().load().type(User.class).id(mail).now() != null) {
 
 			/*
 			 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
@@ -153,7 +134,7 @@ public class RegisterServlet extends HttpServlet {
 		 * (indépendamment de la casse)
 		 */
 		
-		if (ofy().load().type(User.class).filter("login ==", pseudo).list().size() > 0) {
+		if (pseudo != null && ofy().load().type(User.class).filter("login ==", pseudo).list().size() > 0) {
 			
 			/*
 			 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
@@ -182,7 +163,7 @@ public class RegisterServlet extends HttpServlet {
 		 * au moins 8 caractères
 		 */
 
-		if (pass.length() < 8) {
+		if (pass == null || pass.length() < 8) {
 
 			/*
 			 * TODO Mot de passe trop court : afficher un message
@@ -204,7 +185,10 @@ public class RegisterServlet extends HttpServlet {
 			User newUser = new User(pseudo, mail, pass);
 			ofy().save().entity(newUser).now();
 			if(!errorList.isEmpty()){
-					squelette.getElementById("errorMessage").remove();
+					Element errorElem;
+					while ((errorElem  = squelette.getElementById("errorMessage")) != null) {
+						errorElem.remove();
+					}
 					errorList.clear();
 			}
 			HttpSession session = req.getSession(true);
