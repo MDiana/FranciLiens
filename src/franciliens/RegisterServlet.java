@@ -1,7 +1,10 @@
 package franciliens;
 
+import static franciliens.OfyService.ofy;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,15 +19,15 @@ import org.jsoup.nodes.Element;
 
 import com.googlecode.objectify.ObjectifyService;
 
-import static franciliens.OfyService.ofy;
-
 @SuppressWarnings("serial")
 public class RegisterServlet extends HttpServlet {
 
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private String url= "http://localhost:8888/";
-
+	private boolean atLeastOneError; // il existe au moins une erreur
+	private ArrayList<String> errorList;
+	
 	static {
 		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
 	}
@@ -37,6 +40,8 @@ public class RegisterServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		firstGetDone=false;
+		atLeastOneError = false;
+		errorList=new ArrayList<String>();
 	}
 
 	@Override
@@ -97,7 +102,38 @@ public class RegisterServlet extends HttpServlet {
 		}
 
 		boolean infosOk = true;
-
+		
+		if(pseudo==null && mail ==null && pass == null && age ==-1){
+			infosOk=false;
+			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un pseudonyme </p>";
+			errorList.add(e);
+			e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez remplir votre adresse mail. </p>";
+			errorList.add(e);
+			e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un mot de passe. </p>";
+			errorList.add(e);
+			e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer votre age. </p>";
+			errorList.add(e);
+		}
+		if(pseudo==null){
+			infosOk=false;
+			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un pseudonyme </p>";
+			errorList.add(e);
+		}
+		if(mail == null ){
+			infosOk=false;
+			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez remplir votre adresse mail. </p>";
+			errorList.add(e);
+		}
+		if(pass == null){
+			infosOk=false;
+			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un mot de passe. </p>";
+			errorList.add(e);
+		}
+		if(age == -1){
+			infosOk=false;
+			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer votre age. </p>";
+			errorList.add(e);
+		}
 		/*
 		 * TODO Vérifier si l'email choisi est déjà utilisé
 		 */
@@ -110,7 +146,8 @@ public class RegisterServlet extends HttpServlet {
 			 */
 			
 			infosOk=false;
-
+			String error = "<p id=\"errorMessage\" class=\"errorMessage\">Un compte existe déjà à cette adresse. </p>";
+			errorList.add(error);
 		}
 		
 		/*
@@ -123,9 +160,9 @@ public class RegisterServlet extends HttpServlet {
 			/*
 			 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
 			 */
-
 			infosOk=false;
-
+			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Le pseudonyme est utilisé par un autre utilisateur \" </p> ";
+			errorList.add(e);
 		} 
 
 		/*
@@ -137,9 +174,9 @@ public class RegisterServlet extends HttpServlet {
 			/*
 			 * TODO Âge invalide : Message d'erreur "Âge invalide"
 			 */
-
 			infosOk=false;
-
+			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Veuillez entrer votre âge réelle ! \" </p> ";
+			errorList.add(e);
 		}
 
 		/*
@@ -153,9 +190,9 @@ public class RegisterServlet extends HttpServlet {
 			 * TODO Mot de passe trop court : afficher un message
 			 * d'erreur 
 			 */
-
 			infosOk=false;
-
+			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Le mot de passe doit contenir au minimum 8 caracteres.  \" </p> ";
+			errorList.add(e);
 		}
 
 		if (infosOk) {
@@ -178,8 +215,13 @@ public class RegisterServlet extends HttpServlet {
 			 * TODO Rester sur la page Register
 			 * et afficher les messages d'erreur
 			 */
+			Element form = squelette.getElementById("register");
+			for(int i=0; i<errorList.size(); i++){
+				form.children().first().before(errorList.get(i));
+			}
 			
 			doGet(req, resp);
+			
 		}
 	}
 
