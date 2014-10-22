@@ -1,4 +1,4 @@
-package franciliens;
+package franciliens.data;
 
 import com.googlecode.objectify.annotation.*;
 
@@ -9,7 +9,7 @@ public class Train {
 	@Id private String num;
 	private String dateHeure;
 	private String mission;
-	private char etat;
+	private Character etat;
 	private String codeUICGareDepart;
 	private String codeUICTerminus;
 	

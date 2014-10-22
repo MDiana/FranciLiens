@@ -1,4 +1,4 @@
-package franciliens;
+package franciliens.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +13,8 @@ import org.jsoup.nodes.Element;
 
 import com.googlecode.objectify.ObjectifyService;
 
-import static franciliens.OfyService.ofy;
+import franciliens.data.User;
+import static franciliens.data.OfyService.ofy;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
@@ -21,7 +22,7 @@ public class LoginServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
-	private String url= "http://localhost:8888/";
+	private String url= "http://franci-liens.appspot.com/";
 
 	static {
 		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
@@ -117,7 +118,7 @@ public class LoginServlet extends HttpServlet {
 
 
 			User u = ofy().load().type(User.class).id(mail).now();
-			if (u==null || !u.password.equals(pass)){
+			if (u==null || !u.getPassword().equals(pass)){
 
 				/*
 				 * Le mot de passe est incorrect ou l'utilisateur n'existe pas : 
@@ -148,7 +149,7 @@ public class LoginServlet extends HttpServlet {
 					isErrorMessageDisplayed=false;
 				}
 				req.getSession(true); // créer une session
-				req.setAttribute("login", u.login);
+				req.setAttribute("login", u.getLogin());
 				resp.sendRedirect("/accueil");
 			}
 		}		

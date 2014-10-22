@@ -1,4 +1,4 @@
-package franciliens;
+package franciliens.data;
 
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;

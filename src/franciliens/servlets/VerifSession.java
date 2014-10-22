@@ -1,4 +1,4 @@
-package franciliens;
+package franciliens.servlets;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

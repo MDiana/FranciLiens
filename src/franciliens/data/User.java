@@ -1,4 +1,4 @@
-package franciliens;
+package franciliens.data;
 
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.*;
@@ -6,13 +6,13 @@ import com.googlecode.objectify.annotation.*;
 @Entity
 @Index
 public class User {
-	String login;
-	@Unindex String password;
-	@Id String email;
-	Character sexe;
-	@Unindex String avatarURL;
-	@Unindex Text description;
-	int age;
+	private String login;
+	@Unindex private String password;
+	@Id private String email;
+	private Character sexe;
+	@Unindex private String avatarURL;
+	@Unindex private Text description;
+	private int age;
 
 	@SuppressWarnings("unused")
 	private User() {}

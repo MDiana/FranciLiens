@@ -1,4 +1,4 @@
-package franciliens;
+package franciliens.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,14 +16,15 @@ import org.jsoup.nodes.Element;
 
 import com.googlecode.objectify.ObjectifyService;
 
-import static franciliens.OfyService.ofy;
+import franciliens.data.User;
+import static franciliens.data.OfyService.ofy;
 
 @SuppressWarnings("serial")
 public class RegisterServlet extends HttpServlet {
 
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://localhost:8888/";
+	private String url= "http://franci-liens.appspot.com/";
 
 	static {
 		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
@@ -109,6 +110,7 @@ public class RegisterServlet extends HttpServlet {
 			 * déjà à cette adresse"
 			 */
 			
+			
 			infosOk=false;
 
 		}
@@ -167,6 +169,7 @@ public class RegisterServlet extends HttpServlet {
 			 */
 
 			User newUser = new User(pseudo, mail, pass);
+			newUser.setAge(age);
 			ofy().save().entity(newUser).now();
 			HttpSession session = req.getSession(true);
 			session.setAttribute("login", pseudo);

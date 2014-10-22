@@ -1,4 +1,4 @@
-package franciliens;
+package franciliens.servlets;
 
 import java.io.IOException;
 

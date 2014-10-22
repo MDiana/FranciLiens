@@ -6,7 +6,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<servlet>
 		<servlet-name>Login</servlet-name>
-		<servlet-class>franciliens.LoginServlet</servlet-class>
+		<servlet-class>franciliens.servlets.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Login</servlet-name>
@@ -15,7 +15,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>Accueil</servlet-name>
-		<servlet-class>franciliens.AccueilServlet</servlet-class>
+		<servlet-class>franciliens.servlets.AccueilServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Accueil</servlet-name>
@@ -24,7 +24,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>Register</servlet-name>
-		<servlet-class>franciliens.RegisterServlet</servlet-class>
+		<servlet-class>franciliens.servlets.RegisterServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Register</servlet-name>
@@ -33,7 +33,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<servlet>
 		<servlet-name>BackendServlet</servlet-name>
-		<servlet-class>franciliens.BackendServlet</servlet-class>
+		<servlet-class>franciliens.servlets.BackendServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	<servlet-name>BackendServlet</servlet-name>
