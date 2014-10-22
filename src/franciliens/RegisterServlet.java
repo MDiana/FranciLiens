@@ -7,12 +7,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.googlecode.objectify.ObjectifyService;
+
+import static franciliens.OfyService.ofy;
 
 @SuppressWarnings("serial")
 public class RegisterServlet extends HttpServlet {
@@ -82,45 +86,101 @@ public class RegisterServlet extends HttpServlet {
 		 * Récupérer les différentes infos
 		 */
 
-		String pseudo = req.getParameter("login");
-		String mail = req.getParameter("mail");
-		String pass = req.getParameter("password");
-		int age = Integer.parseInt(req.getParameter("age"));
+		String pseudo = StringEscapeUtils.escapeHtml4(req.getParameter("login"));
+		String mail = StringEscapeUtils.escapeHtml4(req.getParameter("mail"));
+		String pass = StringEscapeUtils.escapeHtml4(req.getParameter("password"));
+		int age=-1;
+		try {
+			age= Integer.parseInt(StringEscapeUtils.escapeHtml4(req.getParameter("age")));
+		} catch (Exception e) {
+			// Ne rien faire : ça sera géré après
+		}
 
+		boolean infosOk = true;
 
 		/*
 		 * TODO Vérifier si l'email choisi est déjà utilisé
 		 */
 
+		if (ofy().load().type(User.class).id(mail).now() != null) {
 
+			/*
+			 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
+			 * déjà à cette adresse"
+			 */
+			
+			infosOk=false;
 
+		}
+		
 		/*
-		 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
-		 * déjà à cette adresse"
-		 */
-
-		/*
-		 * TODO Mail non utilisé : Vérifier si le pseudo est déjà utilisé
+		 * TODO Vérifier si le pseudo est déjà utilisé
 		 * (indépendamment de la casse)
 		 */
+		
+		if (ofy().load().type(User.class).filter("login ==", pseudo).list().size() > 0) {
+			
+			/*
+			 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
+			 */
+
+			infosOk=false;
+
+		} 
 
 		/*
-		 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
+		 * TODO Vérifier si l'âge est valide
 		 */
 
-		/*
-		 * TODO Pseudo non existant : Vérifier si l'âge est valide
-		 */
+		if (age < 18 && age > 120) {
+
+			/*
+			 * TODO Âge invalide : Message d'erreur "Âge invalide"
+			 */
+
+			infosOk=false;
+
+		}
 
 		/*
-		 * TODO Âge invalide : Message d'erreur "Âge invalide"
+		 * TODO Âge valide : Vérifier si le mot de passe a bien
+		 * au moins 8 caractères
 		 */
 
-		/*
-		 * TODO Tout va bien : Stocker dans le Datastore et
-		 * rediriger vers l'accueil en loggant automatiquement
-		 * l'utilisateur
-		 */
+		if (pass.length() < 8) {
+
+			/*
+			 * TODO Mot de passe trop court : afficher un message
+			 * d'erreur 
+			 */
+
+			infosOk=false;
+
+		}
+
+		if (infosOk) {
+
+			/*
+			 * TODO Tout va bien : Stocker dans le Datastore et
+			 * rediriger vers l'accueil en loggant automatiquement
+			 * l'utilisateur
+			 */
+
+			User newUser = new User(pseudo, mail, pass);
+			ofy().save().entity(newUser).now();
+			HttpSession session = req.getSession(true);
+			session.setAttribute("login", pseudo);
+			resp.sendRedirect("/accueil");
+
+		} else {
+
+			/*
+			 * TODO Rester sur la page Register
+			 * et afficher les messages d'erreur
+			 */
+			
+			doGet(req, resp);
+		}
 	}
 
 	@Override
