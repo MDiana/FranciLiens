@@ -173,7 +173,10 @@ public class RegisterServlet extends HttpServlet {
 			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Le mot de passe doit contenir au minimum 8 caracteres.  \" </p> ";
 			errorList.add(e);
 		}
-
+		Element errorElem;
+		while ((errorElem  = squelette.getElementById("errorMessage")) != null) {
+			errorElem.remove();
+		}
 		if (infosOk) {
 
 			/*
@@ -185,10 +188,7 @@ public class RegisterServlet extends HttpServlet {
 			User newUser = new User(pseudo, mail, pass);
 			ofy().save().entity(newUser).now();
 			if(!errorList.isEmpty()){
-					Element errorElem;
-					while ((errorElem  = squelette.getElementById("errorMessage")) != null) {
-						errorElem.remove();
-					}
+					
 					errorList.clear();
 			}
 			HttpSession session = req.getSession(true);
@@ -205,7 +205,9 @@ public class RegisterServlet extends HttpServlet {
 			Element form = squelette.getElementById("register");
 			for(int i=0; i<errorList.size(); i++){
 				form.children().first().before(errorList.get(i));
+				
 			}
+			errorList.clear();
 			
 			doGet(req, resp);
 			

@@ -36,7 +36,13 @@
 					placeholder="votre âge" required>
 			<br /><br />
 			
-			<input type="button" value="S'inscrire" onclick="compare()">
+			<noscript>
+			    <input type="submit" value="S'inscrire">
+			</noscript>
+			<script type="text/javascript">
+			   document.write("<input type=\"button\" value=\"S'inscrire\" onclick=\"compare()\">");
+			</script>
+			
 			<br /><br /><br />
 					
 			<p id ="notif" class="inscrivezvous" >Les champs marqués d'une * sont obligatoires. Huit caractères minimum pour le mot de passe.</p>
