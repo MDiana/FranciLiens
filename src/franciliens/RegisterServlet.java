@@ -19,7 +19,7 @@ public class RegisterServlet extends HttpServlet {
 
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 
 	static {
 		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
