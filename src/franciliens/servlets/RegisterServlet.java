@@ -2,6 +2,7 @@ package franciliens.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +25,8 @@ public class RegisterServlet extends HttpServlet {
 
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
+	private ArrayList<String> errorList;
 
 	static {
 		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
@@ -38,6 +40,7 @@ public class RegisterServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		firstGetDone=false;
+		errorList=new ArrayList<String>();
 	}
 
 	@Override
@@ -98,12 +101,24 @@ public class RegisterServlet extends HttpServlet {
 		}
 
 		boolean infosOk = true;
-
+		
+		if(pseudo == null){
+			infosOk=false;
+			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez entrer un pseudonyme </p>";
+			errorList.add(e);
+		}
+		
+		if(mail == null ){
+			infosOk=false;
+			String e = "<p id=\"errorMessage\" class=\"errorMessage\"> Veuillez remplir votre adresse mail. </p>";
+			errorList.add(e);
+		}
+		
 		/*
 		 * TODO Vérifier si l'email choisi est déjà utilisé
 		 */
 
-		if (ofy().load().type(User.class).id(mail).now() != null) {
+		if (mail != null && ofy().load().type(User.class).id(mail).now() != null) {
 
 			/*
 			 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
@@ -112,7 +127,8 @@ public class RegisterServlet extends HttpServlet {
 			
 			
 			infosOk=false;
-
+			String error = "<p id=\"errorMessage\" class=\"errorMessage\">Un compte existe déjà à cette adresse. </p>";
+			errorList.add(error);
 		}
 		
 		/*
@@ -120,14 +136,14 @@ public class RegisterServlet extends HttpServlet {
 		 * (indépendamment de la casse)
 		 */
 		
-		if (ofy().load().type(User.class).filter("login ==", pseudo).list().size() > 0) {
+		if (pseudo != null && ofy().load().type(User.class).filter("login ==", pseudo).list().size() > 0) {
 			
 			/*
 			 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
 			 */
-
 			infosOk=false;
-
+			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Le pseudonyme est utilisé par un autre utilisateur \" </p> ";
+			errorList.add(e);
 		} 
 
 		/*
@@ -139,9 +155,9 @@ public class RegisterServlet extends HttpServlet {
 			/*
 			 * TODO Âge invalide : Message d'erreur "Âge invalide"
 			 */
-
 			infosOk=false;
-
+			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Veuillez entrer votre âge réelle ! \" </p> ";
+			errorList.add(e);
 		}
 
 		/*
@@ -149,17 +165,20 @@ public class RegisterServlet extends HttpServlet {
 		 * au moins 8 caractères
 		 */
 
-		if (pass.length() < 8) {
+		if (pass == null || pass.length() < 8) {
 
 			/*
 			 * TODO Mot de passe trop court : afficher un message
 			 * d'erreur 
 			 */
-
 			infosOk=false;
-
+			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Le mot de passe doit contenir au minimum 8 caracteres.  \" </p> ";
+			errorList.add(e);
 		}
-
+		Element errorElem;
+		while ((errorElem  = squelette.getElementById("errorMessage")) != null) {
+			errorElem.remove();
+		}
 		if (infosOk) {
 
 			/*
@@ -167,13 +186,18 @@ public class RegisterServlet extends HttpServlet {
 			 * rediriger vers l'accueil en loggant automatiquement
 			 * l'utilisateur
 			 */
-
+			
 			User newUser = new User(pseudo, mail, pass);
 			newUser.setAge(age);
 			ofy().save().entity(newUser).now();
+			if(!errorList.isEmpty()){
+					
+					errorList.clear();
+			}
 			HttpSession session = req.getSession(true);
 			session.setAttribute("login", pseudo);
 			resp.sendRedirect("/accueil");
+			
 
 		} else {
 
@@ -181,8 +205,15 @@ public class RegisterServlet extends HttpServlet {
 			 * TODO Rester sur la page Register
 			 * et afficher les messages d'erreur
 			 */
+			Element form = squelette.getElementById("register");
+			for(int i=0; i<errorList.size(); i++){
+				form.children().first().before(errorList.get(i));
+				
+			}
+			errorList.clear();
 			
 			doGet(req, resp);
+			
 		}
 	}
 
