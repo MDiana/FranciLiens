@@ -1,5 +1,7 @@
 @CHARSET "ISO-8859-1";
 
+/* GLOBAL */
+
 @font-face
 {
     font-family: 'coolvetica';
@@ -63,10 +65,21 @@ body
 	width: 100%;
 }
 
-.lien
+.lienFooter
 {
 	text-decoration: none;
 	color: white;
+}
+
+.lien
+{
+	text-decoration: none;
+	color: black;
+}
+
+.lienFooter:hover
+{
+	color: red;
 }
 
 .lien:hover
@@ -78,6 +91,8 @@ a:link
 { 
  text-decoration:none; 
 } 
+
+/* LOGIN */
 
 .loginform
 {
@@ -102,6 +117,8 @@ a:link
 	border-radius: 1.5em;
 	width: 75%;
 }
+
+/* REGISTER */
 
 .registerform
 {
@@ -179,8 +196,8 @@ input
 .inscrivezvous
 {
 	text-align: center;
-
 }
+
 .inscrivezvous a
 {
 	font-weight: bold;
@@ -206,4 +223,59 @@ input
 {
 	color: red;
 	display: inline;
+}
+
+/* Encart profil */
+
+.encartProfil
+{
+	float: left;
+	width: 29%;
+	height: auto;
+	
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background: rgba(255,255,255,.9);
+
+	border-radius: 1.5em;
+	
+	margin-left: 3em;
+	margin-right: 2em;
+	margin-bottom: 2em;
+	
+	padding: 1em;
+	
+}
+
+.interieurEncart
+{
+	border: 1px black solid;
+	border-radius: 1.5em;
+	padding: 1em;
+}
+
+.interieurEncart h3
+{
+	text-align: center;
+}
+
+/* Encart trajets enregistrés */
+
+.encartTrajetsEnregistres
+{
+	float: right;
+	width: 50%;
+	height: auto;
+	
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background: rgba(255,255,255,.9);
+
+	border-radius: 1.5em;
+	
+	margin-left: 1em;
+	margin-right: 3em;
+	margin-bottom: 2em;
+	
+	padding: 1em;
 }
