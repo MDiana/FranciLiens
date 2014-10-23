@@ -230,7 +230,7 @@ input
 .encartProfil
 {
 	float: left;
-	width: 29%;
+	width: 15em;
 	height: auto;
 	
 	padding-top: 1em;
@@ -241,7 +241,7 @@ input
 	
 	margin-left: 3em;
 	margin-right: 2em;
-	margin-bottom: 2em;
+	margin-bottom: 1em;
 	
 	padding: 1em;
 	
@@ -259,12 +259,17 @@ input
 	text-align: center;
 }
 
+.avatarETpseudo 
+{
+	text-aligne: center;
+}
+
 /* Encart trajets enregistrés */
 
 .encartTrajetsEnregistres
 {
 	float: right;
-	width: 50%;
+	width: 33.5em;
 	height: auto;
 	
 	padding-top: 1em;
