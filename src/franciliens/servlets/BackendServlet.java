@@ -1,6 +1,8 @@
 package franciliens.servlets;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -80,6 +82,7 @@ public class BackendServlet extends HttpServlet {
 			 *  La Défense Grande Arche 87758011
 			 *  Les Mureaux 87386680
 			 *  Nanterre Université 87386318
+			 *  Parc des Expositions 87271486
 			 *  Paris Austerlitz 87547026
 			Paris Bercy 87686667
 			Paris Est 87113001
@@ -96,7 +99,7 @@ public class BackendServlet extends HttpServlet {
 			Versailles Château Rive Gauche 87393157
 			Vitry sur Seine 87545293
 			Villiers sur Marne Le Plessis Trévise 87113795
-			Parc des Expositions 87271486
+			
 
 			 * 
 			 */
@@ -110,8 +113,12 @@ public class BackendServlet extends HttpServlet {
 			SAXParser saxParser = factory.newSAXParser();
 
 			// XML Stream
-			InputStream xmlStream = BackendServlet.class.getResourceAsStream("http://api.transilien.com/gare/87393009/depart/");
-
+//			URL xmlUrl = BackendServlet.class.getResource("http://api.transilien.com/gare/87393009/depart/");
+//			File f = new File(xmlUrl.toString());
+//			FileInputStream fis= new FileInputStream(f);
+			URL xml= con.getURL();
+			InputStream xmlStream = xml.openStream();
+			
 			// Parse the given XML document using the callback handler
 			saxParser.parse(xmlStream, new XMLTrainHandler());
 
