@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import franciliens.data.GaresSelectionnees;
 import franciliens.data.Train;
 import franciliens.data.Trajet;
 import franciliens.data.User;
@@ -78,6 +79,7 @@ public class AccueilServlet extends HttpServlet {
 				 */
 				
 				List<Trajet> trajetEnregistre = ofy().load().type(Trajet.class).filter("pseudoUsager ==", pseudo).list();
+				int codeTrain=0;
 				
 				if (trajetEnregistre.size()<1) {
 					
@@ -88,16 +90,17 @@ public class AccueilServlet extends HttpServlet {
 					
 					// Il existe un trajet enregistré
 					Trajet trajet = trajetEnregistre.get(0);
+					codeTrain=trajet.getNumTrain();
 					
 					// Chercher le train correspondans au code
-					Train train = ofy().load().type(Train.class).id(trajet.getNumTrain()).now();
+					Train train = ofy().load().type(Train.class).id(codeTrain).now();
 					
 					profilElem.getElementById("trajetUser").html("Votre Trajet : "
 							+ "<div class=\"infosTrajet\">"
 							+ "Gare de départ : <br />"
-							+ train.getCodeUICGareDepart()+"<br />"
+							+ GaresSelectionnees.getNom(train.getCodeUICGareDepart())+"<br />"
 							+ "Terminus : <br />"
-							+ train.getCodeUICTerminus()+"<br />"
+							+ GaresSelectionnees.getNom(train.getCodeUICTerminus())+"<br />"
 							+ "Heure : <br />"
 							+ train.getDateHeure()+"</div>");
 				}
@@ -110,8 +113,42 @@ public class AccueilServlet extends HttpServlet {
 				 * - De la gare sélectionnée par défaut sinon.
 				 */
 				
-				
 				Element trajetsElem = accueil.getElementById("encartTrajetsEnregistres");
+				
+				if (trajetEnregistre.size()<1) {
+					
+					// Pas de trajet enregistré : utiliser la gare par défaut
+					// => Pas possible. Attendre le POST (si pas de JS), ou laisser
+					// JS faire
+					
+				} else {
+					
+					// Trajet existant : utiliser la gare choisie
+					// (codeTrajet !=0)					
+					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
+							filter("numTrain ==", codeTrain).list();
+
+					Element trajetsEnrElem = trajetsElem.getElementById("trajetsEnregistres");
+					
+					for (Trajet trajet : trajetsEnregistres) {
+						
+						// Récupérer le profil usager correspondant
+						User user = ofy().load().type(User.class).filter("login ==", trajet.getPseudoUsager())
+								.list().get(0);
+						
+						// Construire la ligne du tableau avec les infos
+						Element newEntry = trajetsEnrElem.appendElement("tr");
+						newEntry.html("<td><img class=\"miniavatar\" src="+ user.getAvatarURL()
+								+"></td><td>" + user.getLogin()
+								+ "</td><td>" + user.getAge()
+								+ "</td><td>" + GaresSelectionnees.getNom(codeTrain)
+								+ "</td><td><p class=\"description\">" + user.getDescription()
+								+ "</p></td><td class=\"invitation\">"
+								+ "<a href=\"\"><img src=\"images/invite32.png\"></a></td>");
+					}
+					
+				}
+				
 				contentElem.appendChild(trajetsElem);
 				firstGetDone=true;
 			}

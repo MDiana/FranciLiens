@@ -10,13 +10,13 @@ public class Train {
 	private String dateHeure;
 	private String mission;
 	private Character etat;
-	private String codeUICGareDepart;
-	private String codeUICTerminus;
+	private int codeUICGareDepart;
+	private int codeUICTerminus;
 
 	@SuppressWarnings("unused")
 	private Train() {}
 
-	public Train(String num, String dateHeure, String mission, char etat, String codeUICGareDepart, String codeUICTerminus){
+	public Train(String num, String dateHeure, String mission, char etat, int codeUICGareDepart, int codeUICTerminus){
 		this.num = num;
 		this.dateHeure = dateHeure;
 		this.mission = mission;
@@ -57,19 +57,19 @@ public class Train {
 		this.etat = etat;
 	}
 
-	public String getCodeUICGareDepart() {
+	public int getCodeUICGareDepart() {
 		return codeUICGareDepart;
 	}
 
-	public void setCodeUICGareDepart(String codeUICGareDepart) {
+	public void setCodeUICGareDepart(int codeUICGareDepart) {
 		this.codeUICGareDepart = codeUICGareDepart;
 	}
 
-	public String getCodeUICTerminus() {
+	public int getCodeUICTerminus() {
 		return codeUICTerminus;
 	}
 
-	public void setCodeUICTerminus(String codeUICTerminus) {
+	public void setCodeUICTerminus(int codeUICTerminus) {
 		this.codeUICTerminus = codeUICTerminus;
 	}
 
