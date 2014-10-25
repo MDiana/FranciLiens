@@ -1,116 +1,88 @@
 @CHARSET "ISO-8859-1";
 
 /* GLOBAL */
-
-@font-face
-{
-    font-family: 'coolvetica';
-    src: url('./fonts/coolvetica_rg.ttf#coolvetica') format('truetype');
+@font-face {
+	font-family: 'coolvetica';
+	src: url('./fonts/coolvetica_rg.ttf#coolvetica') format('truetype');
 }
 
-
-body
-{
+body {
 	font-family: 'coolvetica', 'Arial Black', Arial;
-	
 }
 
-
-.titre
-{
+.titre {
 	font-family: 'coolvetica', 'Arial Black', Arial;
 	font-size: 5em;
 	color: white;
 	font-weight: bold;
-	
 	text-align: center;
 	margin-top: 0.5em;
 	margin-bottom: 0.20em;
-	
 	text-shadow: 2px 2px #000000;
-	
 }
 
-.accroche
-{
+.accroche {
 	font-size: x-large;
 	font-style: italic;
 	font-weight: bold;
 	color: white;
-	
 	text-align: center;
 	text-shadow: 2px 2px #000000;
 	margin-bottom: 3em;
 }
 
-.accueil
-{
-    background-image: url("images/background.jpg");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    
+.accueil {
+	background-image: url("images/background.jpg");
+	background-repeat: no-repeat;
+	background-size: 100% auto;
 }
 
-.footer
-{
+.footer {
 	color: white;
 	font-weight: bold;
-	
 	text-align: center;
 	text-shadow: 2px 2px #000000;
-	
+	clear: both;
 	position: relative;
 	bottom: 0;
 	height: 1em;
 	width: 100%;
 }
 
-.lienFooter
-{
+.lienFooter {
 	text-decoration: none;
 	color: white;
 }
 
-.lien
-{
+.lien {
 	text-decoration: none;
 	color: black;
 }
 
-.lienFooter:hover
-{
+.lienFooter:hover {
 	color: red;
 }
 
-.lien:hover
-{
+.lien:hover {
 	color: red;
 }
 
-a:link 
-{ 
- text-decoration:none; 
-} 
+a:link {
+	text-decoration: none;
+}
 
 /* LOGIN */
-
-.loginform
-{
-	
+.loginform {
 	padding-top: 1em;
 	padding-bottom: 1em;
-	background: rgba(255,255,255,.9);
-
+	background: rgba(255, 255, 255, .9);
 	border-radius: 1.5em;
-	
 	width: 30em;
 	height: auto;
 	margin: auto;
-		
-} 
+}
 
-.loginfieldset
-{
+.loginfieldset {
 	margin: auto;
 	font-size: large;
 	border: 1px black solid;
@@ -118,25 +90,24 @@ a:link
 	width: 75%;
 }
 
-/* REGISTER */
+.content {
+	margin-left: auto;
+	margin-right: auto;
+	width: 60em;
+}
 
-.registerform
-{
-	
+/* REGISTER */
+.registerform {
 	padding-top: 1em;
 	padding-bottom: 1em;
-	background: rgba(255,255,255,.9);
-
+	background: rgba(255, 255, 255, .9);
 	border-radius: 1.5em;
-	
 	width: 30em;
 	height: auto;
 	margin: auto;
-	
 }
 
-.registerfieldset
-{
+.registerfieldset {
 	margin: auto;
 	font-size: large;
 	border: 1px black solid;
@@ -144,21 +115,17 @@ a:link
 	width: 80%;
 }
 
-form label
-{
-    float: left;
-    width: 14em;
-    margin: 1em 0em 0em 0em;
+form label {
+	float: left;
+	width: 14em;
+	margin: 1em 0em 0em 0em;
 }
 
-form legend
-{
+form legend {
 	margin-left: 1em;
 }
 
-
-input[type=submit]
-{
+input[type=submit] {
 	border: 2px solid white;
 	width: 150px;
 	height: 60px;
@@ -166,11 +133,9 @@ input[type=submit]
 	font-weight: bold;
 	color: white;
 	background-color: black;
-	
 }
 
-input[type=button]
-{
+input[type=button] {
 	border: 2px solid white;
 	width: 150px;
 	height: 60px;
@@ -178,109 +143,136 @@ input[type=button]
 	font-weight: bold;
 	color: white;
 	background-color: black;
-	
 }
 
-
-input
-{
+input {
 	border: 1px solid black;
 	width: 300px;
 	height: 35px;
 	font-size: large;
 	border-radius: 5px;
-	margin-bottom:0.3em;
-		
+	margin-bottom: 0.3em;
 }
 
-.inscrivezvous
-{
+.inscrivezvous {
 	text-align: center;
 }
 
-.inscrivezvous a
-{
+.inscrivezvous a {
 	font-weight: bold;
-	color: black;	
+	color: black;
 }
 
-.inscrivezvous a:hover
-{
+.inscrivezvous a:hover {
 	font-weight: bold;
-	color: red;	
-
+	color: red;
 }
 
-.errorMessage
-{
+.errorMessage {
 	text-align: center;
 	font-style: italic;
 	color: red;
 }
 
-
-.rouge
-{
+.rouge {
 	color: red;
 	display: inline;
 }
 
 /* Encart profil */
-
-.encartProfil
-{
+.encartProfil {
 	float: left;
-	width: 15em;
+	width: 13em;
 	height: auto;
-	
 	padding-top: 1em;
 	padding-bottom: 1em;
-	background: rgba(255,255,255,.9);
-
+	background: rgba(255, 255, 255, .9);
 	border-radius: 1.5em;
-	
-	margin-left: 3em;
-	margin-right: 2em;
+	margin-left: 0.5em;
 	margin-bottom: 1em;
-	
 	padding: 1em;
-	
 }
 
-.interieurEncart
-{
+.interieurEncart {
 	border: 1px black solid;
 	border-radius: 1.5em;
 	padding: 1em;
 }
 
-.interieurEncart h3
-{
+.interieurEncart h3 {
 	text-align: center;
 }
 
-.avatarETpseudo 
-{
-	text-aligne: center;
+.avatar,.pseudo {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.pseudo {
+	width: 100%;
+	text-align: center;
 }
 
 /* Encart trajets enregistrés */
 
-.encartTrajetsEnregistres
-{
+.encartTrajetsEnregistres {
 	float: right;
-	width: 33.5em;
+	width: 42em;
 	height: auto;
-	
 	padding-top: 1em;
 	padding-bottom: 1em;
-	background: rgba(255,255,255,.9);
-
+	background: rgba(255, 255, 255, .9);
 	border-radius: 1.5em;
-	
-	margin-left: 1em;
-	margin-right: 3em;
 	margin-bottom: 2em;
-	
 	padding: 1em;
+}
+
+.divTrajets {
+	overflow: auto;
+	max-height: 50em;
+}
+
+.trajetsEnregistres {
+	width: 100%;
+	height: auto;
+	text-align: center;
+}
+
+.trajetsEnregistres td {
+	font-size: small;
+	padding: 0.4em;
+}
+
+.trajetsEnregistres th {
+	background: -webkit-linear-gradient(grey, black); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(grey, black); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(grey, black); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(grey, black); /* Standard syntax */
+	color: white;
+	padding: 0.4em;
+	font-weight: normal;
+}
+
+table tr:nth-child(odd){
+  background-color: lightgrey;
+}
+
+table tr:nth-child(even){
+  background-color: #E6E6E6;
+}
+
+.invitation {
+	width: 5em;
+}
+
+.miniavatar {
+	width: 7em;
+	height: auto;
+}
+
+.description {
+	overflow: auto;
+	max-height: 8.5em;
+	word-wrap: break-word;
 }

@@ -23,7 +23,7 @@ public class AccueilServlet extends HttpServlet {
 		boolean isSessionNew = VerifSession.isSessionNew(req);
 		if (isSessionNew) {
 			// L'utilisateur n'était pas loggé :
-			// Le redériger vers la page de login
+			// Le rediriger vers la page de login
 			resp.sendRedirect("/login");
 		} else {
 			// L'utilisateur est loggé : afficher la page 

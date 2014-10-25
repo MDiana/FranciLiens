@@ -21,6 +21,14 @@ public class User {
 		this.login=login;
 		this.password=password;
 		this.email=email;
+		this.avatarURL="images/defaultAvatar.png";
+	}
+
+	public User(String login, String email, String password, String avatarURL){
+		this.login=login;
+		this.password=password;
+		this.email=email;
+		this.avatarURL=avatarURL;
 	}
 
 	public String getLogin() {
