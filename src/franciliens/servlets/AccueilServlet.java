@@ -2,19 +2,22 @@ package franciliens.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.googlecode.objectify.ObjectifyService;
-
+import franciliens.data.Train;
+import franciliens.data.Trajet;
 import franciliens.data.User;
+import static franciliens.data.OfyService.ofy;
 
 @SuppressWarnings("serial")
 public class AccueilServlet extends HttpServlet {
@@ -22,10 +25,6 @@ public class AccueilServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private String url= "http://localhost:8888/";
-
-	static {
-		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
-	}
 
 	@Override
 	public void init() {
@@ -50,18 +49,68 @@ public class AccueilServlet extends HttpServlet {
 			// Le rediriger vers la page de login
 			resp.sendRedirect("/login");
 		} else {
+			
 			// TODO L'utilisateur est loggé : afficher la page 
 			// d'accueil
 			
 			if (!firstGetDone) {
 
 				/*
-				 * Construction de la page register
+				 * Construction de la page d'accueil
 				 */
 				Element contentElem = squelette.getElementById("content");
 				Document accueil = Jsoup.connect(url+"accueil.html").get();
+				
+				/*
+				 * TODO Remplir l'encart de profil
+				 */
 				Element profilElem = accueil.getElementById("encartProfil");
+				
+				HttpSession session = req.getSession();
+				String pseudo = (String)session.getAttribute("login");
+				User currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
+				
+				profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
+				
+				/*
+				 * TODO Afficher le voyage enregistré s'il existe, un lien pour en 
+				 * enregistrer un sinon.
+				 */
+				
+				List<Trajet> trajetEnregistre = ofy().load().type(Trajet.class).filter("pseudoUsager ==", pseudo).list();
+				
+				if (trajetEnregistre.size()<1) {
+					
+					// Aucun trajet enregistré
+					
+					
+				} else {
+					
+					// Il existe un trajet enregistré
+					Trajet trajet = trajetEnregistre.get(0);
+					
+					// Chercher le train correspondans au code
+					Train train = ofy().load().type(Train.class).id(trajet.getNumTrain()).now();
+					
+					profilElem.getElementById("trajetUser").html("Votre Trajet : "
+							+ "<div class=\"infosTrajet\">"
+							+ "Gare de départ : <br />"
+							+ train.getCodeUICGareDepart()+"<br />"
+							+ "Terminus : <br />"
+							+ train.getCodeUICTerminus()+"<br />"
+							+ "Heure : <br />"
+							+ train.getDateHeure()+"</div>");
+				}
+				
 				contentElem.appendChild(profilElem);
+				
+				/*
+				 * TODO Remplir la liste des trajets suivant la gare :
+				 * - Du trajet enregistré s'il existe
+				 * - De la gare sélectionnée par défaut sinon.
+				 */
+				
+				
 				Element trajetsElem = accueil.getElementById("encartTrajetsEnregistres");
 				contentElem.appendChild(trajetsElem);
 				firstGetDone=true;

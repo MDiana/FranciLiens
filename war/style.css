@@ -214,6 +214,10 @@ input {
 	text-align: center;
 }
 
+.infosTrajet {
+	font-size: small;
+}
+
 /* Encart trajets enregistrés */
 
 .encartTrajetsEnregistres {

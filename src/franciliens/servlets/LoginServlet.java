@@ -11,8 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import com.googlecode.objectify.ObjectifyService;
-
 import franciliens.data.User;
 import static franciliens.data.OfyService.ofy;
 
@@ -22,11 +20,7 @@ public class LoginServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
-	private String url= "http://franci-liens.appspot.com/";
-
-	static {
-		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
-	}
+	private String url= "http://localhost:8888/";
 
 	@Override
 	public void init() {
@@ -148,8 +142,7 @@ public class LoginServlet extends HttpServlet {
 					squelette.getElementById("errorMessage").remove();
 					isErrorMessageDisplayed=false;
 				}
-				req.getSession(true); // créer une session
-				req.setAttribute("login", u.getLogin());
+				req.getSession(true).setAttribute("login", u.getLogin());
 				resp.sendRedirect("/accueil");
 			}
 		}		

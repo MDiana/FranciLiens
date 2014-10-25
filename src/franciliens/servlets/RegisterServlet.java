@@ -8,14 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import com.googlecode.objectify.ObjectifyService;
 
 import franciliens.data.User;
 import static franciliens.data.OfyService.ofy;
@@ -27,10 +24,6 @@ public class RegisterServlet extends HttpServlet {
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private String url= "http://localhost:8888/";
 	private ArrayList<String> errorList;
-
-	static {
-		ObjectifyService.register(User.class); // Fait connaître votre classe-entité à Objectify
-	}
 
 	@Override
 	public void init() {
@@ -194,8 +187,7 @@ public class RegisterServlet extends HttpServlet {
 					
 					errorList.clear();
 			}
-			HttpSession session = req.getSession(true);
-			session.setAttribute("login", pseudo);
+			req.getSession(true).setAttribute("login", pseudo);
 			resp.sendRedirect("/editionProfil");
 			
 

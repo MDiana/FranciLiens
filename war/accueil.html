@@ -7,10 +7,9 @@
 		<br />
 		<span class="pseudo" id="pseudo"></span>
 		<br /><br />
-		<label><a href="editionProfil" class="lien">Editer
-				mon profil</a></label>
+		<a href="editionProfil" class="lien">Editer mon profil</a>
 		<br /><br />
-		<label id="trajetUser"></label>
+		<div id="trajetUser"></div>
 	</div>
 </div>
 
@@ -20,7 +19,7 @@
 	<div class="interieurEncart">
 		<h3>Trajets enregistrés par les Franciliens</h3>
 		<form method="post">
-			<select onchange="majTrainsEnregistres();">
+			<select name="gare" onchange="majTrainsEnregistres();">
 				<option value="87271460">Aéroport Ch. De Gaulle 1</option>
 				<option value="87001479">Aéroport Ch. De Gaulle 2 TGV</option>
 				<option value="87381848">Argenteuil</option>
@@ -40,7 +39,7 @@
 				<option value="87113001">Paris Est</option>
 				<option value="87686006">Paris Gare de Lyon</option>
 				<option value="87391003">Paris Montparnasse</option>
-				<option value="87271007">Paris Nord</option>
+				<option value="87271007" selected>Paris Nord</option>
 				<option value="87384008">Paris Saint-Lazare</option>
 				<option value="87382382">Puteaux</option>
 				<option value="87393223">Saint-Cyr</option>
@@ -50,8 +49,7 @@
 				<option value="87393009">Versailles Chantiers</option>
 				<option value="87393157">Versailles Château Rive Gauche</option>
 				<option value="87545293">Vitry-Sur-Seine</option>
-				<option value="87113795">Villiers-Sur-Marne Le Plessis
-					Trévise</option>
+				<option value="87113795">Villiers-Sur-Marne Le Plessis Trévise</option>
 			</select>
 			<noscript>
 				<button type="submit">Valider</button>

@@ -5,25 +5,24 @@ import com.googlecode.objectify.annotation.*;
 @Entity
 @Index
 public class Train {
-	
+
 	@Id private String num;
 	private String dateHeure;
 	private String mission;
 	private Character etat;
 	private String codeUICGareDepart;
 	private String codeUICTerminus;
-	
-	
+
 	@SuppressWarnings("unused")
 	private Train() {}
-	
+
 	public Train(String num, String dateHeure, String mission, char etat, String codeUICGareDepart, String codeUICTerminus){
-		this.num=num;
-		this.dateHeure=dateHeure;
-		this.mission=mission;
-		this.etat=etat;
-		this.codeUICGareDepart=codeUICGareDepart;
-		this.codeUICTerminus =codeUICTerminus;
+		this.num = num;
+		this.dateHeure = dateHeure;
+		this.mission = mission;
+		this.etat = etat;
+		this.codeUICGareDepart = codeUICGareDepart;
+		this.codeUICTerminus = codeUICTerminus;
 	}
 
 	public String getNum() {
@@ -73,8 +72,8 @@ public class Train {
 	public void setCodeUICTerminus(String codeUICTerminus) {
 		this.codeUICTerminus = codeUICTerminus;
 	}
-	
-	
-	
+
+
+
 }
 
