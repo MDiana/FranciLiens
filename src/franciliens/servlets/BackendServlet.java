@@ -19,9 +19,12 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.codec.binary.Base64;
+import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import franciliens.data.Train;
 
 
 // pour le parsing utilisation de l'Api SAX car ne nécessite pas d'enregistrer l'aborescence en mémoire
@@ -104,7 +107,7 @@ public class BackendServlet extends HttpServlet {
 			 * 
 			 */
 
-			_logger.info("Nous avons accedé à l'api SNCF");
+			_logger.info("Nous avons accedé à l'api SNCF pour les trains de Versailles.");
 
 			// Create a SAX parser factory
 			SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -112,12 +115,8 @@ public class BackendServlet extends HttpServlet {
 			// Obtain a SAX parser
 			SAXParser saxParser = factory.newSAXParser();
 
-			// XML Stream
-//			URL xmlUrl = BackendServlet.class.getResource("http://api.transilien.com/gare/87393009/depart/");
-//			File f = new File(xmlUrl.toString());
-//			FileInputStream fis= new FileInputStream(f);
-			URL xml= con.getURL();
-			InputStream xmlStream = xml.openStream();
+			// XML Stream			
+			InputStream xmlStream = con.getInputStream();
 			
 			// Parse the given XML document using the callback handler
 			saxParser.parse(xmlStream, new XMLTrainHandler());
@@ -132,7 +131,8 @@ public class BackendServlet extends HttpServlet {
 		//        while ((inputLine = in.readLine()) != null)
 		//        	_logger.info(""+inputLine);
 		//        in.close();
-		//        
+		//    
+		
 	}
 
 
@@ -169,35 +169,56 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 //		doGet(req, resp);
 //		}
 
-
+		
 class XMLTrainHandler extends DefaultHandler {
 
+	Train t;
 	// Callback to handle element start tag
+	// le start element pour nous sera sans doute le train car la gare on peut l'avoir déjà (et on a une liste de trains)
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		currentElement = qName;
-		if (currentElement.equals("passages")) {
-			String gare = attributes.getValue("gare");
-			_logger.info("Il s'agit de la gare: " + gare);
+		
+		String gare= "Versailles";
+//		if(currentElement.equals("passages")){
+//			gare= attributes.getValue("gare");
+//		}
+		if (currentElement.equals("train")) {
+			_logger.info("Un train a été trouvé: ");
+			t= new Train("", "", "", ' ', gare , "");	
 		}
+		
+//		if(currentElement.equals("date")){
+//			String mode= attributes.getValue("mode");
+//			//_logger.info("Ce train est en : " + mode);
+//			
+//		}
 	}
 
 	// Callback to handle element end tag
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		currentElement = "";
+		_logger.info("Les données de ce train sont les suivantes: \n Son numéro est le "+ t.getNum());
+		_logger.info("\n et il passe le " + t.getDateHeure() );
+		_logger.info("\n son numéro de mission est le " + t.getMission() );
 	}
 
 	// Callback to handle the character text data inside an element
 	@Override
 	public void characters(char[] chars, int start, int length) throws SAXException {
-		if (currentElement.equals("train")) {
-			 _logger.info("C'est un train!!");
+		if (currentElement.equals("num")) {
+			t.setNum(new String(chars, start, length));
+			// _logger.info("Le numero de ce train est le " + new String(chars, start, length));
 
-		} else if (currentElement.equals("num")) {
-			 _logger.info("Le numero de ce train est le " + new String(chars, start, length));
+		} else if (currentElement.equals("date")) {
+			t.setDateHeure(new String(chars, start, length));
+			// _logger.info("Il part le " + new String(chars, start, length));
 			
+		} else if( currentElement.equals("miss")){
+			t.setMission(new String(chars, start, length));
 		}
+		
 	}
 }
 
