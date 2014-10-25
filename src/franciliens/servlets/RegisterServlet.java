@@ -115,13 +115,13 @@ public class RegisterServlet extends HttpServlet {
 		}
 		
 		/*
-		 * TODO Vérifier si l'email choisi est déjà utilisé
+		 * Vérifier si l'email choisi est déjà utilisé
 		 */
 
 		if (mail != null && ofy().load().type(User.class).id(mail).now() != null) {
 
 			/*
-			 * TODO Mail déjà utilisé : Message d'erreur "Un compte existe
+			 * Mail déjà utilisé : Message d'erreur "Un compte existe
 			 * déjà à cette adresse"
 			 */
 			
@@ -132,14 +132,14 @@ public class RegisterServlet extends HttpServlet {
 		}
 		
 		/*
-		 * TODO Vérifier si le pseudo est déjà utilisé
+		 * Vérifier si le pseudo est déjà utilisé
 		 * (indépendamment de la casse)
 		 */
 		
 		if (pseudo != null && ofy().load().type(User.class).filter("login ==", pseudo).list().size() > 0) {
 			
 			/*
-			 * TODO Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
+			 * Pseudo existant : Message d'erreur "Pseudo déjà utilisé"
 			 */
 			infosOk=false;
 			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Le pseudonyme est utilisé par un autre utilisateur \" </p> ";
@@ -147,13 +147,13 @@ public class RegisterServlet extends HttpServlet {
 		} 
 
 		/*
-		 * TODO Vérifier si l'âge est valide
+		 * Vérifier si l'âge est valide
 		 */
 
 		if (age < 18 && age > 120) {
 
 			/*
-			 * TODO Âge invalide : Message d'erreur "Âge invalide"
+			 * Âge invalide : Message d'erreur "Âge invalide"
 			 */
 			infosOk=false;
 			String e= "<p id=\"errorMessage\" class=\"errorMessage\">Veuillez entrer votre âge réelle ! \" </p> ";
@@ -161,14 +161,14 @@ public class RegisterServlet extends HttpServlet {
 		}
 
 		/*
-		 * TODO Âge valide : Vérifier si le mot de passe a bien
+		 * Âge valide : Vérifier si le mot de passe a bien
 		 * au moins 8 caractères
 		 */
 
 		if (pass == null || pass.length() < 8) {
 
 			/*
-			 * TODO Mot de passe trop court : afficher un message
+			 * Mot de passe trop court : afficher un message
 			 * d'erreur 
 			 */
 			infosOk=false;
@@ -182,7 +182,7 @@ public class RegisterServlet extends HttpServlet {
 		if (infosOk) {
 
 			/*
-			 * TODO Tout va bien : Stocker dans le Datastore et
+			 * Tout va bien : Stocker dans le Datastore et
 			 * rediriger vers l'accueil en loggant automatiquement
 			 * l'utilisateur
 			 */
@@ -196,13 +196,13 @@ public class RegisterServlet extends HttpServlet {
 			}
 			HttpSession session = req.getSession(true);
 			session.setAttribute("login", pseudo);
-			resp.sendRedirect("/accueil");
+			resp.sendRedirect("/editionProfil");
 			
 
 		} else {
 
 			/*
-			 * TODO Rester sur la page Register
+			 * Rester sur la page Register
 			 * et afficher les messages d'erreur
 			 */
 			Element form = squelette.getElementById("register");
@@ -215,13 +215,6 @@ public class RegisterServlet extends HttpServlet {
 			doGet(req, resp);
 			
 		}
-	}
-
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPut(req, resp);
 	}
 
 }

@@ -39,6 +39,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-name>BackendServlet</servlet-name>
 	<url-pattern>/trajetload</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>EditionProfil</servlet-name>
+		<servlet-class>franciliens.servlets.EditionProfilServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>EditionProfilServlet</servlet-name>
+	<url-pattern>/editionProfil</url-pattern>
+	</servlet-mapping>
 	
 	
 	<welcome-file-list>
