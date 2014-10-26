@@ -101,5 +101,17 @@ function compare(){
 		document.getElementById('Register').submit();
 	}
 }
+
+/*
+ * Màj dynamique de la liste des trains enregistrés par les
+ * autres usagers lorsque l'utilisateur change la gare de départ
+ * via le select
+ */
+function majTrainsEnregistres() {
 	
+	var codeGare = document.getElementById('gareSelect').value;
+	
+	
+}
+
 
