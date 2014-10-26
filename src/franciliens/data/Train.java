@@ -9,18 +9,18 @@ public class Train {
 	@Id private String num;
 	private String dateHeure;
 	private String mission;
-	private Character etat;
+	private String etat;
 	private int codeUICGareDepart;
 	private int codeUICTerminus;
 
 	@SuppressWarnings("unused")
 	private Train() {}
-
-	public Train(String num, String dateHeure, String mission, char etat, int codeUICGareDepart, int codeUICTerminus){
+	
+	public Train(String num, String dateHeure, String mission, int codeUICGareDepart, int codeUICTerminus){
 		this.num = num;
 		this.dateHeure = dateHeure;
 		this.mission = mission;
-		this.etat = etat;
+		this.etat = "A l'heure";
 		this.codeUICGareDepart = codeUICGareDepart;
 		this.codeUICTerminus = codeUICTerminus;
 	}
@@ -49,11 +49,11 @@ public class Train {
 		this.mission = mission;
 	}
 
-	public char getEtat() {
+	public String getEtat() {
 		return etat;
 	}
 
-	public void setEtat(char etat) {
+	public void setEtat(String etat) {
 		this.etat = etat;
 	}
 
@@ -73,7 +73,12 @@ public class Train {
 		this.codeUICTerminus = codeUICTerminus;
 	}
 
-
+	// equals peut-être utile: deux trains sont équivalents si même numéro et même date
+	public boolean equals(Train t){
+		if((this.dateHeure==t.getDateHeure()) &&(this.num == t.num)){
+			return true;
+		} else return false;
+	}
 
 }
 
