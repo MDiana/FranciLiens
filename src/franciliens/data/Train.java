@@ -1,5 +1,7 @@
 package franciliens.data;
 
+import java.util.Date;
+
 import com.googlecode.objectify.annotation.*;
 
 @Entity
@@ -7,7 +9,7 @@ import com.googlecode.objectify.annotation.*;
 public class Train {
 
 	@Id private String num;
-	private String dateHeure;
+	private Date dateHeure;
 	private String mission;
 	private String etat;
 	private int codeUICGareDepart;
@@ -16,7 +18,7 @@ public class Train {
 	@SuppressWarnings("unused")
 	private Train() {}
 	
-	public Train(String num, String dateHeure, String mission, int codeUICGareDepart, int codeUICTerminus){
+	public Train(String num, Date dateHeure, String mission, int codeUICGareDepart, int codeUICTerminus){
 		this.num = num;
 		this.dateHeure = dateHeure;
 		this.mission = mission;
@@ -33,11 +35,11 @@ public class Train {
 		this.num = num;
 	}
 
-	public String getDateHeure() {
+	public Date getDateHeure() {
 		return dateHeure;
 	}
 
-	public void setDateHeure(String dateHeure) {
+	public void setDateHeure(Date dateHeure) {
 		this.dateHeure = dateHeure;
 	}
 

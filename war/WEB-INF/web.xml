@@ -38,7 +38,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 	<servlet-name>BackendServlet</servlet-name>
 	<url-pattern>/trajetload</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> 
 
 	<servlet>
 		<servlet-name>EditionProfil</servlet-name>

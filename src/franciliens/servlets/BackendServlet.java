@@ -1,10 +1,15 @@
 package franciliens.servlets;
 
+import static franciliens.data.OfyService.ofy;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,29 +27,21 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.googlecode.objectify.ObjectifyService;
+
 import franciliens.data.GaresSelectionnees;
 import franciliens.data.Train;
-
-
-// pour le parsing utilisation de l'Api SAX car ne nécessite pas d'enregistrer l'aborescence en mémoire
-// "If the data structures have already been determined, and you are writing a server application or an XML filter that needs to do fast processing, see Simple API for XML." ORACLE
-// http://www.javablog.fr/javaxml-parsing-xml-with-jaxp-sax-dom-standard-apis.html 
-// http://java.developpez.com/faq/xml/?page=SAX#Comment-parser-un-XML-avec-SAX
 
 // Finalement utilisation de JAXP DOM --> Faire un tableau contenant tous les numéros de gares et faire une boucle qui fait pour tab[i] les 30 requêtes??
 @SuppressWarnings("serial")
 public class BackendServlet extends HttpServlet {
 
+
 	private static final Logger _logger = Logger.getLogger(BackendServlet.class.getName());
 	private ArrayList<Train> listeTrain;
-	private GaresSelectionnees []lesFameuses30Gares={GaresSelectionnees.ARG, GaresSelectionnees.AUL,
-			GaresSelectionnees.AUS, GaresSelectionnees.BEL, GaresSelectionnees.BER, GaresSelectionnees.BIB,
-			GaresSelectionnees.BON, GaresSelectionnees.CDG1, GaresSelectionnees.CDG2, GaresSelectionnees.CHA,
-			GaresSelectionnees.CHANT, GaresSelectionnees.CHAT, GaresSelectionnees.COL, GaresSelectionnees.CYR,
-			GaresSelectionnees.DEF, GaresSelectionnees.EST, GaresSelectionnees.EXP, GaresSelectionnees.GEN,
-			GaresSelectionnees.GER, GaresSelectionnees.LAZ, GaresSelectionnees.LYON, GaresSelectionnees.MON,
-			GaresSelectionnees.MUR, GaresSelectionnees.NAN, GaresSelectionnees.NORD, GaresSelectionnees.PUT,
-			GaresSelectionnees.QUEN, GaresSelectionnees.STDF, GaresSelectionnees.VIL, GaresSelectionnees.VIT};
+	private List<Train> listeDesAnciensDeparts;
+	private Document apiResult;
+	private GaresSelectionnees []lesFameuses30Gares = GaresSelectionnees.values();
 
 	@Override
 	public void init() throws ServletException {
@@ -57,71 +54,37 @@ public class BackendServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// On fait les choses dans le doGet ou directement dans le Service?
-		doGet(req, resp);
-	}
+		//Récupérer les données de l'API SNCF. Ensuite les parser puis créer les données dans le datastore
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		//TODO récupérer les données de l'API SNCF. Ensuite les parser puis créer les données dans le datastore
-		// Attention: trouver un algo pour savoir ce qu'on doit remplacer dans le datstore/ajouter/supprimer
-		// EN effet, il va falloir vérifier les trains supprimés, notifier les gens qui ont un trajet enregistrés! Ne 
-		// pas supprimer un train du datastore si une personne possède un trajet enregistré dans ce train 
-		
-		for(int k=0; k<lesFameuses30Gares.length; k++){
-			try{
+		// Pour des raisons de quotas imposé par GAE pour les écritures dans le datastore,
+		// on peut tenter de faire un cron toutes les 30 minutes et 
+		//qui ne prend en compte que les trains partant dans plus de 30 mn pour chaque gare
+		// et supprimant dans la dataStore tous les trains dont l'heure est dépassée 
+
+		ObjectifyService.ofy();
+
+		Date dateActuelle = new Date();
+
+		// Juste avant de faire les ajouts, on va vider le Datastore pour les Trains dont l'heure est dépassée!
+		listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
+		for (Train t :listeDesAnciensDeparts) {
+			if (t.getDateHeure().before(dateActuelle)) {
+				ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
+			}
+		}
+
+		for (GaresSelectionnees gare : lesFameuses30Gares) {
+			try {
 				_logger.setLevel(Level.INFO);
 				_logger.info("Nous allons accéder à l'api SNCF");
-				URL url = new URL("http://api.transilien.com/gare/"+lesFameuses30Gares[k].getCode()+"/depart/");
+				URL url = new URL("http://api.transilien.com/gare/"+gare.getCode()+"/depart/");
 				URLConnection con = url.openConnection();
 				String login = "upmc107:xMcQ2p38";
 				String encodedLogin =new String(Base64.encodeBase64(login.getBytes()));
 				con.setRequestProperty("Authorization", "Basic " + encodedLogin);
-				//on utilise l'url comme un input non?
 				con.setDoInput(true);
 
-
-				//HttpURLConnection httpConn = (HttpURLConnection)con;
-				// Récupérer les trois prochains départs pour chaque gare (pour l'instant suffisant)
-				// Comme on ne peut faire que 30 requêtes par minutes, nous allons choisir 30 gares précises
-				/* Choix:
-				 * Aéroport Ch. de Gaulle 1 87271460
-			Aéroport Ch. de Gaulle 2 TGV 87001479
-			Argenteuil 87381848
-			Aulnay sous Bois 87271411	
-				 *  Bellevue 87393116
-				 *  Bibliothèque François Mitterrand 87328328
-				 *  Bondy 87113407
-				 *  Châtelet les Halles 87758607
-				 *  Colombes 87381087
-				 *  Gennevilliers 87271205
-				 *  La Défense Grande Arche 87758011
-				 *  Les Mureaux 87386680
-				 *  Nanterre Université 87386318
-				 *  Parc des Expositions 87271486
-				 *  Paris Austerlitz 87547026
-			Paris Bercy 87686667
-			Paris Est 87113001
-			Paris Gare de Lyon 87686006
-			Paris Montparnasse 87391003
-			Paris Nord 87271007
-			Paris Saint-Lazare 87384008
-			Puteaux 87382382
-			Saint-Cyr 87393223
-			Saint Germain en Laye GC 87382804
-			Saint-Quentin en Y. Montigny le B. 87393843
-			Stade de France Saint-Denis 87164780
-			Versailles Chantiers 87393009
-			Versailles Château Rive Gauche 87393157
-			Vitry sur Seine 87545293
-			Villiers sur Marne Le Plessis Trévise 87113795
-
-
-				 * 
-				 */
-
-				_logger.info("Nous avons accedé à l'api SNCF pour les trains de "+ lesFameuses30Gares[k].getNom());
+				_logger.info("Nous avons accedé à l'api SNCF pour les trains de "+gare.getNom());
 				// Avec l'API JAXP DOM
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder docBuilder = factory.newDocumentBuilder();
@@ -130,26 +93,22 @@ public class BackendServlet extends HttpServlet {
 				// XML Stream			
 				InputStream xmlStream = con.getInputStream();
 
-				Document doc = docBuilder.parse(xmlStream);
-
-				//			// Parse the given XML document using the callback handler
-				//			saxParser.parse(xmlStream, new XMLTrainHandler());
-
+				this.apiResult = docBuilder.parse(xmlStream);
 
 				// element racine
-				Element rootElement = doc.getDocumentElement();
+				Element rootElement = apiResult.getDocumentElement();
 
 				// Récupérer tous les trains
 				NodeList listTrain = rootElement.getElementsByTagName("train");
 
 				listeTrain = new ArrayList<Train>();
-				// Récupérer le premier train
-				//Node train = listTrain.item(0);
 
 				// boucle for pour récupérer tous les trains en questions on va traiter pour chaque train
-				for(int i =0; i<listTrain.getLength();i++){
+				int listTrainCount = listTrain.getLength();
+				for (int i =0; i<listTrainCount; i++) {
 					Node train = listTrain.item(i);
-					Train tchouttchout= new Train("", "", "", lesFameuses30Gares[k].getCode(), 0); // on peut mettre direct dans le new le code gare départ
+
+					Train tchouttchout= new Train("", new Date(), "", gare.getCode(), 0); // on peut mettre direct dans le new le code gare départ
 					// vu qu'on va faire un for pour parcourir la liste des numéros de gare et faire les 30 connexions à l'API
 
 					// récupérer les enfants de ce train, c'est-à dire les balises qu'il contient
@@ -161,7 +120,9 @@ public class BackendServlet extends HttpServlet {
 						if (1 == node.getNodeType()) {
 							if ("date".equals(node.getNodeName())){
 								// the text element is the child node
-								tchouttchout.setDateHeure(node.getFirstChild().getTextContent());
+								String dateTrain= node.getFirstChild().getTextContent();
+								Date dateT= stringToDate(dateTrain);
+								tchouttchout.setDateHeure(dateT);
 								// Récupérer si l'horaire est un horaire réel ou s'il s'agit d'un horaire théorique.
 								// Peut-être que ça peut servir??? 
 								NamedNodeMap mode= node.getAttributes();
@@ -176,42 +137,30 @@ public class BackendServlet extends HttpServlet {
 							}else if("miss".equals(node.getNodeName())){
 								tchouttchout.setMission(node.getFirstChild().getTextContent());
 							}
-							
+
 						}
 
 					}
 
 					listeTrain.add(tchouttchout);
+					// on va ajouter le train à la datastore si dans plus de 30 minutes
+					dateActuelle= new Date();
+					Date date15m = new Date(dateActuelle.getTime()+15*6000);
+					Date date45m = new Date(dateActuelle.getTime()+45*6000);
+					if(tchouttchout.getDateHeure().before(date45m) && tchouttchout.getDateHeure().after(date15m)){
+						ofy().save().entity(tchouttchout).now();
+					}
+
 
 				}
-				//			 // récupérer tous les noeuds:
-				//			 NodeList listTrain = doc.getElementsByTagName("*");
-				//			 listeTrain= new ArrayList<Train>();
-				//			 
-				//			 for(int i=0; i<listTrain.getLength();i++){
-				//				 Element passages = (Element) listTrain.item(i);
-				//				 String noeud = passages.getNodeName();
-				//				 Train tchouttchout= new Train("", "", "", ' ', 0, 0);
-				//				 
-				//				 if(noeud.equals("train")){
-				//					 _logger.info("On a trouvé un train:");
-				//				 }
-				//				 if(noeud.equals("date")){
-				//					 tchouttchout.setDateHeure(passages.getChildNodes().item(0).getNodeValue());
-				//					 String mode= passages.getAttribute("mode");
-				//					 tchouttchout.setEtat(mode.charAt(0));
-				//					 
-				//				 }else if(noeud.equals("num")){
-				//					 tchouttchout.setNum(passages.getChildNodes().item(0).getNodeValue());
-				//				 }
-				//				 
-				//				listeTrain.add(tchouttchout);
-				//			 }
+
 
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
+
 
 			//pour les premiers tests j'essaye dans une liste de trains, pour voir ce que ça donne 
 			for(int i=0; i<listeTrain.size();i++){
@@ -224,6 +173,13 @@ public class BackendServlet extends HttpServlet {
 
 			}
 		}
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		//TODO ?
+		super.doGet(req, resp);
 
 	}
 
@@ -234,6 +190,11 @@ public class BackendServlet extends HttpServlet {
 		// TODO ?
 		super.doPost(req, resp);
 	}
+
+	public static Date stringToDate(String sDate) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+		return sdf.parse(sDate);
+	} 
 
 
 }
