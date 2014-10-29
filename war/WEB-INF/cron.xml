@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
-	 <cron>
+	<cron>
 		 <url>/trajetload</url>
 		<description>Met à jour la liste des départs dans la base de données</description>
 		<schedule>every 3 minutes</schedule>
-	</cron>
+		<timezone>Europe/Amsterdam</timezone>
+		
+	</cron> 
 </cronentries>
