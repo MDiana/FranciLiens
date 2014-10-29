@@ -1,5 +1,7 @@
 package franciliens.servlets;
 
+import static franciliens.data.OfyService.ofy;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -9,20 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.Crypt;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import franciliens.data.User;
-import static franciliens.data.OfyService.ofy;
 
 @SuppressWarnings("serial")
 public class RegisterServlet extends HttpServlet {
 
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 	private ArrayList<String> errorList;
 
 	@Override
@@ -179,8 +182,8 @@ public class RegisterServlet extends HttpServlet {
 			 * rediriger vers l'accueil en loggant automatiquement
 			 * l'utilisateur
 			 */
-			
-			User newUser = new User(pseudo, mail, pass);
+			String mdp= Crypt.crypt(pass);
+			User newUser = new User(pseudo, mail, mdp);
 			newUser.setAge(age);
 			ofy().save().entity(newUser).now();
 			if(!errorList.isEmpty()){

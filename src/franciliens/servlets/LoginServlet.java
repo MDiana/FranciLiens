@@ -1,18 +1,22 @@
 package franciliens.servlets;
 
+import static franciliens.data.OfyService.ofy;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.Crypt;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import franciliens.data.User;
-import static franciliens.data.OfyService.ofy;
 
 @SuppressWarnings("serial")
 public class LoginServlet extends HttpServlet {
@@ -20,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 
 	@Override
 	public void init() {
@@ -112,7 +116,8 @@ public class LoginServlet extends HttpServlet {
 
 
 			User u = ofy().load().type(User.class).id(mail).now();
-			if (u==null || !u.getPassword().equals(pass)){
+			String mdp= Crypt.crypt(pass);
+			if (u==null || !u.getPassword().equals(mdp)){
 
 				/*
 				 * Le mot de passe est incorrect ou l'utilisateur n'existe pas : 
