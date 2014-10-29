@@ -182,7 +182,7 @@ public class RegisterServlet extends HttpServlet {
 			 * rediriger vers l'accueil en loggant automatiquement
 			 * l'utilisateur
 			 */
-			String mdp= Crypt.crypt(pass);
+			String mdp= Crypt.crypt(pass, "xx");
 			User newUser = new User(pseudo, mail, mdp);
 			newUser.setAge(age);
 			ofy().save().entity(newUser).now();

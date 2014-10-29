@@ -116,7 +116,7 @@ public class LoginServlet extends HttpServlet {
 
 
 			User u = ofy().load().type(User.class).id(mail).now();
-			String mdp= Crypt.crypt(pass);
+			String mdp= Crypt.crypt(pass, "xx");
 			if (u==null || !u.getPassword().equals(mdp)){
 
 				/*
