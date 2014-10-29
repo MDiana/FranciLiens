@@ -92,12 +92,12 @@ public class InviteServlet extends HttpServlet {
 			throws MessagingException, UnsupportedEncodingException {
 		String url = "http://franci-liens.appspot.com/";
 
-		String msgBody = "<!DOCTYPE html><html><body>Bonjour, "+recipientU.getLogin()
+		String msgBody = "Bonjour, "+recipientU.getLogin()
 				+" ! Vous avez reçu une invitation de la part de "+sender
 				+".\n\n"+getProfile(sender)
-				+"\n\nSouhaitez-vous <a href=\""+ url + "accept?sender=" + sender
-				+ "\">accepter</a> ou <a href=\""+ url + "refuse?sender=" + sender
-				+ "\">refuser</a> ce rendez-vous ?</body></html>";
+				+"\n\nSouhaitez-vous accepter ("+ url + "accept?sender=" + sender
+				+ ") ou refuser ("+ url + "refuse?sender=" + sender
+				+ ") ce rendez-vous ?</body></html>";
 
 		Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -107,7 +107,6 @@ public class InviteServlet extends HttpServlet {
             
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("diana.malabard@gmail.com", "Franci'Liens"));
-            message.setHeader("Content-type", "text/html");
             
             message.addRecipient(
                     Message.RecipientType.TO,
