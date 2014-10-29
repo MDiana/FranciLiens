@@ -28,13 +28,6 @@ public class InviteServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
-		try {
-			envoyerMail("DieNah", ofy().load().type(User.class).id("mrshickenbottom@hotmail.fr").now());
-		} catch (MessagingException e1) {
-			System.err.println("Echec du test");
-			e1.printStackTrace();
-		}
 
 		boolean isSessionNew = VerifSession.isSessionNew(req);
 
@@ -90,6 +83,7 @@ public class InviteServlet extends HttpServlet {
 
 	private void envoyerMail(String sender, User recipientU)
 			throws MessagingException, UnsupportedEncodingException {
+		
 		String url = "http://franci-liens.appspot.com/";
 
 		String msgBody = "Bonjour, "+recipientU.getLogin()
@@ -131,7 +125,7 @@ public class InviteServlet extends HttpServlet {
 
 	private String getProfile(String sender) {
 
-		// TODO Récupérer l'utilisateur
+		// Récupérer l'utilisateur
 		User user = ofy().load().type(User.class).filter("login ==", sender).list().get(0);
 		// Il y aura forcément un résultat car sender vient de la variable de session
 		String profile = sender+" est ";
