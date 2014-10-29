@@ -39,6 +39,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>logout</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TrajetsEnregistresServlet</servlet-name>
+		<servlet-class>franciliens.servlets.TrajetsEnregistresServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TrajetsEnregistresServlet</servlet-name>
+		<url-pattern>trajetsEnregistresAff</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ProchainsDepartsServlet</servlet-name>
+		<servlet-class>franciliens.servlets.ProchainsDepartsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProchainsDepartsServlet</servlet-name>
+		<url-pattern>prochainsDeparts</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>BackendServlet</servlet-name>
