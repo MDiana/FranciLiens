@@ -47,9 +47,6 @@ public class BackendServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-
-		// connexion à l'API lors de l'initialisation?
-		// Non car il faut faire une connexion pour chaque requêtes, on en a 30 
 		super.init();
 	}
 
@@ -77,6 +74,7 @@ public class BackendServlet extends HttpServlet {
 		if(!listeDesAnciensDeparts.isEmpty()){
 		for (Train t :listeDesAnciensDeparts) {
 			if (t.getDateHeure().before(dateActuelle)) {
+				_logger.info("On supprime un train.");
 				ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
 			}
 		}
@@ -154,6 +152,8 @@ public class BackendServlet extends HttpServlet {
 					// on va ajouter le train à la datastore si dans plus de 15 minutes et moins de 45mn
 					Date date15m = new Date(dateActuelle.getTime()+15*60000);
 					Date date45m = new Date(dateActuelle.getTime()+45*60000);
+//					_logger.info("La date +15mn est : " + date15m.toString());
+//					_logger.info("La date +45mn est : " + date45m.toString());
 					
 					if((tchouttchout.getDateHeure().before(date45m)) && (tchouttchout.getDateHeure().after(date15m))){
 						_logger.info("On enregistre dans le datastore le petit train");
