@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
+import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 import franciliens.data.Trajet;
 import franciliens.data.User;
@@ -26,6 +28,13 @@ public class InviteServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		try {
+			envoyerMail("DieNah", ofy().load().type(User.class).id("mrshickenbottom@hotmail.fr").now());
+		} catch (MessagingException e1) {
+			System.err.println("Echec du test");
+			e1.printStackTrace();
+		}
 
 		boolean isSessionNew = VerifSession.isSessionNew(req);
 
@@ -53,7 +62,7 @@ public class InviteServlet extends HttpServlet {
 
 					// TODO tout va bien : créer et envoyer le mail
 					try {
-						envoyerMail((String) req.getSession().getAttribute("login"), recipientU, resT.get(0));
+						envoyerMail((String) req.getSession().getAttribute("login"), recipientU);
 					} catch (Exception e) {
 						resp.sendRedirect("/accueil");
 					}
@@ -79,9 +88,9 @@ public class InviteServlet extends HttpServlet {
 		}
 	}
 
-	private void envoyerMail(String sender, User recipientU, Trajet trajet)
+	private void envoyerMail(String sender, User recipientU)
 			throws MessagingException, UnsupportedEncodingException {
-		String url = "http://localhost:8888/";
+		String url = "http://franci-liens.appspot.com/";
 
 		String msgBody = "Bonjour, "+recipientU.getLogin()
 				+" ! Vous avez reçu une invitation de la part de "+sender
@@ -90,28 +99,56 @@ public class InviteServlet extends HttpServlet {
 				+ "\">accepter</a> ou <a href=\""+ url + "refuse?sender=" + sender
 				+ "\">refuser</a> ce rendez-vous ?";
 
-		try {
-			Properties props = new Properties();
-			Session session = Session.getDefaultInstance(props, null);
+		Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
 
-			MimeMessage msg = new MimeMessage(session);
-			msg.setFrom(new InternetAddress("noreply@franci-liens.appspot.com", "Franci'Liens"));
-			msg.addRecipient(MimeMessage.RecipientType.TO,
-					new InternetAddress(recipientU.getEmail(), recipientU.getLogin()));
-			msg.setSubject("Vous avez reçu une nouvelle invitation !");
-			msg.setText(msgBody);
-			Transport.send(msg);
+        try {
 
-		} catch (AddressException e) {
-			System.err.println("Problème avec l'adresse");
-			throw e;
-		} catch (MessagingException e) {
-			System.err.println("Problème lors de l'envoi du mail");
-			throw e;
-		} catch (UnsupportedEncodingException e) {
-			System.err.println("Problème d'encodage");
-			throw e;
-		}
+            
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("diana.malabard@gmail.com", "Fanci'Liens"));
+            
+            message.addRecipient(
+                    Message.RecipientType.TO,
+                    new InternetAddress(recipientU.getEmail()));
+
+            
+            message.setSubject("Vous avez reçu une nouvelle invitation !");
+            message.setText(msgBody);
+
+            
+            Transport.send(message);
+
+            
+        } catch (AddressException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//		try {
+//			Properties props = System.getProperties();
+//			Session session = Session.getInstance(props);
+//
+//			MimeMessage msg = new MimeMessage(session);
+//			msg.setFrom(new InternetAddress("diana.malabard@gmail.com", "Franci'Liens"));
+//			msg.addRecipient(MimeMessage.RecipientType.TO,
+//					new InternetAddress(recipientU.getEmail(), recipientU.getLogin()));
+//			msg.setSubject("Vous avez reçu une nouvelle invitation !");
+//			msg.setText(msgBody);
+//			Transport.send(msg);
+//
+//		} catch (AddressException e) {
+//			System.err.println("Problème avec l'adresse");
+//			throw e;
+//		} catch (MessagingException e) {
+//			System.err.println("Problème lors de l'envoi du mail");
+//			throw e;
+//		} catch (UnsupportedEncodingException e) {
+//			System.err.println("Problème d'encodage");
+//			throw e;
+//		}
 	}
 
 	private String getProfile(String sender) {
