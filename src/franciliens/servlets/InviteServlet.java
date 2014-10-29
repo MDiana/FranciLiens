@@ -27,14 +27,6 @@ public class InviteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		// TODO TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST
-		try {
-			envoyerMail("DieNah", ofy().load().type(User.class).id("mrshickenbottom@hotmail.fr").now());
-		} catch (MessagingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		boolean isSessionNew = VerifSession.isSessionNew(req);
 
 		if (isSessionNew) {
@@ -61,7 +53,7 @@ public class InviteServlet extends HttpServlet {
 
 					// TODO tout va bien : créer et envoyer le mail
 					try {
-						envoyerMail((String) req.getSession().getAttribute("login"), recipientU);
+						envoyerMail((String) req.getSession().getAttribute("login"), recipientU, resT.get(0));
 					} catch (Exception e) {
 						resp.sendRedirect("/accueil");
 					}
@@ -87,23 +79,22 @@ public class InviteServlet extends HttpServlet {
 		}
 	}
 
-	private void envoyerMail(String sender, User recipientU)
+	private void envoyerMail(String sender, User recipientU, Trajet trajet)
 			throws MessagingException, UnsupportedEncodingException {
-		String url = "http://franci-liens.appspot.com/";
+		String url = "http://localhost:8888/";
 
-		String msgBody = "<!DOCTYPE html><html>Bonjour, "+recipientU.getLogin()
+		String msgBody = "Bonjour, "+recipientU.getLogin()
 				+" ! Vous avez reçu une invitation de la part de "+sender
 				+".\n\n"+getProfile(sender)
 				+"\n\nSouhaitez-vous <a href=\""+ url + "accept?sender=" + sender
 				+ "\">accepter</a> ou <a href=\""+ url + "refuse?sender=" + sender
-				+ "\">refuser</a> ce rendez-vous ?</html>";
-		System.out.println(msgBody);
+				+ "\">refuser</a> ce rendez-vous ?";
+
 		try {
 			Properties props = new Properties();
 			Session session = Session.getDefaultInstance(props, null);
 
 			MimeMessage msg = new MimeMessage(session);
-			msg.setHeader("Content-type", "text/html");
 			msg.setFrom(new InternetAddress("noreply@franci-liens.appspot.com", "Franci'Liens"));
 			msg.addRecipient(MimeMessage.RecipientType.TO,
 					new InternetAddress(recipientU.getEmail(), recipientU.getLogin()));
@@ -127,26 +118,21 @@ public class InviteServlet extends HttpServlet {
 
 		// TODO Récupérer l'utilisateur
 		User user = ofy().load().type(User.class).filter("login ==", sender).list().get(0);
-		System.out.println(user==null);
 		// Il y aura forcément un résultat car sender vient de la variable de session
 		String profile = sender+" est ";
-		if (user.getSexe()!=null) {
-			if (user.getSexe()=='f') {
-				profile += "une femme agée de ";
-			} else {
-				profile += "un homme agé de ";
-			}
+		if (user.getSexe()=='f') {
+			profile += "une femme agée de ";
 		} else {
-			profile += "ag(é) de ";
+			profile += "un homme agé de ";
 		}
 		profile += (user.getAge()+" ans. ");
-		if (user.getDescription()!=null && user.getDescription().toString().length()>0) {
+		if (user.getDescription().toString().length()>0) {
 			if (user.getSexe()=='f') {
 				profile += ("Voici comment elle se décrit :\n"+user.getDescription());
 			} else {
 				profile += ("Voici comment il se décrit :\n"+user.getDescription());
 			}
-		}		
+		}
 		
 		return profile;
 	}

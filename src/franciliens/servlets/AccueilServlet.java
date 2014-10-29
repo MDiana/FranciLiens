@@ -25,7 +25,7 @@ public class AccueilServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 
 	@Override
 	public void init() {
@@ -72,10 +72,6 @@ public class AccueilServlet extends HttpServlet {
 				User currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
 				
 				profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
-				
-				//TODO TEEEEEEEEEEEEEEEEEEEEEEEEEEST
-				profilElem.append("<a href=\"/invite?recipient=" + pseudo
-								+ "\"><img src=\"images/invite32.png\"></a>");
 				
 				/*
 				 * TODO Afficher le voyage enregistré s'il existe, un lien pour en 
