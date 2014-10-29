@@ -182,16 +182,13 @@ input {
 /* Encart profil */
 .encartProfil {
 	float: left;
-	/* width: 13em; */
 	width: 20%;
 	height: auto;
 	padding-top: 1em;
 	padding-bottom: 1em;
 	background: rgba(255, 255, 255, .9);
 	border-radius: 1.5em;
-	/* margin-left: 0.5em; */
 	margin-left: 4%;
-	/* margin-bottom: 1em; */
 	margin-bottom: 1%;
 	padding: 1em;
 }
@@ -225,7 +222,6 @@ input {
 
 .encartTrajetsEnregistres {
 	float: left;
-	/* width: 42em; */
 	width: 65%;
 	height: auto;
 	padding-top: 1em;
