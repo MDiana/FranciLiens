@@ -9,5 +9,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/appache-commons-lang"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.9.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/JAXP_160.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/catalina-6.0.32.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

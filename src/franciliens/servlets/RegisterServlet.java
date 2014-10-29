@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.Crypt;
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang3.StringEscapeUtils;
+//import org.apache.catalina.filters.CsrfPreventionFilter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -187,8 +187,7 @@ public class RegisterServlet extends HttpServlet {
 			User newUser = new User(pseudo, mail, mdp);
 			newUser.setAge(age);
 			ofy().save().entity(newUser).now();
-			if(!errorList.isEmpty()){
-					
+			if(!errorList.isEmpty()){					
 					errorList.clear();
 			}
 			req.getSession(true).setAttribute("login", pseudo);
