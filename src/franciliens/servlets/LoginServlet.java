@@ -138,6 +138,7 @@ public class LoginServlet extends HttpServlet {
 				doGet(req, resp);
 
 			} else {
+				
 				/*
 				 * L'utilisateur existe et le mot de passe est correct :
 				 * Logger l'utilisateur et le rediriger vers l'accueil

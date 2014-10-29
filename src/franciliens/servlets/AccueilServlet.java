@@ -144,7 +144,8 @@ public class AccueilServlet extends HttpServlet {
 								+ "</td><td>" + GaresSelectionnees.getNom(codeTrain)
 								+ "</td><td><p class=\"description\">" + user.getDescription()
 								+ "</p></td><td class=\"invitation\">"
-								+ "<a href=\"\"><img src=\"images/invite32.png\"></a></td>");
+								+ "<a href=\"/invite?recipient=" + user.getLogin()
+								+ "\"><img src=\"images/invite32.png\"></a></td>");
 					}
 					
 				}
