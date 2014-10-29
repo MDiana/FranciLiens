@@ -67,12 +67,14 @@ public class BackendServlet extends HttpServlet {
 
 		// Juste avant de faire les ajouts, on va vider le Datastore pour les Trains dont l'heure est dépassée!
 		listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
+		if(listeDesAnciensDeparts.size()!=0){
 		for (Train t :listeDesAnciensDeparts) {
 			if (t.getDateHeure().before(dateActuelle)) {
 				ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
 			}
 		}
-
+		}
+		
 		for (GaresSelectionnees gare : lesFameuses30Gares) {
 			try {
 				_logger.setLevel(Level.INFO);
@@ -192,7 +194,7 @@ public class BackendServlet extends HttpServlet {
 	}
 
 	public static Date stringToDate(String sDate) throws Exception {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		return sdf.parse(sDate);
 	} 
 
