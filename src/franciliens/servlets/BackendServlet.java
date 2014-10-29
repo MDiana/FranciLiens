@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -28,8 +27,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.googlecode.objectify.ObjectifyService;
 
 import franciliens.data.GaresSelectionnees;
 import franciliens.data.Train;
@@ -61,26 +58,17 @@ public class BackendServlet extends HttpServlet {
 		// et supprimant dans la dataStore tous les trains dont l'heure est dépassée 
 
 		_logger.setLevel(Level.INFO);
-		ObjectifyService.ofy();
 
 		TimeZone pdt = TimeZone.getTimeZone("Europe/Paris");
 		TimeZone.setDefault(pdt);
 		Date dateActuelle = new Date();
-		
+
 		_logger.info("La date du système est : " + dateActuelle.toString());
 
-		// Juste avant de faire les ajouts, on va vider le Datastore pour les Trains dont l'heure est dépassée!
-		listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
-		if(!listeDesAnciensDeparts.isEmpty()){
-		for (Train t :listeDesAnciensDeparts) {
-			if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
-				_logger.info("On supprime un train.");
-				ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
-			}
-		}
-		}
 		
-		for (GaresSelectionnees gare : lesFameuses30Gares) {
+
+		//for (GaresSelectionnees gare : lesFameuses30Gares) {
+		GaresSelectionnees gare = GaresSelectionnees.ARG;
 			try {
 				_logger.info("Nous allons accéder à l'api SNCF");
 				URL url = new URL("http://api.transilien.com/gare/"+gare.getCode()+"/depart/");
@@ -128,7 +116,10 @@ public class BackendServlet extends HttpServlet {
 								// the text element is the child node
 								String dateTrain= node.getFirstChild().getTextContent();
 								Date dateT= stringToDate(dateTrain);
-								tchouttchout.setDateHeure(dateT);
+								
+								// on rajoute une heure car dans le datastore il reformate en UTC
+								Date traindate= new Date(dateT.getTime()+3600000);
+								tchouttchout.setDateHeure(traindate);
 								// Récupérer si l'horaire est un horaire réel ou s'il s'agit d'un horaire théorique.
 								// Peut-être que ça peut servir??? 
 								NamedNodeMap mode= node.getAttributes();
@@ -148,16 +139,17 @@ public class BackendServlet extends HttpServlet {
 
 					}
 
-					listeTrain.add(tchouttchout);
+					//					listeTrain.add(tchouttchout);
 					// on va ajouter le train à la datastore si dans plus de 15 minutes et moins de 45mn
-					Date date15m = new Date(dateActuelle.getTime()+15*60000);
+					Date date15m = new Date(dateActuelle.getTime()+0*60000);
 					Date date45m = new Date(dateActuelle.getTime()+45*60000);
-//					_logger.info("La date +15mn est : " + date15m.toString());
-//					_logger.info("La date +45mn est : " + date45m.toString());
-					
-					if((tchouttchout.getDateHeure().getTime()<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()>date15m.getTime())){
+					//					_logger.info("La date +15mn est : " + date15m.toString());
+					//					_logger.info("La date +45mn est : " + date45m.toString());
+
+					if((tchouttchout.getDateHeure().getTime()-3600000<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()-3600000>date15m.getTime())){
 						_logger.info("On enregistre dans le datastore le petit train");
 						ofy().save().entity(tchouttchout).now();
+						listeTrain.add(tchouttchout);
 					}
 
 
@@ -181,7 +173,19 @@ public class BackendServlet extends HttpServlet {
 						);
 
 			}
-		}
+//		}
+		
+		// Juste avant de faire les ajouts, on va vider le Datastore pour les Trains dont l'heure est dépassée!
+			 	dateActuelle=new Date();
+				listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
+				if(!listeDesAnciensDeparts.isEmpty()){
+					for (Train t :listeDesAnciensDeparts) {
+						if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
+							_logger.info("On supprime le train " +t.getNum());
+							ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
+						}
+					}
+				}
 	}
 
 	@Override

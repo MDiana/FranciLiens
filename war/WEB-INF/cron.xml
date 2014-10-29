@@ -3,7 +3,7 @@
 	<!-- <cron>
 		 <url>/trajetload</url>
 		<description>Met à jour la liste des départs dans la base de données</description>
-		<schedule>every 3 minutes</schedule>
+		<schedule>every 2 minutes</schedule>
 		<timezone>Europe/Amsterdam</timezone>
-	</cron> -->
+	</cron>-->
 </cronentries>
