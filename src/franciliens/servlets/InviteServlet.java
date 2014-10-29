@@ -127,28 +127,6 @@ public class InviteServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//		try {
-//			Properties props = System.getProperties();
-//			Session session = Session.getInstance(props);
-//
-//			MimeMessage msg = new MimeMessage(session);
-//			msg.setFrom(new InternetAddress("diana.malabard@gmail.com", "Franci'Liens"));
-//			msg.addRecipient(MimeMessage.RecipientType.TO,
-//					new InternetAddress(recipientU.getEmail(), recipientU.getLogin()));
-//			msg.setSubject("Vous avez reçu une nouvelle invitation !");
-//			msg.setText(msgBody);
-//			Transport.send(msg);
-//
-//		} catch (AddressException e) {
-//			System.err.println("Problème avec l'adresse");
-//			throw e;
-//		} catch (MessagingException e) {
-//			System.err.println("Problème lors de l'envoi du mail");
-//			throw e;
-//		} catch (UnsupportedEncodingException e) {
-//			System.err.println("Problème d'encodage");
-//			throw e;
-//		}
 	}
 
 	private String getProfile(String sender) {
@@ -157,18 +135,18 @@ public class InviteServlet extends HttpServlet {
 		User user = ofy().load().type(User.class).filter("login ==", sender).list().get(0);
 		// Il y aura forcément un résultat car sender vient de la variable de session
 		String profile = sender+" est ";
-		if (user.getSexe()=='f') {
-			profile += "une femme agée de ";
+		if (user.getSexe()==null) {
+			profile+= "agé(e) de ";
 		} else {
-			profile += "un homme agé de ";
+			if (user.getSexe()=='f') {
+				profile += "une femme agée de ";
+			} else {
+				profile += "un homme agé de ";
+			}
 		}
 		profile += (user.getAge()+" ans. ");
-		if (user.getDescription().toString().length()>0) {
-			if (user.getSexe()=='f') {
-				profile += ("Voici comment elle se décrit :\n"+user.getDescription());
-			} else {
-				profile += ("Voici comment il se décrit :\n"+user.getDescription());
-			}
+		if (user.getDescription()!=null && user.getDescription().toString().length()>0) {
+			profile += ("Voici comment ce membre se décrit :\n"+user.getDescription());
 		}
 		
 		return profile;
