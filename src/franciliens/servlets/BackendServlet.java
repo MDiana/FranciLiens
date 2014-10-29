@@ -8,8 +8,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -61,9 +63,14 @@ public class BackendServlet extends HttpServlet {
 		//qui ne prend en compte que les trains partant dans plus de 30 mn pour chaque gare
 		// et supprimant dans la dataStore tous les trains dont l'heure est dépassée 
 
+		_logger.setLevel(Level.INFO);
 		ObjectifyService.ofy();
 
+		TimeZone pdt = TimeZone.getTimeZone("Europe/Paris");
+		TimeZone.setDefault(pdt);
 		Date dateActuelle = new Date();
+		
+		_logger.info("La date du système est : " + dateActuelle.toString());
 
 		// Juste avant de faire les ajouts, on va vider le Datastore pour les Trains dont l'heure est dépassée!
 		listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
@@ -77,7 +84,6 @@ public class BackendServlet extends HttpServlet {
 		
 		for (GaresSelectionnees gare : lesFameuses30Gares) {
 			try {
-				_logger.setLevel(Level.INFO);
 				_logger.info("Nous allons accéder à l'api SNCF");
 				URL url = new URL("http://api.transilien.com/gare/"+gare.getCode()+"/depart/");
 				URLConnection con = url.openConnection();
@@ -145,11 +151,12 @@ public class BackendServlet extends HttpServlet {
 					}
 
 					listeTrain.add(tchouttchout);
-					// on va ajouter le train à la datastore si dans plus de 30 minutes
-					dateActuelle= new Date();
-					Date date15m = new Date(dateActuelle.getTime()+15*6000);
-					Date date45m = new Date(dateActuelle.getTime()+45*6000);
-					if(tchouttchout.getDateHeure().before(date45m) && tchouttchout.getDateHeure().after(date15m)){
+					// on va ajouter le train à la datastore si dans plus de 15 minutes et moins de 45mn
+					Date date15m = new Date(dateActuelle.getTime()+15*60000);
+					Date date45m = new Date(dateActuelle.getTime()+45*60000);
+					
+					if((tchouttchout.getDateHeure().before(date45m)) && (tchouttchout.getDateHeure().after(date15m))){
+						_logger.info("On enregistre dans le datastore le petit train");
 						ofy().save().entity(tchouttchout).now();
 					}
 
@@ -165,15 +172,15 @@ public class BackendServlet extends HttpServlet {
 
 
 			//pour les premiers tests j'essaye dans une liste de trains, pour voir ce que ça donne 
-			for(int i=0; i<listeTrain.size();i++){
-				_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
-						+ " num: " + (listeTrain.get(i)).getNum()
-						+ " date: " + (listeTrain.get(i)).getDateHeure() 
-						+ " Mission: " + (listeTrain.get(i)).getMission()
-						+ " Etat: " + (listeTrain.get(i)).getEtat()
-						);
-
-			}
+//			for(int i=0; i<listeTrain.size();i++){
+//				_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
+//						+ " num: " + (listeTrain.get(i)).getNum()
+//						+ " date: " + (listeTrain.get(i)).getDateHeure() 
+//						+ " Mission: " + (listeTrain.get(i)).getMission()
+//						+ " Etat: " + (listeTrain.get(i)).getEtat()
+//						);
+//
+//			}
 		}
 	}
 
