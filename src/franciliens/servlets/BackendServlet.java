@@ -172,15 +172,15 @@ public class BackendServlet extends HttpServlet {
 
 
 			//pour les premiers tests j'essaye dans une liste de trains, pour voir ce que ça donne 
-//			for(int i=0; i<listeTrain.size();i++){
-//				_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
-//						+ " num: " + (listeTrain.get(i)).getNum()
-//						+ " date: " + (listeTrain.get(i)).getDateHeure() 
-//						+ " Mission: " + (listeTrain.get(i)).getMission()
-//						+ " Etat: " + (listeTrain.get(i)).getEtat()
-//						);
-//
-//			}
+			for(int i=0; i<listeTrain.size();i++){
+				_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
+						+ " num: " + (listeTrain.get(i)).getNum()
+						+ " date: " + (listeTrain.get(i)).getDateHeure() 
+						+ " Mission: " + (listeTrain.get(i)).getMission()
+						+ " Etat: " + (listeTrain.get(i)).getEtat()
+						);
+
+			}
 		}
 	}
 
