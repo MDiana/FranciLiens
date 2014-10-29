@@ -9,6 +9,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.9.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/JAXP_160.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/catalina-6.0.32.jar"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (1)"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
