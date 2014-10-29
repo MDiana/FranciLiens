@@ -73,7 +73,7 @@ public class BackendServlet extends HttpServlet {
 		listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
 		if(!listeDesAnciensDeparts.isEmpty()){
 		for (Train t :listeDesAnciensDeparts) {
-			if (t.getDateHeure().before(dateActuelle)) {
+			if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
 				_logger.info("On supprime un train.");
 				ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
 			}
@@ -155,7 +155,7 @@ public class BackendServlet extends HttpServlet {
 //					_logger.info("La date +15mn est : " + date15m.toString());
 //					_logger.info("La date +45mn est : " + date45m.toString());
 					
-					if((tchouttchout.getDateHeure().before(date45m)) && (tchouttchout.getDateHeure().after(date15m))){
+					if((tchouttchout.getDateHeure().getTime()<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()>date15m.getTime())){
 						_logger.info("On enregistre dans le datastore le petit train");
 						ofy().save().entity(tchouttchout).now();
 					}
