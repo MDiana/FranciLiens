@@ -100,7 +100,7 @@ public class InviteServlet extends HttpServlet {
 
             
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("diana.malabard@gmail.com", "Franci'Liens"));
+            message.setFrom(new InternetAddress("franciliensDAR@gmail.com", "Franci'Liens"));
             
             message.addRecipient(
                     Message.RecipientType.TO,

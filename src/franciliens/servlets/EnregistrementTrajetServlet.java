@@ -21,7 +21,7 @@ import franciliens.data.User;
 import static franciliens.data.OfyService.ofy;
 
 @SuppressWarnings("serial")
-public class AccueilServlet extends HttpServlet {
+public class EnregistrementTrajetServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
@@ -60,7 +60,7 @@ public class AccueilServlet extends HttpServlet {
 				 * Construction de la page d'accueil
 				 */
 				Element contentElem = squelette.getElementById("content");
-				Document accueil = Jsoup.connect(url+"accueil.html").get();
+				Document accueil = Jsoup.connect(url+"enregistrementTrajet.html").get();
 				
 				/*
 				 * Remplir l'encart de profil
@@ -130,8 +130,8 @@ public class AccueilServlet extends HttpServlet {
 					
 				} else {
 					
-					// Trajet existant : utiliser le trajet choisi
-					// (codeTrain !=0)					
+					// Trajet existant : utiliser la gare choisie
+					// (codeTrajet !=0)					
 					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
 							filter("numTrain ==", codeTrain).list();
 
