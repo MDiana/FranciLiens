@@ -35,17 +35,17 @@ public class InviteServlet extends HttpServlet {
 			resp.sendRedirect("/login");
 		} else {
 
-			boolean ok=true; //TODO enlever le true après les tests
+			boolean ok=true;
 
-			// TODO Récupérer le destinataire du mail
+			// Récupérer le destinataire du mail
 			String recipient = (String) req.getAttribute("recipient");
 
-			// TODO Vérifier que le destinataire existe
+			// Vérifier que le destinataire existe
 
 			List<User> resU = ofy().load().type(User.class).filter("login ==", recipient).list();
 			if (resU.size() > 0) {
 
-				// TODO Si oui, vérifier que cet utilisateur a un voyage enregistré
+				// Si oui, vérifier que cet utilisateur a un voyage enregistré
 				// encore valide
 
 				User recipientU = resU.get(0);
@@ -53,7 +53,7 @@ public class InviteServlet extends HttpServlet {
 
 				if (resT.size() > 0) {
 
-					// TODO tout va bien : créer et envoyer le mail
+					// Tout va bien : créer et envoyer le mail
 					try {
 						envoyerMail((String) req.getSession().getAttribute("login"), recipientU);
 					} catch (Exception e) {
@@ -73,7 +73,7 @@ public class InviteServlet extends HttpServlet {
 
 			if (!ok) {
 
-				// TODO Il y a eu un problème : renvoyer vers l'accueil
+				// Il y a eu un problème : renvoyer vers l'accueil
 				resp.sendRedirect("/accueil");
 
 			}

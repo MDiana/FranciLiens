@@ -25,7 +25,7 @@ public class AccueilServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 
 	@Override
 	public void init() {
@@ -113,7 +113,7 @@ public class AccueilServlet extends HttpServlet {
 				 * - De la gare sélectionnée par défaut sinon.
 				 */
 				
-				Element trajetsElem = accueil.getElementById("encartTrajetsEnregistres");
+				Element trajetsElem = accueil.getElementById("encartTrajets");
 				
 				if (trajetEnregistre.size()<1) {
 					
@@ -128,7 +128,7 @@ public class AccueilServlet extends HttpServlet {
 					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
 							filter("numTrain ==", codeTrain).list();
 
-					Element trajetsEnrElem = trajetsElem.getElementById("trajetsEnregistres");
+					Element trajetsEnrElem = trajetsElem.getElementById("trajets");
 					
 					for (Trajet trajet : trajetsEnregistres) {
 						
