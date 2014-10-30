@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 public class EditionProfilServlet extends HttpServlet {
-	
-	public void init() {
-	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)

@@ -1,0 +1,35 @@
+	
+<div name ="formulaireeditionprofil" id="editionprofil" class="editionprofilform">
+	
+	<form id="editionprofil" name="formulaireinscription" action="editionprofil" method="post"
+		accept-charset="utf-8" >
+		<fieldset class="editionprofilfieldset">
+			<legend>Edition du profil</legend>
+			
+			<label for="oldpassword">Mot de passe actuel<span class="rouge" id="verifoldpassword"></span></label>
+			<input type="password" name="oldpassword" id="OldPassword"
+					placeholder="password">
+			
+			<label for="password">Nouveau mot de passe<span class="rouge" id="verifpassword"></span></label>
+			<input type="password" name="password" id="Password"
+					placeholder="password" required >
+			
+			<label for="avatar">Lien vers votre photo de profil</label>
+			<input type="url" name="avatar" id="Avatar"
+					placeholder="..." required >
+			
+			<span><a href="/accueil"> <input type="button" value="Annuler"></a></span>
+			
+			<noscript>
+			    <input type="submit" value="Valider">
+			</noscript>
+			<script type="text/javascript">
+			   document.write("<input type=\"button\" value=\"Valider\" onclick=\"compare()\">");
+			</script>
+			
+			<br /><br /><br />
+					
+			<p id ="notif" class="inscrivezvous" >Les champs marqués d'une * sont obligatoires. Huit caractères minimum pour le mot de passe.</p>
+		</fieldset>
+	</form>
+</div>
