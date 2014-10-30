@@ -41,7 +41,6 @@ function verifpassword(){
 		document.getElementById('verifpassword').innerHTML = '';
 		return true;
 	}
-	
 }
 
 //verif du mail

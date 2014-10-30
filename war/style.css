@@ -281,3 +281,22 @@ table tr:nth-child(even){
 	max-height: 8.5em;
 	word-wrap: break-word;
 }
+
+/* Edition profil */
+.editionprofilform {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background: rgba(255, 255, 255, .9);
+	border-radius: 1.5em;
+	width: 30em;
+	height: auto;
+	margin: auto;
+}
+
+.editionprofilfieldset {
+	margin: auto;
+	font-size: large;
+	border: 1px black solid;
+	border-radius: 1.5em;
+	width: 80%;
+}
