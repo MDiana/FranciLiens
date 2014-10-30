@@ -65,149 +65,159 @@ public class BackendServlet extends HttpServlet {
 
 		_logger.info("La date du système est : " + dateActuelle.toString());
 
-		
+		// Juste après de faire les ajouts, on va vider le Datastore 
+		// Dans l'idéal, pour limiter les écritures, il serait judicieux de ne supprimer que ceux dont l'heure est dépassée!
+		dateActuelle=new Date();
+		listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
+		if(!listeDesAnciensDeparts.isEmpty()){
+			ofy().delete().entities(listeDesAnciensDeparts).now();
+		}
+		//			ArrayList<String> trainAsuppr= new ArrayList<String>();
+		//			if(!listeDesAnciensDeparts.isEmpty()){
+		//								
+		//				for (Train t: listeDesAnciensDeparts) {
+		//					if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
+		//						//_logger.info("On supprime le train " +t.getNum());
+		//						trainAsuppr.add(t.getNum());
+		//						//ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
+		//					}
+		//				}
+		//				ofy().delete().type(Train.class).ids(trainAsuppr).now();
+		//			}
 
-		//for (GaresSelectionnees gare : lesFameuses30Gares) {
-		GaresSelectionnees gare = GaresSelectionnees.ARG;
-			try {
-				_logger.info("Nous allons accéder à l'api SNCF");
-				URL url = new URL("http://api.transilien.com/gare/"+gare.getCode()+"/depart/");
-				URLConnection con = url.openConnection();
-				String login = "upmc107:xMcQ2p38";
-				String encodedLogin =new String(Base64.encodeBase64(login.getBytes()));
-				con.setRequestProperty("Authorization", "Basic " + encodedLogin);
-				con.setDoInput(true);
 
-				_logger.info("Nous avons accedé à l'api SNCF pour les trains de "+gare.getNom());
-				// Avec l'API JAXP DOM
-				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder docBuilder = factory.newDocumentBuilder();
+		for (GaresSelectionnees gare : lesFameuses30Gares) {
+		//GaresSelectionnees gare = GaresSelectionnees.ARG;
+		try {
+			_logger.info("Nous allons accéder à l'api SNCF");
+			URL url = new URL("http://api.transilien.com/gare/"+gare.getCode()+"/depart/");
+			URLConnection con = url.openConnection();
+			String login = "upmc107:xMcQ2p38";
+			String encodedLogin =new String(Base64.encodeBase64(login.getBytes()));
+			con.setRequestProperty("Authorization", "Basic " + encodedLogin);
+			con.setDoInput(true);
+
+			_logger.info("Nous avons accedé à l'api SNCF pour les trains de "+gare.getNom());
+			// Avec l'API JAXP DOM
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = factory.newDocumentBuilder();
 
 
-				// XML Stream			
-				InputStream xmlStream = con.getInputStream();
+			// XML Stream			
+			InputStream xmlStream = con.getInputStream();
 
-				this.apiResult = docBuilder.parse(xmlStream);
+			this.apiResult = docBuilder.parse(xmlStream);
 
-				// element racine
-				Element rootElement = apiResult.getDocumentElement();
+			// element racine
+			Element rootElement = apiResult.getDocumentElement();
 
-				// Récupérer tous les trains
-				NodeList listTrain = rootElement.getElementsByTagName("train");
+			// Récupérer tous les trains
+			NodeList listTrain = rootElement.getElementsByTagName("train");
 
-				listeTrain = new ArrayList<Train>();
+			listeTrain = new ArrayList<Train>();
 
-				// boucle for pour récupérer tous les trains en questions on va traiter pour chaque train
-				int listTrainCount = listTrain.getLength();
-				for (int i =0; i<listTrainCount; i++) {
-					Node train = listTrain.item(i);
+			// boucle for pour récupérer tous les trains en questions on va traiter pour chaque train
+			int listTrainCount = listTrain.getLength();
+			for (int i =0; i<listTrainCount; i++) {
+				Node train = listTrain.item(i);
 
-					Train tchouttchout= new Train("", new Date(), "", gare.getCode(), 0); // on peut mettre direct dans le new le code gare départ
-					// vu qu'on va faire un for pour parcourir la liste des numéros de gare et faire les 30 connexions à l'API
+				Train tchouttchout= new Train("", new Date(), "", gare.getCode(), 0); // on peut mettre direct dans le new le code gare départ
+				// vu qu'on va faire un for pour parcourir la liste des numéros de gare et faire les 30 connexions à l'API
 
-					// récupérer les enfants de ce train, c'est-à dire les balises qu'il contient
-					NodeList traindonnees = train.getChildNodes();
-					int length = traindonnees.getLength();
-					for (int j = 0; j < length; j++) {
-						Node node = traindonnees.item(j);
-						// node type 1 is text
-						if (1 == node.getNodeType()) {
-							if ("date".equals(node.getNodeName())){
-								// the text element is the child node
-								String dateTrain= node.getFirstChild().getTextContent();
-								Date dateT= stringToDate(dateTrain);
-								
-								// on rajoute une heure car dans le datastore il reformate en UTC
-								Date traindate= new Date(dateT.getTime()+3600000);
-								tchouttchout.setDateHeure(traindate);
-								// Récupérer si l'horaire est un horaire réel ou s'il s'agit d'un horaire théorique.
-								// Peut-être que ça peut servir??? 
-								NamedNodeMap mode= node.getAttributes();
-								char modeReeloutheoriue = mode.item(0).getTextContent().charAt(0);
+				// récupérer les enfants de ce train, c'est-à dire les balises qu'il contient
+				NodeList traindonnees = train.getChildNodes();
+				int length = traindonnees.getLength();
+				for (int j = 0; j < length; j++) {
+					Node node = traindonnees.item(j);
+					// node type 1 is text
+					if (1 == node.getNodeType()) {
+						if ("date".equals(node.getNodeName())){
+							// the text element is the child node
+							String dateTrain= node.getFirstChild().getTextContent();
+							Date dateT= stringToDate(dateTrain);
 
-							} else if("num".equals(node.getNodeName())){
-								tchouttchout.setNum(node.getFirstChild().getTextContent());
-							} else if("term".equals(node.getNodeName())){
-								tchouttchout.setCodeUICTerminus(Integer.parseInt(node.getFirstChild().getTextContent()));
-							} else if("etat".equals(node.getNodeName())){
-								tchouttchout.setEtat(node.getFirstChild().getTextContent());
-							}else if("miss".equals(node.getNodeName())){
-								tchouttchout.setMission(node.getFirstChild().getTextContent());
-							}
+							// on rajoute une heure car dans le datastore il reformate en UTC
+							Date traindate= new Date(dateT.getTime()+3600000);
+							tchouttchout.setDateHeure(traindate);
+							// Récupérer si l'horaire est un horaire réel ou s'il s'agit d'un horaire théorique.
+							// Peut-être que ça peut servir??? 
+							NamedNodeMap mode= node.getAttributes();
+							char modeReeloutheoriue = mode.item(0).getTextContent().charAt(0);
 
+						} else if("num".equals(node.getNodeName())){
+							tchouttchout.setNum(node.getFirstChild().getTextContent());
+						} else if("term".equals(node.getNodeName())){
+							tchouttchout.setCodeUICTerminus(Integer.parseInt(node.getFirstChild().getTextContent()));
+						} else if("etat".equals(node.getNodeName())){
+							tchouttchout.setEtat(node.getFirstChild().getTextContent());
+						}else if("miss".equals(node.getNodeName())){
+							tchouttchout.setMission(node.getFirstChild().getTextContent());
 						}
 
 					}
 
-					//					listeTrain.add(tchouttchout);
-					// on va ajouter le train à la datastore si dans plus de 15 minutes et moins de 45mn
-					Date date15m = new Date(dateActuelle.getTime()+0*60000);
-					Date date45m = new Date(dateActuelle.getTime()+45*60000);
-					//					_logger.info("La date +15mn est : " + date15m.toString());
-					//					_logger.info("La date +45mn est : " + date45m.toString());
+				}
 
-					if((tchouttchout.getDateHeure().getTime()-3600000<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()-3600000>date15m.getTime())){
-						_logger.info("On enregistre dans le datastore le petit train");
-						ofy().save().entity(tchouttchout).now();
-						listeTrain.add(tchouttchout);
-					}
+				//					listeTrain.add(tchouttchout);
+				// on va ajouter le train à la datastore si dans plus de 15 minutes et moins de 45mn
+				Date date15m = new Date(dateActuelle.getTime()+15*60000);
+				Date date45m = new Date(dateActuelle.getTime()+45*60000);
+				//					_logger.info("La date +15mn est : " + date15m.toString());
+				//					_logger.info("La date +45mn est : " + date45m.toString());
 
-
+				if((tchouttchout.getDateHeure().getTime()-3600000<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()-3600000>date15m.getTime())){
+					_logger.info("On enregistre dans le datastore le petit train");
+					ofy().save().entity(tchouttchout).now();
+					listeTrain.add(tchouttchout);
 				}
 
 
-
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
 
 
-			//pour les premiers tests j'essaye dans une liste de trains, pour voir ce que ça donne 
-			for(int i=0; i<listeTrain.size();i++){
-				_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
-						+ " num: " + (listeTrain.get(i)).getNum()
-						+ " date: " + (listeTrain.get(i)).getDateHeure() 
-						+ " Mission: " + (listeTrain.get(i)).getMission()
-						+ " Etat: " + (listeTrain.get(i)).getEtat()
-						);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-			}
-//		}
-		
-		// Juste avant de faire les ajouts, on va vider le Datastore pour les Trains dont l'heure est dépassée!
-			 	dateActuelle=new Date();
-				listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
-				if(!listeDesAnciensDeparts.isEmpty()){
-					for (Train t :listeDesAnciensDeparts) {
-						if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
-							_logger.info("On supprime le train " +t.getNum());
-							ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
-						}
-					}
-				}
+
+
+		//pour les premiers tests j'essaye dans une liste de trains, pour voir ce que ça donne 
+		for(int i=0; i<listeTrain.size();i++){
+			_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
+					+ " num: " + (listeTrain.get(i)).getNum()
+					+ " date: " + (listeTrain.get(i)).getDateHeure() 
+					+ " Mission: " + (listeTrain.get(i)).getMission()
+					+ " Etat: " + (listeTrain.get(i)).getEtat()
+					);
+
+		}
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		//TODO ?
-		super.doGet(req, resp);
+	
 
-	}
+}
+
+@Override
+protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+		throws ServletException, IOException {
+	//TODO ?
+	super.doGet(req, resp);
+
+}
 
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO ?
-		super.doPost(req, resp);
-	}
+@Override
+protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+		throws ServletException, IOException {
+	// TODO ?
+	super.doPost(req, resp);
+}
 
-	public static Date stringToDate(String sDate) throws Exception {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		return sdf.parse(sDate);
-	} 
+public static Date stringToDate(String sDate) throws Exception {
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	return sdf.parse(sDate);
+} 
 
 
 }
