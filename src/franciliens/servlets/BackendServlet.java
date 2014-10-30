@@ -72,22 +72,22 @@ public class BackendServlet extends HttpServlet {
 		if(!listeDesAnciensDeparts.isEmpty()){
 			ofy().delete().entities(listeDesAnciensDeparts).now();
 		}
-		//			ArrayList<String> trainAsuppr= new ArrayList<String>();
-		//			if(!listeDesAnciensDeparts.isEmpty()){
-		//								
-		//				for (Train t: listeDesAnciensDeparts) {
-		//					if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
-		//						//_logger.info("On supprime le train " +t.getNum());
-		//						trainAsuppr.add(t.getNum());
-		//						//ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
-		//					}
-		//				}
-		//				ofy().delete().type(Train.class).ids(trainAsuppr).now();
-		//			}
+//					ArrayList<String> trainAsuppr= new ArrayList<String>();
+//					if(!listeDesAnciensDeparts.isEmpty()){
+//										
+//						for (PassageEnGare t: listeDesAnciensDeparts) {
+//							if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
+//								//_logger.info("On supprime le train " +t.getNum());
+//								trainAsuppr.add(t.getNum());
+//								//ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
+//							}
+//						}
+//						ofy().delete().type(PassageEnGare.class).ids(trainAsuppr).now();
+//					}
 
 
 		for (GaresSelectionnees gare : lesFameuses30Gares) {
-		//GaresSelectionnees gare = GaresSelectionnees.ARG;
+		//GaresSelectionnees gare = GaresSelectionnees.LAZ;
 		try {
 			_logger.info("Nous allons accéder à l'api SNCF");
 			URL url = new URL("http://api.transilien.com/gare/"+gare.getCode()+"/depart/");
@@ -160,11 +160,12 @@ public class BackendServlet extends HttpServlet {
 
 				//					listeTrain.add(tchouttchout);
 				// on va ajouter le train à la datastore si dans plus de 15 minutes et moins de 45mn
-				Date date15m = new Date(dateActuelle.getTime()+15*60000);
-				Date date45m = new Date(dateActuelle.getTime()+45*60000);
+				Date date15m = new Date(dateActuelle.getTime()+0*60000);
+				Date date45m = new Date(dateActuelle.getTime()+15*60000);
 				//					_logger.info("La date +15mn est : " + date15m.toString());
 				//					_logger.info("La date +45mn est : " + date45m.toString());
-
+				
+				// ajouter la vérif s'il n'est pas supprimé!
 				if((tchouttchout.getDateHeure().getTime()-3600000<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()-3600000>date15m.getTime())){
 					_logger.info("On enregistre dans le datastore le petit train");
 					ofy().save().entity(tchouttchout).now();
@@ -173,7 +174,6 @@ public class BackendServlet extends HttpServlet {
 
 
 			}
-
 
 
 		} catch (Exception e) {
