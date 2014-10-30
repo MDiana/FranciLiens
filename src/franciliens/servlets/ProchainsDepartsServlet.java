@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import franciliens.data.Train;
+import franciliens.data.PassageEnGare;
 
 @SuppressWarnings("serial")
 public class ProchainsDepartsServlet extends HttpServlet {
 
-	private List<Train> listTrainGareSelect;
+	private List<PassageEnGare> listTrainGareSelect;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// récupérer les données grâce au paramètre du code UIC dans la requête et renvoyer en format JSON les données de la gare
 		int codeGare= Integer.parseInt(req.getParameter("gare"));
-		listTrainGareSelect = ofy().load().type(Train.class).filter("codeUICGareDepart ==", codeGare).list();
-		for(Train t : listTrainGareSelect){
+		listTrainGareSelect = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart ==", codeGare).list();
+		for(PassageEnGare t : listTrainGareSelect){
 			
 		}	
 	}

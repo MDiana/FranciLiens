@@ -29,7 +29,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import franciliens.data.GaresSelectionnees;
-import franciliens.data.Train;
+import franciliens.data.PassageEnGare;
 
 // Finalement utilisation de JAXP DOM --> Faire un tableau contenant tous les numéros de gares et faire une boucle qui fait pour tab[i] les 30 requêtes??
 @SuppressWarnings("serial")
@@ -37,8 +37,8 @@ public class BackendServlet extends HttpServlet {
 
 
 	private static final Logger _logger = Logger.getLogger(BackendServlet.class.getName());
-	private ArrayList<Train> listeTrain;
-	private List<Train> listeDesAnciensDeparts;
+	private ArrayList<PassageEnGare> listeTrain;
+	private List<PassageEnGare> listeDesAnciensDeparts;
 	private Document apiResult;
 	private GaresSelectionnees []lesFameuses30Gares = GaresSelectionnees.values();
 
@@ -68,7 +68,7 @@ public class BackendServlet extends HttpServlet {
 		// Juste après de faire les ajouts, on va vider le Datastore 
 		// Dans l'idéal, pour limiter les écritures, il serait judicieux de ne supprimer que ceux dont l'heure est dépassée!
 		dateActuelle=new Date();
-		listeDesAnciensDeparts = ofy().load().type(Train.class).list(); // à peu près 300 lectures (*48= 14 400)
+		listeDesAnciensDeparts = ofy().load().type(PassageEnGare.class).list(); // à peu près 300 lectures (*48= 14 400)
 		if(!listeDesAnciensDeparts.isEmpty()){
 			ofy().delete().entities(listeDesAnciensDeparts).now();
 		}
@@ -114,14 +114,14 @@ public class BackendServlet extends HttpServlet {
 			// Récupérer tous les trains
 			NodeList listTrain = rootElement.getElementsByTagName("train");
 
-			listeTrain = new ArrayList<Train>();
+			listeTrain = new ArrayList<PassageEnGare>();
 
 			// boucle for pour récupérer tous les trains en questions on va traiter pour chaque train
 			int listTrainCount = listTrain.getLength();
 			for (int i =0; i<listTrainCount; i++) {
 				Node train = listTrain.item(i);
 
-				Train tchouttchout= new Train("", new Date(), "", gare.getCode(), 0); // on peut mettre direct dans le new le code gare départ
+				PassageEnGare tchouttchout= new PassageEnGare("", new Date(), "", gare.getCode(), 0); // on peut mettre direct dans le new le code gare départ
 				// vu qu'on va faire un for pour parcourir la liste des numéros de gare et faire les 30 connexions à l'API
 
 				// récupérer les enfants de ce train, c'est-à dire les balises qu'il contient

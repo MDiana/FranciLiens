@@ -7,7 +7,7 @@ import com.googlecode.objectify.ObjectifyService;
 public class OfyService {
 	static{
 		factory().register(User.class);
-		factory().register(Train.class);
+		factory().register(PassageEnGare.class);
 		factory().register(Trajet.class);
 	}
 	

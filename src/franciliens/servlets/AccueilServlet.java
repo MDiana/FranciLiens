@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import franciliens.data.GaresSelectionnees;
-import franciliens.data.Train;
+import franciliens.data.PassageEnGare;
 import franciliens.data.Trajet;
 import franciliens.data.User;
 import static franciliens.data.OfyService.ofy;
@@ -96,7 +96,7 @@ public class AccueilServlet extends HttpServlet {
 					codeTrain=trajet.getNumTrain();
 					
 					// Chercher le train correspondans au code
-					Train train = ofy().load().type(Train.class).id(codeTrain).now();
+					PassageEnGare train = ofy().load().type(PassageEnGare.class).id(codeTrain).now();
 					
 					profilElem.getElementById("trajetUser").html("Votre Trajet "
 							+ "<a href=\"/removeTrajet\">"
