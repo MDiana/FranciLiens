@@ -113,4 +113,18 @@ function majTrainsEnregistres() {
 	
 }
 
+function checkAvatar() {
+	alert('appel');
+	var elem = document.getElementById('avatar');
+	var url = elem.getValue();
+	var image = new Image();
+	image.src=url;
+	alert(image.height);
+	if (image.height > 200 || image.width > 200) {
+		Document.getElementById('editionprofil').attr('formnovalidate', 'formnovalidate');
+	} else {
+		Document.getElementById('editionprofil').attr('formnovalidate').remove;		
+	}
+	
+}
 
