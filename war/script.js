@@ -128,3 +128,19 @@ function checkAvatar() {
 	
 }
 
+
+function appelAjax(){
+	var xhr= new XMLHttpRequest();
+	xhr.open('get', 'http://franci-liens.appspot.com/prochainsDeparts');
+	
+	xmlhttp.onreadystatechange=function(){
+	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		  affichageProchainsDepart(JSON.parse(xhr.responseText))
+	  }
+	} 
+}
+
+function affichageProchainsDepart(obj){
+	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
+	// pour récupérer un objet on peut faire obj.lenomdel'attributqu'onveut (voir dans le servlet des prochains départs)
+}
