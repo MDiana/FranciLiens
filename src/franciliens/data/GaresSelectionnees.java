@@ -3,17 +3,17 @@ package franciliens.data;
 public enum GaresSelectionnees {
 
 	CDG1(87271460, "Aéroport Ch. De Gaulle 1"),
-	CDG2(87001479, "Aéroport Ch. De Gaulle 2 TGV"),
+//	CDG2(87001479, "Aéroport Ch. De Gaulle 2 TGV"),
 	ARG(87381848, "Argenteuil"),
 	AUL(87271411, "Aulnay-Sous-Bois"),
 	BEL(87393116, "Bellevue"),
-	BIB(87328328, "Bibliothèque François Mitterrand"),
-	BON(87113407, "Bondy"),
+//	BIB(87328328, "Bibliothèque François Mitterrand"),
+//	BON(87113407, "Bondy"),
 	CHA(87758607, "Châtelet les Halles"),
-	COL(87381087, "Colombes"),
-	GEN(87271205, "Gennevilliers"),
+//	COL(87381087, "Colombes"),
+//	GEN(87271205, "Gennevilliers"),
 	DEF(87758011, "Le Défense Grande Arche"),
-	MUR(87386680, "Les Mureaux"),
+//	MUR(87386680, "Les Mureaux"),
 	NAN(87386318, "Nanterres Université"),
 	EXP(87271486, "Parc des Expositions"),
 	AUS(87547026, "Paris Austerlitz"),
@@ -23,15 +23,15 @@ public enum GaresSelectionnees {
 	MON(87391003, "Paris Montparnasse"),
 	NORD(87271007, "Paris Nord"),
 	LAZ(87384008, "Paris Saint-Lazare"),
-	PUT(87382382, "Puteaux"),
-	CYR(87393223, "Saint-Cyr"),
+//	PUT(87382382, "Puteaux"),
+//	CYR(87393223, "Saint-Cyr"),
 	GER(87382804, "Saint-Germain-En-Laye GC"),
 	QUEN(87393843, "Saint-Quentin en Y. Montigny le B."),
 	STDF(87164780, "Stade de France Saint-Denis"),
 	CHANT(87393009, "Versailles Chantiers"),
-	CHAT(87393157, "Versailles Château Rive Gauche"),
-	VIT(87545293, "Vitry-Sur-Seine"),
-	VIL(87113795, "Villiers-Sur-Marne Le Plessis Trévise");
+	CHAT(87393157, "Versailles Château Rive Gauche");
+//	VIT(87545293, "Vitry-Sur-Seine"),
+//	VIL(87113795, "Villiers-Sur-Marne Le Plessis Trévise");
 	
 	private int code=0;
 	private String nom="";

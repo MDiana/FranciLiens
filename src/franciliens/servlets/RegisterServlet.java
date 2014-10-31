@@ -24,9 +24,10 @@ import franciliens.data.User;
 public class RegisterServlet extends HttpServlet {
 
 	// localhost:8888
+	//franci-liens.appspot.com
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://localhost:8888/";
+	private String url= "http://franci-liens.appspot.com/";
 	private ArrayList<String> errorList;
 
 	@Override

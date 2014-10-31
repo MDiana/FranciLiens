@@ -5,16 +5,15 @@ import java.util.Date;
 import com.googlecode.objectify.annotation.*;
 
 @Entity
-@Index
 public class PassageEnGare {
 
 	@Id Long id;
 	private String num;
-	private Date dateHeure;
-	private String mission;
-	private String etat;
+	@Index private Date dateHeure;
+	@Unindex private String mission;
+	@Unindex private String etat;
 	private int codeUICGareDepart;
-	private int codeUICTerminus;
+	@Unindex private int codeUICTerminus;
 
 	@SuppressWarnings("unused")
 	private PassageEnGare() {}
@@ -76,9 +75,9 @@ public class PassageEnGare {
 		this.codeUICTerminus = codeUICTerminus;
 	}
 
-	// equals peut-être utile: deux trains sont équivalents si même numéro et même date
+	// equals peut-être utile: deux trains sont équivalents si même numéro, même date, même gare départ
 	public boolean equals(PassageEnGare t){
-		if((this.dateHeure==t.getDateHeure()) &&(this.num == t.num)){
+		if((this.dateHeure==t.getDateHeure()) &&(this.num == t.num) && (this.codeUICGareDepart == t.getCodeUICGareDepart())){
 			return true;
 		} else return false;
 	}

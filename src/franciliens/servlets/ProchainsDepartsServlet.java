@@ -47,6 +47,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 			}
 		}	
 		
+		
 		//resp.setContentType("application/json");
 		PrintWriter out = resp.getWriter();
 		out.print(listDespassagesJson.toString());

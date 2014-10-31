@@ -116,7 +116,7 @@ function majTrainsEnregistres() {
 function checkAvatar() {
 	alert('appel');
 	var elem = document.getElementById('avatar');
-	var url = elem.getValue();
+	var url = elem.value;
 	var image = new Image();
 	image.src=url;
 	alert(image.height);
