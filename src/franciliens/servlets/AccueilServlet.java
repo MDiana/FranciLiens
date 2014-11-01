@@ -159,6 +159,8 @@ public class AccueilServlet extends HttpServlet {
 				contentElem.appendChild(trajetsElem);
 				firstGetDone=true;
 			}
+			
+			req.getSession().setAttribute("prevurl", "/accueil");
 
 			/*
 			 * Envoyer le résultat
@@ -170,18 +172,6 @@ public class AccueilServlet extends HttpServlet {
 
 			out.flush();
 			out.close();
-		}
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		boolean isSessionNew = VerifSession.isSessionNew(req);
-		
-		if (isSessionNew) {
-			resp.sendRedirect("/login");
-		} else {
-			super.doPost(req, resp);
 		}
 	}
 }

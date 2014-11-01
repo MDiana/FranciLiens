@@ -159,6 +159,8 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				contentElem.appendChild(trajetsElem);
 				firstGetDone=true;
 			}
+			
+			req.getSession().setAttribute("prevurl", "/enregistrerTrajet");
 
 			/*
 			 * Envoyer le résultat
