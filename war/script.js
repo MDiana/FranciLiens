@@ -114,12 +114,12 @@ function majTrainsEnregistres() {
 }
 
 function checkAvatar() {
-	alert('appel');
+	//alert('appel');
 	var elem = document.getElementById('avatar');
 	var url = elem.value;
 	var image = new Image();
 	image.src=url;
-	if (image.height <= 200 && image.width <= 200) {
+	if (image.height >= 200 || image.width >= 200) {
 		document.getElementById('verifavatar').innerHTML = 'Trop grand !';
 		return false;
 	} else {
@@ -138,6 +138,7 @@ function checkEditProfile() {
 
 function appelAjax(){
 	var xhr= new XMLHttpRequest();
+	// Rajouter le ?avec le paramètre de la gare :D
 	xhr.open('get', 'http://franci-liens.appspot.com/prochainsDeparts');
 	
 	xmlhttp.onreadystatechange=function(){
