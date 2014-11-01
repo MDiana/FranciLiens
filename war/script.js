@@ -142,16 +142,55 @@ function appelAjax(){
 	
 	xmlhttp.onreadystatechange=function(){
 	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
-		  affichageProchainsDepart(JSON.parse(xhr.responseText))
+		  
 	  }
 	} 
 }
 
-function affichageProchainsDepart(obj){
+function affichageProchainsDepart(arr){
 	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
-	// pour récupérer un objet on peut faire obj.lenomdel'attributqu'onveut (voir dans le servlet des prochains départs)
+	// pour récupérer un objet on peut faire obj.lenom del'attribut qu'on veut (voir dans le servlet des prochains départs)
+	var tableTrajets = document.getElementById('trajets');
+	var ligne = "";
+	var num = "";
+	var date = "";
+	var mission = "";
+	var term = "";
+	var objDepart ;
+	var train = new Array();
+	for (i=0; i< arr.length; i++ ){
+		var objDepart = arr[i];
+		num = objDepart.num;
+		date = objDepart.date;
+		mission = objDepart.mission;
+		term = objDepart.term;
+		//construction dynamique d'une ligne de tableau
+		var infos = new Array();
+		infos.push(date); 
+		infos.push(mission);
+		infos.push(term);
+		var tr = document.createElement('TR');
+		for(j = 0; j<3; j++){
+			var td = document.createElement('TD');
+			td.appendChild(document.createTextNode(infos[j]));
+			tr.appendChild(td);
+		}
+		tableTrajets.appendChild(tr);
+	}
 }
 
 function majTrains() {
 	var gare = document.getElementById('gare').value;
+	var url = "http://franci-liens.appspot.com/prochainsDeparts?"+gare;
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open('get', url, true);
+	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			var departsArr =  JSON.parse(xhr.responseText);
+			affichageProchainsDepart(departsArr);
+		}
+	}
+	xhr.send(null);
 }

@@ -55,7 +55,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ProchainsDepartsServlet</servlet-name>
-		<url-pattern>prochainsDeparts</url-pattern>
+		<url-pattern>prochainsdeparts</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -64,7 +64,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	<servlet-name>BackendServlet</servlet-name>
-	<url-pattern>/trajetload</url-pattern>
+	<url-pattern>trajetload</url-pattern>
 	</servlet-mapping> 
 
 	<servlet>
@@ -73,7 +73,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	<servlet-name>EditionProfil</servlet-name>
-	<url-pattern>/editionprofil</url-pattern>
+	<url-pattern>editionprofil</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -82,7 +82,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	<servlet-name>Invite</servlet-name>
-	<url-pattern>/invite</url-pattern>
+	<url-pattern>invite</url-pattern>
 	</servlet-mapping>
 	
 	
