@@ -20,9 +20,10 @@
 				<option value="h">Homme</option>
 			</select><br />
 			
-			<label for="avatar">Lien vers votre photo de profil</label><br />
+			<label for="avatar">Lien vers votre photo de profil (200x200 max.)
+				<span class="rouge" id="verifavatar"></span></label><br />
 			<input type="url" name="avatar" id="avatar"
-					placeholder="..." onchange="checkAvatar();"><br />
+					placeholder="..."><br />
 			
 			<label for="description">Décrivez-vous</label><br />
 			<textarea name="description" id="description"
@@ -30,12 +31,12 @@
 			
 			<a href="/accueil"><input type="button" value="Annuler"></a>
 			
-			<!-- <noscript> -->
+			<noscript>
 			    <input type="submit" value="Valider">
-			<!-- </noscript> -->
-			<!-- <script type="text/javascript">
+			</noscript>
+			<script type="text/javascript">
 			   document.write("<input type=\"button\" value=\"Valider\" onclick=\"checkEditProfile()\">");
-			</script> -->
+			</script>
 			
 		</fieldset>
 	</form>

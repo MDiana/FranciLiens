@@ -119,14 +119,20 @@ function checkAvatar() {
 	var url = elem.value;
 	var image = new Image();
 	image.src=url;
-	alert(url);
-	alert(image.height);
-	if (image.height > 200 || image.width > 200) {
-		elem.setAttribute('formnovalidate', 'formnovalidate');
+	if (image.height <= 200 && image.width <= 200) {
+		document.getElementById('verifavatar').innerHTML = 'Trop grand !';
+		return false;
 	} else {
-		elem.removeAttribute('formnovalidate');		
+		document.getElementById('verifavatar').innerHTML = '';
+		return true;
 	}
-	
+}
+
+function checkEditProfile() {
+	var avatarOK = checkAvatar();
+	if (avatarOK) {
+		document.getElementById('editionprofil').submit();
+	}
 }
 
 

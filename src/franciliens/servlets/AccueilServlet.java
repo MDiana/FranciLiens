@@ -25,7 +25,7 @@ public class AccueilServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 
 	@Override
 	public void init() {
