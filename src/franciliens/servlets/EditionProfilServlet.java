@@ -103,13 +103,21 @@ public class EditionProfilServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		System.out.println("post");
+		
 		boolean isSessionNew = VerifSession.isSessionNew(req);
-		if (!isSessionNew) {
+		if (isSessionNew) {
 
-			resp.sendRedirect("/accueil");
+			resp.setStatus(401);
+			PrintWriter out = resp.getWriter();
+			out.println(squelette.html());
+
+			out.flush();
+			out.close();
 
 		} else {
 
+			System.out.println("post ok");
 			/*
 			 * Récupérer les différentes infos
 			 */
@@ -128,7 +136,8 @@ public class EditionProfilServlet extends HttpServlet {
 			user.setSexe(sexe);
 			ofy().save().entity(user).now();
 			
-			resp.sendRedirect(req.getHeader("referer"));
+//			resp.sendRedirect((String)req.getSession().getAttribute("prevurl"));
+			resp.sendRedirect("/accueil");
 			
 		}
 	}

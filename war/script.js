@@ -130,7 +130,8 @@ function checkAvatar() {
 function checkEditProfile() {
 	var avatarOK = checkAvatar();
 	if (avatarOK) {
-		document.getElementById('editionprofil').submit();
+		alert('avatarOK');
+		document.getElementById('Editionprofil').submit();
 	}
 }
 
