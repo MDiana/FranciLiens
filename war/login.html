@@ -1,27 +1,42 @@
 <!--C'est ici que commence la partie à ajouter dans notre squelette-->
-<div name="formulaireconnexion" class="loginform" id="login">
-	<form name="formulairelogin" action="login" method="post"
-		accept-charset="utf-8">
-		<fieldset class="loginfieldset">
-			<legend>Connexion</legend>
-			<label for="mail">Email</label>
-			<input type="email" name="mail"
-				placeholder="votremail@email.com" required autofocus>
-			<br />
+<div id="login">
 
-			<label for="password">Mot de passe</label>
-			<input type="password"
-				name="password" placeholder="password" required>
-			<br /> <br />
-			
-			<input type="submit" value="Se connecter">
-			<br /> <br /><br />
+	<div class="encartApropos" id="apropos">
+		<h3>Qu'est-ce que Franci'Liens ?</h3>
+			Franci'Liens est un site internet permettant aux Franciliens de se rencontrer le 
+			temps d'un trajet de train. Cherchez parmis les trajets enregistrés par nos membres
+			quelqu'un avec qui vous pourriez passer un agréable trajet, ou bien enregistrez
+			vous-même votre prochain trajet afin de permettre à nos membres de vous inviter à passer 
+			un trajet de train en leur compagnie.
+			<br /><br />
+			Franci'Liens, c'est des rencontres simples, rapides, sans prise de tête, pour échanger 
+			et rencontrer facilement.
+	</div>
 
-			<p class="inscrivezvous">
-				Pas encore de compte ? <a class="lien" href="/register">Inscrivez-vous !</a>
-			</p>
-		</fieldset>
-
-	</form>
+	<div class="loginform" id="encartlogin">
+		<form name="formulairelogin" action="login" method="post"
+			accept-charset="utf-8">
+			<fieldset class="loginfieldset">
+				<legend>Connexion</legend>
+				<label for="mail">Email</label>
+				<input type="email" name="mail"
+					placeholder="votremail@email.com" required autofocus>
+				<br />
+	
+				<label for="password">Mot de passe</label>
+				<input type="password"
+					name="password" placeholder="password" required>
+				<br /> <br />
+				
+				<input type="submit" value="Se connecter">
+				<br /> <br /><br />
+	
+				<p class="inscrivezvous">
+					Pas encore de compte ? <a class="lien" href="/register">Inscrivez-vous !</a>
+				</p>
+			</fieldset>
+	
+		</form>
+	</div>
 </div>
 <!--Fin de la partie à ajouter dans notre squelette-->

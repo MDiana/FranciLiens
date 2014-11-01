@@ -19,7 +19,8 @@ public class Trajet {
 		this.pseudoUsager = pseudoUsager;
 	}
 
-	public Long getIdPassager() {
+
+	public Long getIdPassage() {
 		return idPassage;
 	}
 

@@ -56,7 +56,8 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 				trajet.put("age", userTrajet.getAge());
 				trajet.put("term",peg.getCodeUICTerminus());
 				trajet.put("description", userTrajet.getDescription());
-				
+
+
 				listDesTrajetsEnregistres.put(trajet);
 				
 			}
