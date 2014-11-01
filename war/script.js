@@ -137,6 +137,7 @@ function checkEditProfile() {
 
 function appelAjax(){
 	var xhr= new XMLHttpRequest();
+	// Rajouter le ?avec le paramètre de la gare :D
 	xhr.open('get', 'http://franci-liens.appspot.com/prochainsDeparts');
 	
 	xmlhttp.onreadystatechange=function(){

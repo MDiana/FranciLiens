@@ -39,7 +39,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 		for(PassageEnGare t : listTrainGareSelect){
 			try {
 				passage.put("num", t.getNum());
-				//Pas besoin de rajouter une heure car c'est fait 
+				d=new Date(t.getDateHeure().getTime()-3600000);
 				passage.put("date",  d.toString());
 				passage.put("mission", t.getMission());
 				passage.put("term", t.getCodeUICTerminus());
