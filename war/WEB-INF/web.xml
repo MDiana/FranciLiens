@@ -84,6 +84,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-name>Invite</servlet-name>
 	<url-pattern>invite</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>APropos</servlet-name>
+		<servlet-class>franciliens.servlets.AProposServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>APropos</servlet-name>
+	<url-pattern>apropos</url-pattern>
+	</servlet-mapping>
 	
 	
 	<welcome-file-list>

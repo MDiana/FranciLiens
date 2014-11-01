@@ -93,7 +93,7 @@ public class AccueilServlet extends HttpServlet {
 					
 					// Il existe un trajet enregistré
 					Trajet trajet = trajetEnregistre.get(0);
-					codeTrain=trajet.getNumTrain();
+//					codeTrain=trajet.getNumTrain();
 					
 					// Chercher le train correspondans au code
 					PassageEnGare train = ofy().load().type(PassageEnGare.class).id(codeTrain).now();

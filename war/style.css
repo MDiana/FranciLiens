@@ -72,14 +72,27 @@ a:link {
 }
 
 /* LOGIN */
-.loginform {
-	padding-top: 1em;
-	padding-bottom: 1em;
+.encartApropos {
+	float: left;
+	width: 30%;
+	height: auto;
 	background: rgba(255, 255, 255, .9);
 	border-radius: 1.5em;
-	width: 30em;
+	margin-bottom: 1%;
+	margin-right: 2%;
+	margin-left: 11%;
+	padding: 1em;
+}
+
+.loginform {
+	float: left;
+	padding: 1.5em;
+	background: rgba(255, 255, 255, .9);
+	border-radius: 1.5em;
+	width: 38%;
 	height: auto;
 	margin: auto;
+	margin-bottom: 1.3em;
 }
 
 .loginfieldset {
@@ -87,7 +100,8 @@ a:link {
 	font-size: large;
 	border: 1px black solid;
 	border-radius: 1.5em;
-	width: 75%;
+	width: auto;
+	padding:1em;
 }
 
 .content {
@@ -98,11 +112,10 @@ a:link {
 
 /* REGISTER */
 .registerform {
-	padding-top: 1em;
-	padding-bottom: 1em;
+	padding: 1.5em;
 	background: rgba(255, 255, 255, .9);
 	border-radius: 1.5em;
-	width: 30em;
+	width: 25em;
 	height: auto;
 	margin: auto;
 }
@@ -112,7 +125,7 @@ a:link {
 	font-size: large;
 	border: 1px black solid;
 	border-radius: 1.5em;
-	width: 80%;
+	width: auto;
 }
 
 form label {
@@ -305,4 +318,15 @@ table tr:nth-child(even){
 	border: 1px black solid;
 	border-radius: 1.5em;
 	width: 80%;
+}
+
+/* A PROPOS */
+
+.apropos {
+	width: 40%;
+	height: auto;
+	background: rgba(255, 255, 255, .9);
+	border-radius: 1.5em;
+	margin: auto;
+	padding: 1em;
 }
