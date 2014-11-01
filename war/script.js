@@ -176,10 +176,16 @@ function affichageProchainsDepart(arr){
 		for(j = 0; j<4; j++){
 			var td = document.createElement('td');
 			if(j==3){
-				var request = "/enregistrementTrajet?idPassage="+idPassage;
+				var url = "/enregistrementTrajet?idPassage="+idPassage;
 				var adr = document.createElement('a');
+				adr.setAttribute('href', url);
 				
-				td.appendChild(document.createTextNode(infos[j]));
+				var imgSrc = "images/check32.png";
+				var img = document.createElement('img');
+				img.setAttribute('src', imgSrc);
+				
+				td.appendChild(adr);
+				td.appendChild(img);
 			}
 			else{
 				td.appendChild(document.createTextNode(infos[j]));
