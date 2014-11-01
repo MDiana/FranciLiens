@@ -132,7 +132,7 @@ public class InviteServlet extends HttpServlet {
 		if (user.getSexe()==null) {
 			profile+= "agé(e) de ";
 		} else {
-			if (user.getSexe()=='f') {
+			if (user.getSexe().compareTo("femme")==0) {
 				profile += "une femme agée de ";
 			} else {
 				profile += "un homme agé de ";

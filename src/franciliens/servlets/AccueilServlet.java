@@ -53,6 +53,10 @@ public class AccueilServlet extends HttpServlet {
 			
 			// L'utilisateur est loggé : afficher la page 
 			// d'accueil
+			User currentUser;
+			HttpSession session = req.getSession();
+			String pseudo = (String)session.getAttribute("login");
+			currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
 			
 			if (!firstGetDone) {
 
@@ -66,10 +70,6 @@ public class AccueilServlet extends HttpServlet {
 				 * Remplir l'encart de profil
 				 */
 				Element profilElem = accueil.getElementById("encartProfil");
-				
-				HttpSession session = req.getSession();
-				String pseudo = (String)session.getAttribute("login");
-				User currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
 				
 				profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
 				profilElem.getElementById("pseudo").html(pseudo);
@@ -161,6 +161,7 @@ public class AccueilServlet extends HttpServlet {
 			}
 			
 			req.getSession().setAttribute("prevurl", "/accueil");
+			squelette.getElementById("avatar").attr("src", currentUser.getAvatarURL());
 
 			/*
 			 * Envoyer le résultat

@@ -203,6 +203,12 @@ input {
 	text-align: center;
 }
 
+.avatar {
+	max-width: 95%;
+	height: auto;
+	border: 1px black solid;
+}
+
 .avatar,.pseudo {
 	display: block;
 	margin-left: auto;

@@ -9,7 +9,7 @@ public class User {
 	@Index private String login;
 	private String password;
 	@Id private String email;
-	private Character sexe;
+	private String sexe;
 	private String avatarURL;
 	private Text description;
 	private int age;
@@ -55,11 +55,11 @@ public class User {
 		this.email = email;
 	}
 
-	public Character getSexe() {
+	public String getSexe() {
 		return sexe;
 	}
 
-	public void setSexe(Character sexe) {
+	public void setSexe(String sexe) {
 		this.sexe = sexe;
 	}
 

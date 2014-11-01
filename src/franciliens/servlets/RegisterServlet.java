@@ -199,7 +199,7 @@ public class RegisterServlet extends HttpServlet {
 					errorList.clear();
 				}
 				req.getSession(true).setAttribute("login", pseudo);
-				resp.sendRedirect("/editionProfil");
+				resp.sendRedirect("/editionprofil");
 
 
 			} else {

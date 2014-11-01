@@ -56,7 +56,7 @@ public class EditionProfilServlet extends HttpServlet {
 			if (!firstGetDone) {
 
 				/*
-				 * Construction de la page register
+				 * Construction de la page d'édition
 				 */
 				Element contentElem = squelette.getElementById("content");
 				Document editProfile = Jsoup.connect(url+"editProfile.html").get();
@@ -102,26 +102,17 @@ public class EditionProfilServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		System.out.println("post");
 		
 		boolean isSessionNew = VerifSession.isSessionNew(req);
 		if (isSessionNew) {
 
-			resp.setStatus(401);
-			PrintWriter out = resp.getWriter();
-			out.println(squelette.html());
-
-			out.flush();
-			out.close();
+			resp.sendRedirect("/login");
 
 		} else {
-
-			System.out.println("post ok");
 			/*
 			 * Récupérer les différentes infos
 			 */
-			Character sexe = StringEscapeUtils.escapeHtml4(req.getParameter("sexe")).charAt(0);
+			String sexe = StringEscapeUtils.escapeHtml4(req.getParameter("sexe"));
 			String avatar = StringEscapeUtils.escapeHtml4(req.getParameter("avatar"));
 			Text description = new Text(StringEscapeUtils.escapeHtml4(req.getParameter("description")));
 			
@@ -131,14 +122,22 @@ public class EditionProfilServlet extends HttpServlet {
 
 			String pseudo = (String) req.getSession().getAttribute("login");
 			User user = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
-			user.setAvatarURL(avatar);
+			if (avatar!=null && avatar.length()>0) {
+				user.setAvatarURL(avatar);
+			}
 			user.setDescription(description);
 			user.setSexe(sexe);
 			ofy().save().entity(user).now();
 			
-//			resp.sendRedirect((String)req.getSession().getAttribute("prevurl"));
-			resp.sendRedirect("/accueil");
+			resp.sendRedirect((String)req.getSession().getAttribute("prevurl"));
 			
 		}
+	}
+
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		System.out.println("put");
+		super.doPut(req, resp);
 	}
 }

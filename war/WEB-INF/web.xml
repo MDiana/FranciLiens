@@ -73,7 +73,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet>
 	<servlet-mapping>
 	<servlet-name>EditionProfil</servlet-name>
-	<url-pattern>/editionProfil</url-pattern>
+	<url-pattern>/editionprofil</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
