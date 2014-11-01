@@ -116,14 +116,15 @@ function majTrainsEnregistres() {
 function checkAvatar() {
 	alert('appel');
 	var elem = document.getElementById('avatar');
-	var url = elem.getValue();
+	var url = elem.value;
 	var image = new Image();
 	image.src=url;
+	alert(url);
 	alert(image.height);
 	if (image.height > 200 || image.width > 200) {
-		Document.getElementById('editionprofil').attr('formnovalidate', 'formnovalidate');
+		elem.setAttribute('formnovalidate', 'formnovalidate');
 	} else {
-		Document.getElementById('editionprofil').attr('formnovalidate').remove;		
+		elem.removeAttribute('formnovalidate');		
 	}
 	
 }
