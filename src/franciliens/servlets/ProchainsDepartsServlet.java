@@ -55,6 +55,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 				// Avant de faire tout ça, on pourrait vérifier si l'heure n'est pas passé pour certains trains de la liste, pour ne renvoyer que 
 				// ceux que nous voulons afficher (car y a un intervalle de 15 minutes où des trains déjà passés sont encore dans le datastore)
 				passage.put("num", t.getNum());
+				passage.put("idPassage", t.getId());
 				d=new Date(t.getDateHeure().getTime()-3600000);
 				passage.put("date",  d.toString());
 				passage.put("mission", t.getMission());

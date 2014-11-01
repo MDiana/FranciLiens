@@ -152,28 +152,38 @@ function affichageProchainsDepart(arr){
 	// pour récupérer un objet on peut faire obj.lenom del'attribut qu'on veut (voir dans le servlet des prochains départs)
 	var tableTrajets = document.getElementById('trajets');
 	var ligne = "";
-	var num = "";
-	var date = "";
+	//var num = "";
+	var idPassage ;
+	var date ;
 	var mission = "";
 	var term = "";
 	var objDepart ;
 	var train = new Array();
 	for (i=0; i< arr.length; i++ ){
 		var objDepart = arr[i];
-		num = objDepart.num;
+		//num = objDepart.num;
+		idPassage = objDepart.idPassage;
 		date = objDepart.date;
 		mission = objDepart.mission;
 		term = objDepart.term;
 		//construction dynamique d'une ligne de tableau
+	//<a href="/enregistrementTrajet?num=PACA42"><img src="images/check32.png"></a>	
 		var infos = new Array();
 		infos.push(date); 
 		infos.push(mission);
 		infos.push(term);
 		var tr = document.createElement('TR');
-		for(j = 0; j<3; j++){
+		for(j = 0; j<4; j++){
 			var td = document.createElement('TD');
-			td.appendChild(document.createTextNode(infos[j]));
+			if(j==3){
+				var request = "/enregistrementTrajet?idPassage="+num;
+				td.appendChild(document.createTextNode(infos[j]));
+			}
+			else{
+				td.appendChild(document.createTextNode(infos[j]));
+			}
 			tr.appendChild(td);
+			
 		}
 		tableTrajets.appendChild(tr);
 	}
