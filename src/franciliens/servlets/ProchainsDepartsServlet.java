@@ -24,16 +24,16 @@ public class ProchainsDepartsServlet extends HttpServlet {
 
 	private List<PassageEnGare> listPassages;
 
-//	@Override
-//	public void init() throws ServletException {
-//		super.init();
-//		PassageEnGare p1 = new PassageEnGare("12345", new Date(), "PACA", 1, 2);
-//		ofy().save().entity(p1).now();
-//		PassageEnGare p2 = new PassageEnGare("12346", new Date(), "PACA", 1, 2);
-//		ofy().save().entity(p2).now();
-//		PassageEnGare p3 = new PassageEnGare("12347", new Date(), "PACA", 2, 3);
-//		ofy().save().entity(p3).now();
-//	}
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		PassageEnGare p1 = new PassageEnGare("12345", new Date(), "PACA", 1, 2);
+		ofy().save().entity(p1).now();
+		PassageEnGare p2 = new PassageEnGare("12346", new Date(), "PACA", 1, 2);
+		ofy().save().entity(p2).now();
+		PassageEnGare p3 = new PassageEnGare("12347", new Date(), "PACA", 2, 3);
+		ofy().save().entity(p3).now();
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
