@@ -7,20 +7,20 @@ import com.googlecode.objectify.annotation.*;
 public class Trajet {
 
 	@Id private Long id;
-	private int numTrain;
+	private Long idPassage;
 	private String pseudoUsager;
 
 	@SuppressWarnings("unused")
 	private Trajet() {}
 
-	public Trajet(int numTrain, String pseudoUsager) {
+	public Trajet(Long idPassage, String pseudoUsager) {
 		super();
-		this.numTrain = numTrain;
+		this.idPassage = idPassage;
 		this.pseudoUsager = pseudoUsager;
 	}
 
-	public int getNumTrain() {
-		return numTrain;
+	public Long getNumTrain() {
+		return idPassage;
 	}
 
 	public String getPseudoUsager() {
