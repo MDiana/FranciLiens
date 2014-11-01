@@ -75,6 +75,10 @@ public class PassageEnGare {
 	public void setCodeUICTerminus(int codeUICTerminus) {
 		this.codeUICTerminus = codeUICTerminus;
 	}
+	
+	public Long getId(){
+		return this.id;
+	}
 
 	// equals peut-être utile: deux trains sont équivalents si même numéro, même date, même gare départ
 	public boolean equals(PassageEnGare t){

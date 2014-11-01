@@ -46,9 +46,8 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 		
 		// récupérer la liste des trajets enregistrés pour un train donné dans la gare
 		for(PassageEnGare peg : listpassageGare){
-			List <Trajet> tr = ofy().load().type(Trajet.class).filter("numTrain", peg.getNum()).list();
-			count= tr.size();
-			for(int i=0;i<count;i++) trajetsEnregistresPourGare.add(tr.get(i));	
+			List <Trajet> tr = ofy().load().type(Trajet.class).filter("idPassage", peg.getId()).list();
+				
 		}
 		
 		// récupérer les infos de l'utilisateur associé, du passageEnGare associé et créer l'objet JSON
