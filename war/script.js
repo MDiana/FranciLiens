@@ -172,11 +172,13 @@ function affichageProchainsDepart(arr){
 		infos.push(date); 
 		infos.push(mission);
 		infos.push(term);
-		var tr = document.createElement('TR');
+		var tr = document.createElement('tr');
 		for(j = 0; j<4; j++){
-			var td = document.createElement('TD');
+			var td = document.createElement('td');
 			if(j==3){
-				var request = "/enregistrementTrajet?idPassage="+num;
+				var request = "/enregistrementTrajet?idPassage="+idPassage;
+				var adr = document.createElement('a');
+				
 				td.appendChild(document.createTextNode(infos[j]));
 			}
 			else{
