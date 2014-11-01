@@ -9,12 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.images.Image;
 
 import franciliens.data.User;
 
@@ -112,7 +115,22 @@ public class EditionProfilServlet extends HttpServlet {
 			/*
 			 * Récupérer les différentes infos
 			 */
+			Character sexe = StringEscapeUtils.escapeHtml4(req.getParameter("sexe")).charAt(0);
+			String avatar = StringEscapeUtils.escapeHtml4(req.getParameter("avatar"));
+			Text description = new Text(StringEscapeUtils.escapeHtml4(req.getParameter("description")));
+			
+			/*
+			 * Récupérer l'utilisateur courant
+			 */
 
+			String pseudo = (String) req.getSession().getAttribute("login");
+			User user = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
+			user.setAvatarURL(avatar);
+			user.setDescription(description);
+			user.setSexe(sexe);
+			ofy().save().entity(user).now();
+			
+			resp.sendRedirect(req.getHeader("referer"));
 			
 		}
 	}

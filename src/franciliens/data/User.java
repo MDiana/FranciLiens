@@ -4,14 +4,14 @@ import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.*;
 
 @Entity
-@Index
+@Unindex
 public class User {
-	private String login;
-	@Unindex private String password;
+	@Index private String login;
+	private String password;
 	@Id private String email;
 	private Character sexe;
-	@Unindex private String avatarURL;
-	@Unindex private Text description;
+	private String avatarURL;
+	private Text description;
 	private int age;
 
 	@SuppressWarnings("unused")
