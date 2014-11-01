@@ -5,15 +5,16 @@ import java.util.Date;
 import com.googlecode.objectify.annotation.*;
 
 @Entity
+@Unindex
 public class PassageEnGare {
 
 	@Id Long id;
-	private String num;
+	@Index private String num;
 	@Index private Date dateHeure;
-	@Unindex private String mission;
-	@Unindex private String etat;
-	private int codeUICGareDepart;
-	@Unindex private int codeUICTerminus;
+	private String mission;
+	private String etat;
+	@Index private int codeUICGareDepart;
+	private int codeUICTerminus;
 
 	@SuppressWarnings("unused")
 	private PassageEnGare() {}

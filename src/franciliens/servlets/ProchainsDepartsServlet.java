@@ -22,26 +22,36 @@ import franciliens.data.PassageEnGare;
 @SuppressWarnings("serial")
 public class ProchainsDepartsServlet extends HttpServlet {
 
-	private List<PassageEnGare> listTrainGareSelect;
-	
+	private List<PassageEnGare> listPassages;
+
+//	@Override
+//	public void init() throws ServletException {
+//		super.init();
+//		PassageEnGare p1 = new PassageEnGare("12345", new Date(), "PACA", 1, 2);
+//		ofy().save().entity(p1).now();
+//		PassageEnGare p2 = new PassageEnGare("12346", new Date(), "PACA", 1, 2);
+//		ofy().save().entity(p2).now();
+//		PassageEnGare p3 = new PassageEnGare("12347", new Date(), "PACA", 2, 3);
+//		ofy().save().entity(p3).now();
+//	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
 		JSONArray listDespassagesJson= new JSONArray();
 		JSONObject envoi = new JSONObject();
 		JSONObject passage= new JSONObject();
 		TimeZone pdt = TimeZone.getTimeZone("Europe/Paris");
 		TimeZone.setDefault(pdt);
 		Date d= new Date();
-		
+
 		// récupérer les données grâce au paramètre du code UIC dans la requête et renvoyer en format JSON les données de la gare
 		int codeGare= Integer.parseInt(req.getParameter("gare"));
-		listTrainGareSelect = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
+		listPassages = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
 		try {
-		for(PassageEnGare t : listTrainGareSelect){
-				
-			
+			for(PassageEnGare t : listPassages){
+
 				// Avant de faire tout ça, on pourrait vérifier si l'heure n'est pas passé pour certains trains de la liste, pour ne renvoyer que 
 				// ceux que nous voulons afficher (car y a un intervalle de 15 minutes où des trains déjà passés sont encore dans le datastore)
 				passage.put("num", t.getNum());
@@ -49,11 +59,12 @@ public class ProchainsDepartsServlet extends HttpServlet {
 				passage.put("date",  d.toString());
 				passage.put("mission", t.getMission());
 				passage.put("term", t.getCodeUICTerminus());
-				
+
 				listDespassagesJson.put(passage);
 				passage = new JSONObject();
-		}	
-		
+
+			}	
+
 			envoi.put("Prochains Departs", listDespassagesJson);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -62,7 +73,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 		PrintWriter out= resp.getWriter();
 		out.print(envoi);
 	}
-	
 
-		
+
+
 }
