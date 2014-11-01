@@ -33,42 +33,41 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 			throws ServletException, IOException {
 		JSONArray listDesTrajetsEnregistres= new JSONArray();
 		JSONObject envoi = new JSONObject();
-		JSONObject trajet= new JSONObject();
+		JSONObject trajet;
 		TimeZone pdt = TimeZone.getTimeZone("Europe/Paris");
 		TimeZone.setDefault(pdt);
-		Date d= new Date();
+		//Date d= new Date();
 
 		// récupérer les départs d'une gare et regarder si un des num de trains appartient au num 
 		// de la liste des trajets enregistrés
 		int codeGare= Integer.parseInt(req.getParameter("gare"));
 		listpassageGare = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
-		int count;
 		
-		// récupérer la liste des trajets enregistrés pour un train donné dans la gare
+		try {
+		// récupérer la liste des trajets enregistrés dans cette gare
 		for(PassageEnGare peg : listpassageGare){
-			List <Trajet> tr = ofy().load().type(Trajet.class).filter("idPassage", peg.getId()).list();
+			Trajet tr =ofy().load().type(Trajet.class).filter("idPassage", peg.getId()).list().get(0);
+			if(tr!=null){
+				trajet=new JSONObject();
+				// faire ici la récupération des users etc... et on crée l'objet json que l'on ajoute au tableau json
+				User userTrajet= ofy().load().type(User.class).filter("login", tr.getPseudoUsager()).list().get(0);
+				trajet.put("avatarmini", userTrajet.getAvatarURL());
+				trajet.put("pseudo", userTrajet.getLogin());
+				trajet.put("age", userTrajet.getAge());
+				trajet.put("term",peg.getCodeUICTerminus());
+				trajet.put("description", userTrajet.getDescription());
+				
+				listDesTrajetsEnregistres.put(trajet);
+				
+			}
 				
 		}
 		
-		// récupérer les infos de l'utilisateur associé, du passageEnGare associé et créer l'objet JSON
-		if(!trajetsEnregistresPourGare.isEmpty()){
-		try {
-			for(Trajet tra : trajetsEnregistresPourGare){
-			User userTrajet= ofy().load().type(User.class).filter("login", tra.getPseudoUsager()).list().get(0);
-				
-				trajet.put("num", tra.getNumTrain());
-
-
-				listDesTrajetsEnregistres.put(trajet);
-				trajet = new JSONObject();	
-			}
-			envoi.put("Prochains Departs", listDesTrajetsEnregistres);
+			envoi.put("Trajets Enregistres", listDesTrajetsEnregistres);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 			
-		}
-		
 		
 		resp.setContentType("application/json");
 		PrintWriter out= resp.getWriter();
