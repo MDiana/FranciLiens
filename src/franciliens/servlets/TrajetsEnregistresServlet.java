@@ -56,7 +56,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 			for(Trajet tra : trajetsEnregistresPourGare){
 			User userTrajet= ofy().load().type(User.class).filter("login", tra.getPseudoUsager()).list().get(0);
 				
-				trajet.put("num", tra.getNumTrain());
+				trajet.put("num", tra.getIdPassage());
 
 
 				listDesTrajetsEnregistres.put(trajet);

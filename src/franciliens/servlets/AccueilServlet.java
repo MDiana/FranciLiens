@@ -80,7 +80,7 @@ public class AccueilServlet extends HttpServlet {
 				 */
 				
 				List<Trajet> trajetEnregistre = ofy().load().type(Trajet.class).filter("pseudoUsager ==", pseudo).list();
-				int codeTrain=0;
+				Long codePassage=(long) 0;
 				
 				if (trajetEnregistre.size()<1) {
 					
@@ -93,10 +93,10 @@ public class AccueilServlet extends HttpServlet {
 					
 					// Il existe un trajet enregistré
 					Trajet trajet = trajetEnregistre.get(0);
-//					codeTrain=trajet.getNumTrain();
+					codePassage=trajet.getIdPassage();
 					
-					// Chercher le train correspondans au code
-					PassageEnGare train = ofy().load().type(PassageEnGare.class).id(codeTrain).now();
+					// Chercher le passage en gare correspondant à l'id
+					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
 					
 					profilElem.getElementById("trajetUser").html("Votre Trajet "
 							+ "<a href=\"/removeTrajet\">"
@@ -105,11 +105,11 @@ public class AccueilServlet extends HttpServlet {
 							+ "<img src=\"/images/edit24.png\"></a>"
 							+ "<div class=\"infosTrajet\">"
 							+ "Gare de départ : <br //>"
-							+ GaresSelectionnees.getNom(train.getCodeUICGareDepart())+"<br //>"
+							+ GaresSelectionnees.getNom(passage.getCodeUICGareDepart())+"<br //>"
 							+ "Terminus : <br //>"
-							+ GaresSelectionnees.getNom(train.getCodeUICTerminus())+"<br //>"
+							+ GaresSelectionnees.getNom(passage.getCodeUICTerminus())+"<br //>"
 							+ "Heure : <br //>"
-							+ train.getDateHeure()+"</div>");
+							+ passage.getDateHeure()+"</div>");
 				}
 				
 				contentElem.appendChild(profilElem);
@@ -133,9 +133,12 @@ public class AccueilServlet extends HttpServlet {
 					// Trajet existant : utiliser le trajet choisi
 					// (codeTrain !=0)					
 					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
-							filter("numTrain ==", codeTrain).list();
+							filter("numTrain ==", codePassage).list();
 
 					Element trajetsEnrElem = trajetsElem.getElementById("trajets");
+
+					// Chercher le passage en gare correspondant à l'id
+					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
 					
 					for (Trajet trajet : trajetsEnregistres) {
 						
@@ -148,7 +151,7 @@ public class AccueilServlet extends HttpServlet {
 						newEntry.html("<td><img class=\"miniavatar\" src="+ user.getAvatarURL()
 								+"></td><td>" + user.getLogin()
 								+ "</td><td>" + user.getAge()
-								+ "</td><td>" + GaresSelectionnees.getNom(codeTrain)
+								+ "</td><td>" + GaresSelectionnees.getNom(passage.getCodeUICTerminus())
 								+ "</td><td><p class=\"description\">" + user.getDescription()
 								+ "</p></td><td class=\"invitation\">"
 								+ "<a href=\"/invite?recipient=" + user.getLogin()
