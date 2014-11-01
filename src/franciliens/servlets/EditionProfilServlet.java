@@ -129,8 +129,8 @@ public class EditionProfilServlet extends HttpServlet {
 			user.setSexe(sexe);
 			ofy().save().entity(user).now();
 			
-			resp.sendRedirect((String)req.getSession().getAttribute("prevurl"));
-			
+			//resp.sendRedirect((String)req.getSession().getAttribute("prevurl"));
+			resp.sendRedirect("/accueil");
 		}
 	}
 
