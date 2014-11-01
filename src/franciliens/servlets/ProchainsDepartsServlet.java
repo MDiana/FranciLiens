@@ -23,12 +23,14 @@ import franciliens.data.PassageEnGare;
 public class ProchainsDepartsServlet extends HttpServlet {
 
 	private List<PassageEnGare> listTrainGareSelect;
+	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		JSONObject passage= new JSONObject();
 		JSONArray listDespassagesJson= new JSONArray();
-		
+		JSONObject envoi = new JSONObject();
+		JSONObject passage;
 		TimeZone pdt = TimeZone.getTimeZone("Europe/Paris");
 		TimeZone.setDefault(pdt);
 		Date d= new Date();
@@ -36,8 +38,10 @@ public class ProchainsDepartsServlet extends HttpServlet {
 		// récupérer les données grâce au paramètre du code UIC dans la requête et renvoyer en format JSON les données de la gare
 		int codeGare= Integer.parseInt(req.getParameter("gare"));
 		listTrainGareSelect = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart ==", codeGare).list();
+		try {
 		for(PassageEnGare t : listTrainGareSelect){
-			try {
+			passage = new JSONObject();
+			
 				passage.put("num", t.getNum());
 				d=new Date(t.getDateHeure().getTime()-3600000);
 				passage.put("date",  d.toString());
@@ -45,17 +49,15 @@ public class ProchainsDepartsServlet extends HttpServlet {
 				passage.put("term", t.getCodeUICTerminus());
 				
 				listDespassagesJson.put(passage);
-				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
 		}	
 		
-		
-		//resp.setContentType("application/json");
-		PrintWriter out = resp.getWriter();
-		out.print(listDespassagesJson.toString());
-		out.flush();
+			envoi.put("Prochains Departs", listDespassagesJson);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		resp.setContentType("application/json");
+		PrintWriter out= resp.getWriter();
+		out.print(envoi);
 	}
 	
 
