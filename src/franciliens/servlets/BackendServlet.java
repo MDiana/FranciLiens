@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -31,7 +30,6 @@ import org.w3c.dom.NodeList;
 import franciliens.data.GaresSelectionnees;
 import franciliens.data.PassageEnGare;
 
-// Finalement utilisation de JAXP DOM --> Faire un tableau contenant tous les numéros de gares et faire une boucle qui fait pour tab[i] les 30 requêtes??
 @SuppressWarnings("serial")
 public class BackendServlet extends HttpServlet {
 
@@ -50,46 +48,33 @@ public class BackendServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		//Récupérer les données de l'API SNCF. Ensuite les parser puis créer les données dans le datastore
+		//Récupérer les données de l'API SNCF. Ensuite les parser puis créer les données récupéréés dans le datastore
 
 		// Pour des raisons de quotas imposé par GAE pour les écritures dans le datastore,
 		// on peut tenter de faire un cron toutes les 30 minutes et 
 		//qui ne prend en compte que les trains partant dans plus de 30 mn pour chaque gare
 		// et supprimant dans la dataStore tous les trains dont l'heure est dépassée 
 
-		_logger.setLevel(Level.INFO);
+		//_logger.setLevel(Level.INFO);
 
 		TimeZone pdt = TimeZone.getTimeZone("Europe/Paris");
 		TimeZone.setDefault(pdt);
 		Date dateActuelle = new Date();
-
-		_logger.info("La date du système est : " + dateActuelle.toString());
-
-		// Juste après de faire les ajouts, on va vider le Datastore 
-		// Dans l'idéal, pour limiter les écritures, il serait judicieux de ne supprimer que ceux dont l'heure est dépassée!
-		dateActuelle=new Date();
-		listeDesAnciensDeparts = ofy().load().type(PassageEnGare.class).list(); // à peu près 300 lectures (*48= 14 400)
+		// Dans l'idéal, pour limiter les écritures, il serait judicieux de ne supprimer que ceux dont l'heure est dépassée...
+		
+		// quand on récupère, ça rerajoute une heure... Donc on doit comparer à une date supérieure d'une heure.
+		Date dateplus1= new Date(dateActuelle.getTime()+ 3600000);
+		
+		listeDesAnciensDeparts = ofy().load().type(PassageEnGare.class).filter("dateHeure <", dateplus1).list(); 
 		if(!listeDesAnciensDeparts.isEmpty()){
 			ofy().delete().entities(listeDesAnciensDeparts).now();
+			
 		}
-//					ArrayList<String> trainAsuppr= new ArrayList<String>();
-//					if(!listeDesAnciensDeparts.isEmpty()){
-//										
-//						for (PassageEnGare t: listeDesAnciensDeparts) {
-//							if (t.getDateHeure().getTime()<dateActuelle.getTime()) {
-//								//_logger.info("On supprime le train " +t.getNum());
-//								trainAsuppr.add(t.getNum());
-//								//ofy().delete().type(Train.class).id(t.getNum()).now(); // une centaine d'écriture? (48*100 =4800)
-//							}
-//						}
-//						ofy().delete().type(PassageEnGare.class).ids(trainAsuppr).now();
-//					}
-
 
 		for (GaresSelectionnees gare : lesFameuses30Gares) {
 		//GaresSelectionnees gare = GaresSelectionnees.LAZ;
 		try {
-			_logger.info("Nous allons accéder à l'api SNCF");
+			//_logger.info("Nous allons accéder à l'api SNCF");
 			URL url = new URL("http://api.transilien.com/gare/"+gare.getCode()+"/depart/");
 			URLConnection con = url.openConnection();
 			String login = "upmc107:xMcQ2p38";
@@ -97,7 +82,7 @@ public class BackendServlet extends HttpServlet {
 			con.setRequestProperty("Authorization", "Basic " + encodedLogin);
 			con.setDoInput(true);
 
-			_logger.info("Nous avons accedé à l'api SNCF pour les trains de "+gare.getNom());
+			//_logger.info("Nous avons accedé à l'api SNCF pour les trains de "+gare.getNom());
 			// Avec l'API JAXP DOM
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = factory.newDocumentBuilder();
@@ -141,8 +126,8 @@ public class BackendServlet extends HttpServlet {
 							tchouttchout.setDateHeure(traindate);
 							// Récupérer si l'horaire est un horaire réel ou s'il s'agit d'un horaire théorique.
 							// Peut-être que ça peut servir??? 
-							NamedNodeMap mode= node.getAttributes();
-							char modeReeloutheoriue = mode.item(0).getTextContent().charAt(0);
+//							NamedNodeMap mode= node.getAttributes();
+//							char modeReeloutheoriue = mode.item(0).getTextContent().charAt(0);
 
 						} else if("num".equals(node.getNodeName())){
 							tchouttchout.setNum(node.getFirstChild().getTextContent());
@@ -160,16 +145,14 @@ public class BackendServlet extends HttpServlet {
 
 				//					listeTrain.add(tchouttchout);
 				// on va ajouter le train à la datastore si dans plus de 15 minutes et moins de 45mn
-				Date date15m = new Date(dateActuelle.getTime()+0*60000);
-				Date date45m = new Date(dateActuelle.getTime()+15*60000);
-				//					_logger.info("La date +15mn est : " + date15m.toString());
-				//					_logger.info("La date +45mn est : " + date45m.toString());
+				Date date15m = new Date(dateActuelle.getTime()+15*60000);
+				Date date45m = new Date(dateActuelle.getTime()+45*60000);
 				
-				// ajouter la vérif s'il n'est pas supprimé!
-				if((tchouttchout.getDateHeure().getTime()-3600000<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()-3600000>date15m.getTime())){
-					_logger.info("On enregistre dans le datastore le petit train");
+				// vérif si dans l'intervalle + si il est suppr
+				if((tchouttchout.getDateHeure().getTime()-3600000<date45m.getTime()) && (tchouttchout.getDateHeure().getTime()-3600000>date15m.getTime())
+						&& (tchouttchout.getEtat()!="Supprimé ")){
 					ofy().save().entity(tchouttchout).now();
-					listeTrain.add(tchouttchout);
+					//listeTrain.add(tchouttchout);
 				}
 
 
@@ -183,15 +166,16 @@ public class BackendServlet extends HttpServlet {
 
 
 		//pour les premiers tests j'essaye dans une liste de trains, pour voir ce que ça donne 
-		for(int i=0; i<listeTrain.size();i++){
-			_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
-					+ " num: " + (listeTrain.get(i)).getNum()
-					+ " date: " + (listeTrain.get(i)).getDateHeure() 
-					+ " Mission: " + (listeTrain.get(i)).getMission()
-					+ " Etat: " + (listeTrain.get(i)).getEtat()
-					);
+//		for(int i=0; i<listeTrain.size();i++){
+//			_logger.info("Train -> Terminus" + (listeTrain.get(i)).getCodeUICTerminus()
+//					+ " num: " + (listeTrain.get(i)).getNum()
+//					+ " date: " + (listeTrain.get(i)).getDateHeure() 
+//					+ " Mission: " + (listeTrain.get(i)).getMission()
+//					+ " Etat: " + (listeTrain.get(i)).getEtat()
+//					);
+//
+//		}
 
-		}
 	}
 
 	
