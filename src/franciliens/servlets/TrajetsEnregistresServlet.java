@@ -5,6 +5,7 @@ import static franciliens.data.OfyService.ofy;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 import franciliens.data.PassageEnGare;
+import franciliens.data.ToutesGares;
 import franciliens.data.Trajet;
 import franciliens.data.User;
 
@@ -48,7 +50,8 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 				trajet.put("avatarmini", userTrajet.getAvatarURL());
 				trajet.put("pseudo", userTrajet.getLogin());
 				trajet.put("age", userTrajet.getAge());
-				trajet.put("term",peg.getCodeUICTerminus());
+				String term = ToutesGares.getNom(peg.getCodeUICTerminus());
+				trajet.put("term",term);
 				trajet.put("description", userTrajet.getDescription());
 				trajet.put("idPassage", tr.getIdPassage());
 
