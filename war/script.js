@@ -119,7 +119,7 @@ function checkAvatar() {
 	var url = elem.value;
 	var image = new Image();
 	image.src=url;
-	if (image.height >= 200 || image.width >= 200) {
+	if (image.height > 200 || image.width > 200) {
 		document.getElementById('verifavatar').innerHTML = 'Trop grand !';
 		return false;
 	} else {
