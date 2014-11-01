@@ -60,7 +60,6 @@ public class ProchainsDepartsServlet extends HttpServlet {
 				passage.put("date",  d.toString());
 				passage.put("mission", t.getMission());
 				passage.put("term", t.getCodeUICTerminus());
-				passage.put("idpass", t.getId());
 				
 				listDespassagesJson.put(passage);
 				passage = new JSONObject();

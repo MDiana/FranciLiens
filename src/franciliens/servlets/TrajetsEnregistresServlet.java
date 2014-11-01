@@ -4,10 +4,7 @@ import static franciliens.data.OfyService.ofy;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,9 +31,6 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 		JSONArray listDesTrajetsEnregistres= new JSONArray();
 		JSONObject envoi = new JSONObject();
 		JSONObject trajet;
-		TimeZone pdt = TimeZone.getTimeZone("Europe/Paris");
-		TimeZone.setDefault(pdt);
-		//Date d= new Date();
 
 		// récupérer les départs d'une gare et regarder si un des num de trains appartient au num 
 		// de la liste des trajets enregistrés
@@ -56,7 +50,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 				trajet.put("age", userTrajet.getAge());
 				trajet.put("term",peg.getCodeUICTerminus());
 				trajet.put("description", userTrajet.getDescription());
-
+				trajet.put("idPassage", tr.getIdPassage());
 
 				listDesTrajetsEnregistres.put(trajet);
 				
