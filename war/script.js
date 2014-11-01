@@ -151,3 +151,7 @@ function affichageProchainsDepart(obj){
 	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
 	// pour récupérer un objet on peut faire obj.lenomdel'attributqu'onveut (voir dans le servlet des prochains départs)
 }
+
+function majTrains() {
+	var gare = document.getElementById('gare').value;
+}
