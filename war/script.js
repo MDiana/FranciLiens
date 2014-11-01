@@ -150,9 +150,7 @@ function appelAjax(){
 function affichageProchainsDepart(arr){
 	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
 	// pour récupérer un objet on peut faire obj.lenom del'attribut qu'on veut (voir dans le servlet des prochains départs)
-	var tabTrajets = document.getElementById('trajets');
-	
-	var table = 
+	var tableTrajets = document.getElementById('trajets');
 	var ligne = "";
 	var num = "";
 	var date = "";
@@ -167,13 +165,23 @@ function affichageProchainsDepart(arr){
 		mission = objDepart.mission;
 		term = objDepart.term;
 		//construction dynamique d'une ligne de tableau
+		var infos = new Array();
+		infos.push(date); 
+		infos.push(mission);
+		infos.push(term);
+		var tr = document.createElement('TR');
+		for(j = 0; j<3; j++){
+			var td = document.createElement('TD');
+			td.appendChild(document.createTextNode(infos[j]));
+			tr.appendChild(td);
+		}
+		tableTrajets.appendChild(tr);
 	}
 }
 
 function majTrains() {
 	var gare = document.getElementById('gare').value;
 	var url = "http://franci-liens.appspot.com/prochainsDeparts?"+gare;
-	var xmlResponse;
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open('get', url, true);
@@ -184,4 +192,5 @@ function majTrains() {
 			affichageProchainsDepart(departsArr);
 		}
 	}
+	xhr.send(null);
 }
