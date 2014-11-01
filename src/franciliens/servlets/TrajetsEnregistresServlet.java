@@ -24,54 +24,66 @@ import franciliens.data.User;
 public class TrajetsEnregistresServlet extends HttpServlet {
 
 	private List<PassageEnGare> listpassageGare;
-	private List<Trajet> trajetsEnregistresPourGare;
-	
+
+
+
+
+//	@Override
+//	public void init() throws ServletException {
+//		Trajet tr1= new Trajet(new Long("4785074604081152") ,"DieNah");
+//		ofy().save().entity(tr1).now();
+//		Trajet tr2= new Trajet(new Long("4785074604081152") ,"Juju");
+//		ofy().save().entity(tr2).now();
+//	}
+
+
+
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		JSONArray listDesTrajetsEnregistres= new JSONArray();
 		JSONObject envoi = new JSONObject();
-		JSONObject trajet;
+		JSONObject trajet=new JSONObject();
 
 		// récupérer les départs d'une gare et regarder si un des num de trains appartient au num 
 		// de la liste des trajets enregistrés
 		int codeGare= Integer.parseInt(req.getParameter("gare"));
 		listpassageGare = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
-		
+
 		try {
-		// récupérer la liste des trajets enregistrés dans cette gare
-		for(PassageEnGare peg : listpassageGare){
-			Trajet tr =ofy().load().type(Trajet.class).filter("idPassage", peg.getId()).list().get(0);
-			if(tr!=null){
-				trajet=new JSONObject();
-				// faire ici la récupération des users etc... et on crée l'objet json que l'on ajoute au tableau json
-				User userTrajet= ofy().load().type(User.class).filter("login", tr.getPseudoUsager()).list().get(0);
-				trajet.put("avatarmini", userTrajet.getAvatarURL());
-				trajet.put("pseudo", userTrajet.getLogin());
-				trajet.put("age", userTrajet.getAge());
-				String term = ToutesGares.getNom(peg.getCodeUICTerminus());
-				trajet.put("term",term);
-				trajet.put("description", userTrajet.getDescription());
-				trajet.put("idPassage", tr.getIdPassage());
+			// récupérer la liste des trajets enregistrés dans cette gare
+			for(PassageEnGare peg : listpassageGare){
+				List <Trajet> tra = ofy().load().type(Trajet.class).filter("idPassage", peg.getId()).list();
+				if(!tra.isEmpty()){
+				for(Trajet tr : tra){
+					// faire ici la récupération des users etc... et on crée l'objet json que l'on ajoute au tableau json
+					User userTrajet= ofy().load().type(User.class).filter("login", tr.getPseudoUsager()).list().get(0);
+					trajet.put("avatarmini", userTrajet.getAvatarURL());
+					trajet.put("pseudo", userTrajet.getLogin());
+					trajet.put("age", userTrajet.getAge());
+					String terminus = ToutesGares.getNom(peg.getCodeUICTerminus());
+					trajet.put("term",terminus);
+					trajet.put("description", userTrajet.getDescription());
+					trajet.put("idPassage", tr.getIdPassage());
 
-				listDesTrajetsEnregistres.put(trajet);
-				
+					listDesTrajetsEnregistres.put(trajet);
+					trajet=new JSONObject();
+				}
+				}
 			}
-				
-		}
-		
-			envoi.put("Trajets Enregistres", listDesTrajetsEnregistres);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
 			
-		
-		resp.setContentType("application/json");
-		PrintWriter out= resp.getWriter();
-		out.print(envoi);
+				envoi.put("Trajets Enregistres", listDesTrajetsEnregistres);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+
+			resp.setContentType("application/json");
+			PrintWriter out= resp.getWriter();
+			out.print(envoi);
+		}
+
+
+
 	}
-
-
-
-}
