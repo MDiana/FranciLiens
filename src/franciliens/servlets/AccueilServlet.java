@@ -75,7 +75,7 @@ public class AccueilServlet extends HttpServlet {
 				profilElem.getElementById("pseudo").html(pseudo);
 				
 				/*
-				 * TODO Afficher le voyage enregistré s'il existe, un lien pour en 
+				 * Afficher le voyage enregistré s'il existe, un lien pour en 
 				 * enregistrer un sinon.
 				 */
 				

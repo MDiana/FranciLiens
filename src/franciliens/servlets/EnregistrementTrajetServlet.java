@@ -52,9 +52,8 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 		} else {
 
 			// L'utilisateur est loggé : afficher la page 
-			// d'accueil
 
-			//if (!firstGetDone) {
+			if (!firstGetDone) {
 
 				/*
 				 * Construction de la page d'accueil
@@ -101,7 +100,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 					profilElem.getElementById("trajetUser").html("Votre Trajet "
 							+ "<a href=\"/removeTrajet\">"
 							+ "<img src=\"/images/cross24.png\"></a> "
-							+ "<a href=\"/enregistrementTrajet\">"
+							+ "<a href=\"/enregistrertrajet\">"
 							+ "<img src=\"/images/edit24.png\"></a>"
 							+ "<div class=\"infosTrajet\">"
 							+ "Gare de départ : <br //>"
@@ -114,12 +113,12 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 
 				contentElem.appendChild(profilElem);
 
-//				/*
-//				 * TODO Remplir la liste des prochains départs suivant la gare :
-//				 * - Du trajet enregistré s'il existe
-//				 * - De la gare sélectionnée par défaut sinon.
-//				 */
-//
+				/*
+				 * TODO Remplir la liste des prochains départs suivant la gare :
+				 * - Du trajet enregistré s'il existe
+				 * - De la gare sélectionnée par défaut sinon.
+				 */
+
 				Element trajetsElem = accueil.getElementById("encartTrajets");
 				
 				/*
@@ -164,22 +163,22 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 
 				contentElem.appendChild(trajetsElem);
 				firstGetDone=true;
-//				}
-
-				req.getSession().setAttribute("prevurl", "/enregistrertrajet");
-
-				/*
-				 * Envoyer le résultat
-				 */
-				resp.setContentType("text/html; charset=UTF-8");
-				resp.setStatus(400);
-				PrintWriter out = resp.getWriter();
-				out.println(squelette.html());
-
-				out.flush();
-				out.close();
 			}
-		//}
+
+			req.getSession().setAttribute("prevurl", "/enregistrertrajet");
+
+			/*
+			 * Envoyer le résultat
+			 */
+			resp.setContentType("text/html; charset=UTF-8");
+			resp.setStatus(400);
+			PrintWriter out = resp.getWriter();
+			out.println(squelette.html());
+
+			out.flush();
+			out.close();
+
+		}
 	}
 
 	@Override
