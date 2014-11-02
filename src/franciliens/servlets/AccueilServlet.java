@@ -85,8 +85,7 @@ public class AccueilServlet extends HttpServlet {
 				if (trajetEnregistre.size()<1) {
 					
 					// Aucun trajet enregistré
-					profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
-							+ "href=\"/enregistrerTrajet\">Enregistrer un trajet</a><br //>");
+					profilElem.getElementById("trajetUser").html("<a class=\"lien\" " + "href=\"/enregistrertrajet.html\">Enregistrer un trajet</a><br //>");
 					
 					
 				} else {

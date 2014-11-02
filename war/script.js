@@ -199,9 +199,7 @@ function affichageProchainsDepart(arr){
 
 function majTrains() {
 	
-	var gare = document.getElementById('gare').value;
-	
-	//var url = "http://franci-liens.appspot.com/prochainsDeparts?"+gare;
+	var gare = document.getElementById('gareSelect').value;
 	var url = "localhost:8888/prochainsDeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
 	alert ("xmlHttpRequest=" + xmlHttpRequest); 
@@ -218,6 +216,7 @@ function majTrains() {
 }
 
 function majTrainsEnregistres(){
+	
 	var url= "localhost:8888/prochainsDeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
 	alert ("xmlHttpRequest=" + xmlHttpRequest); 
