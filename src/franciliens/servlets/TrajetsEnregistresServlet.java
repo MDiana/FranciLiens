@@ -31,10 +31,10 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 
 //	@Override
 //	public void init() throws ServletException {
-//		Trajet tr1= new Trajet(new Long("4925812092436480") ,"DieNah");
+//		Trajet tr1= new Trajet(new Long("5559130790035456") ,"Juju2");
 //		ofy().save().entity(tr1).now();
-//		Trajet tr2= new Trajet(new Long("6051711999279104") ,"Juju");
-//		ofy().save().entity(tr2).now();
+////		Trajet tr2= new Trajet(new Long("6051711999279104") ,"Juju");
+////		ofy().save().entity(tr2).now();
 //	}
 
 
