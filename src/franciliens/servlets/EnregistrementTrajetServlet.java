@@ -67,33 +67,35 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				 */
 				
 				HttpSession session = req.getSession();
+				String pseudo = (String) session.getAttribute("login");
 				
-				Long idTrajet = (Long) session.getAttribute("trajetEnregistre");
+//				Long idTrajet = (Long) session.getAttribute("trajetEnregistre");
+				List<Trajet> t = ofy().load().type(Trajet.class).filter("pseudoUsager", pseudo).list();
+				
 				
 				Trajet trajet;
 				
-				if (idTrajet == null) {
+				if (t.size() < 1) {
 
 					/*
 					 * Si aucun trajet n'existe : en créer un
 					 */
 					
-					String pseudo = (String) session.getAttribute("login");
 					trajet = new Trajet(idPassage, pseudo);
-					session.setAttribute("trajetEnregistre", trajet.getId());
+//					session.setAttribute("trajetEnregistre", trajet.getId());
 					
 				} else {
 					
 					/*
 					 * Sinon, écraser le trajet existant
 					 */
+					System.out.println("on écrase");
 					
-					trajet = ofy().load().type(Trajet.class).id(idTrajet).now();
+					trajet = t.get(0);
 					trajet.setIdPassage(idPassage);
 				}
 				
 				ofy().save().entity(trajet).now();
-				System.out.println("enregistrement fait, retour accueil");
 				
 				req.removeAttribute("idPassage");
 				resp.sendRedirect("/accueil");
@@ -101,7 +103,6 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 			} else {
 
 				// Affichage normal de la page
-				System.out.println("affichage normal");
 
 				HttpSession session = req.getSession();
 				String pseudo = (String)session.getAttribute("login");

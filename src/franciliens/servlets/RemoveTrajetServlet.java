@@ -1,6 +1,7 @@
 package franciliens.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,11 +28,12 @@ public class RemoveTrajetServlet extends HttpServlet {
 			
 			HttpSession session = req.getSession();
 			String pseudo = (String) session.getAttribute("login");
-			Long idTrajetEnregistre = (Long) session.getAttribute("trajetEnregistre");
 			
-			if (idTrajetEnregistre !=null) {
+			List<Trajet> t = ofy().load().type(Trajet.class).filter("pseudoUsager", pseudo).list();
+			
+			if (t.size() > 0) {
 
-				Trajet trajet = ofy().load().type(Trajet.class).id(idTrajetEnregistre).now();
+				Trajet trajet = t.get(0);
 				
 				if (trajet != null && trajet.getPseudoUsager().compareTo(pseudo)==0) {
 					
