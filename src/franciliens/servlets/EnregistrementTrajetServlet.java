@@ -121,6 +121,11 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 //				 */
 //
 				Element trajetsElem = accueil.getElementById("encartTrajets");
+				
+				/*
+				 * Générer les options du select
+				 */
+				trajetsElem.getElementById("gareSelect").html(GaresSelectionnees.genererOptionsSelect());
 //
 //				if (trajetEnregistre.size()<1) {
 //

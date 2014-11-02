@@ -122,6 +122,11 @@ public class AccueilServlet extends HttpServlet {
 				
 				Element trajetsElem = accueil.getElementById("encartTrajets");
 				
+				/*
+				 * Générer les options du select
+				 */
+				trajetsElem.getElementById("gareSelect").html(GaresSelectionnees.genererOptionsSelect());
+				
 				if (trajetEnregistre.size()<1) {
 					
 					// Pas de trajet enregistré : utiliser la gare par défaut

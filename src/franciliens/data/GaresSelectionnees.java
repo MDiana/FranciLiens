@@ -66,4 +66,13 @@ public enum GaresSelectionnees {
 		}
 		return 0;
 	}
+	
+	public static String genererOptionsSelect() {
+		String options="";
+		for (GaresSelectionnees gare : values()) {
+			options+=("<option value=\""+gare.code+"\">"
+					+ gare.nom + "</option>\n");
+		}
+		return options;
+	}
 }
