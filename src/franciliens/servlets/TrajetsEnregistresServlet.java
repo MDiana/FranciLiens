@@ -65,7 +65,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 					trajet.put("age", userTrajet.getAge());
 					String terminus = ToutesGares.getNom(peg.getCodeUICTerminus());
 					trajet.put("term",terminus);
-					trajet.put("description", userTrajet.getDescription());
+					trajet.put("description", userTrajet.getDescription().getValue());
 					trajet.put("idPassage", tr.getIdPassage());
 
 					listDesTrajetsEnregistres.put(trajet);
@@ -74,7 +74,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 				}
 			}
 			
-				envoi.put("Trajets Enregistres", listDesTrajetsEnregistres);
+				envoi.put("trajetsEnregistres", listDesTrajetsEnregistres);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

@@ -215,7 +215,7 @@ function majTrains() {
  */
 
 function majTrainsEnregistres(){
-	var garenom= document.getElementById('gareSelect').value;
+	var gare= document.getElementById('gareSelect').value;
 	var url= "http://localhost:8888/trajetsenregistresaff?gare="+gare;
 	var xhr = new XMLHttpRequest();
 	xhr.open('get', url, true);
@@ -223,56 +223,79 @@ function majTrainsEnregistres(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			alert("appel ajax fonctionne 1");
 			// a-t-on vraiment besoin de parser? Ne récupère-t-on pas directement un objet JSON et pas une chaîne de caractère?
-			var trajets =  JSON.parse(xhr.responseText);
-			//var trajets = eval('(' + xhr.responseText + ')');
-			affichageTrajetsEnregistres(trajets);
+			var data =  JSON.parse(xhr.responseText);
+			alert("response=" + xhr.responseText);
+			alert("response=" + JSON.parse(xhr.responseText));
+			affichageTrajetsEnregistres(data);
 		}
 	}
 	xhr.send(null);
 }
 
-function affichageTrajetsEnregistres(tabTrajets){
-	alert('entree dans la fonction');
+function affichageTrajetsEnregistres(data){
+	alert("entree dans la fonction ");
 	var tbody= document.getElementById('trajets').getElementsByTagName('tbody')[0];
 	var tr, td;
-	for(var i=0; i<tabTrajets.length; i++){
-
+	var res= data.trajetsEnregistres;
+	var count= res.length;
+	if(count>0){
+	for(var i=0; i<count; i++){
+		// ici il faudra remettre le tableau à vide aussi :p	
+		
 		alert('on a un élément');
 		//création de la ligne
 		tr = document.createElement('tr');
 		
 		//puis des colonnes
-		var photo = tabTrajets[i].avatarmini;
+		var photo = res[i].avatarmini;
 		td = document.createElement('td');
-		td.appendChild(photo);
+		var miniavatar= document.createElement('img');
+		miniavatar.setAttribute('class', 'miniavatar');
+		miniavatar.setAttribute('src', photo);
+		td.appendChild(miniavatar);
+		//td.appendChild(photo);
 		tr.appendChild(td);
-		var pseudo = tabTrajets[i].pseudo;
+		var pseudo = res[i].pseudo;
 		td = document.createElement('td');
-		td.appendChild(pseudo);
+		var text= document.createTextNode(pseudo);
+		td.appendChild(text);
 		tr.appendChild(td);
-		var age = tabTrajets[i].age;
+		var age = res[i].age;
 		td = document.createElement('td');
-		td.appendChild(age);
+		var text= document.createTextNode(age);
+		td.appendChild(text);
 		tr.appendChild(td);
-		var term = tabTrajets[i].term;
+		var term = res[i].term;
 		td = document.createElement('td');
-		td.appendChild(term);
+		var text= document.createTextNode(term);
+		td.appendChild(text);
 		tr.appendChild(td);
-		var description = tabTrajets[i].description;
+		var description = res[i].description;
 		td = document.createElement('td');
-		td.appendChild(description);
+		td.setAttribute('class', description);
+		var text= document.createTextNode(description);
+		td.appendChild(text);
 		tr.appendChild(td);
+		
 		td = document.createElement('td');
 		var a= document.createElement('a');
+		var image= document.createElement('img');
 		a.setAttribute('href', 'http://google.com');
-		var img= document.createElement('img');
-		img.setAttribute('src', 'images/invite32.png');
-		a.appendChild(img);
+		image.setAttribute('src', 'http://localhost:8888/images/invite32.png');
+		a.appendChild(image);
 		td.appendChild(a);
-		alert("age" + age);
+		
 		
 		tbody.appendChild(tr);
-		//tableauOuAfficher.appendChild(tbody);
+	}
+	
+	}else{
+		// remettre le tableau à vide...
+		var listDesTd = tbody.getElementsByTagName('td');
+		for(var i=0; i< listDesTd.length; i++){
+			tbody.removeChild(listDesTd[i]);
+		}
+		
 	}
 	
 }
