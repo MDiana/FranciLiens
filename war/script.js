@@ -252,9 +252,7 @@ function affichageTrajetsEnregistres(data){
 	var count= res.length;
 	if(count>0){
 	for(var i=0; i<count; i++){
-		// ici il faudra remettre le tableau à vide aussi :p	
-		
-		alert('on a un élément');
+
 		//création de la ligne
 		tr = document.createElement('tr');
 		

@@ -51,7 +51,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 		// de la liste des trajets enregistrés
 		int codeGare= Integer.parseInt(req.getParameter("gare"));
 		listpassageGare = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
-
+		String utilisateurActuelle = req.getSession(true).getAttribute("login").toString();
 		try {
 			// récupérer la liste des trajets enregistrés dans cette gare
 			for(PassageEnGare peg : listpassageGare){
@@ -60,6 +60,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 				for(Trajet tr : tra){
 					// faire ici la récupération des users etc... et on crée l'objet json que l'on ajoute au tableau json
 					User userTrajet= ofy().load().type(User.class).filter("login", tr.getPseudoUsager()).list().get(0);
+					if(!userTrajet.getLogin().equals(utilisateurActuelle)){
 					trajet.put("avatarmini", userTrajet.getAvatarURL());
 					trajet.put("pseudo", userTrajet.getLogin());
 					trajet.put("age", userTrajet.getAge());
@@ -70,6 +71,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 
 					listDesTrajetsEnregistres.put(trajet);
 					trajet=new JSONObject();
+					}
 				}
 				}
 			}
