@@ -93,8 +93,6 @@ public class AccueilServlet extends HttpServlet {
 				firstGetDone=true;
 			}
 			
-
-			
 			/*
 			 * Afficher le voyage enregistré s'il existe, un lien pour en 
 			 * enregistrer un sinon.
@@ -105,6 +103,7 @@ public class AccueilServlet extends HttpServlet {
 			
 			if (trajetEnregistre.size()<1) {
 				
+				System.out.println("pas de trajet enregistré");
 				// Aucun trajet enregistré
 				profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
 						+ "href=\"/enregistrertrajet\">Enregistrer un trajet</a><br //>");
