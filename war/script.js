@@ -183,9 +183,8 @@ function affichageProchainsDepart(arr){
 				var imgSrc = "images/check32.png";
 				var img = document.createElement('img');
 				img.setAttribute('src', imgSrc);
-				
+				adr.appendChild(img);
 				td.appendChild(adr);
-				td.appendChild(img);
 			}
 			else{
 				td.appendChild(document.createTextNode(infos[j]));
