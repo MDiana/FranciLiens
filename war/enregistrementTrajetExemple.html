@@ -93,7 +93,7 @@
 				</form>
 				<br />
 				<div class="divTrajets">
-					<table id="trajets" class = "trajets">
+					<table id="trajetsEnregistres" class = "trajets" onchange="majTrains();>
 						<tr>
 						<th>Heure de départ</th>
 						<th>Mission</th>
@@ -104,7 +104,8 @@
 						<td>12:12</td>
 						<td>PACA</td>
 						<td>CDG</td>
-						<td><a href="/enregistrementTrajet?num=PACA42"><img src="images/check32.png"></a></th>
+						<!--  y a un problème dans cette ligne là on dirait qu'il n'a pas fermé la balise TD  -->
+						<td> <a href="/enregistrementTrajet?num=PACA42"> <img src="images/check32.png"> </a> </td>
 						</tr>
 					</table>
 				</div>
