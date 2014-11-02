@@ -8,6 +8,7 @@ public class Trajet {
 
 	@Id private Long id;
 	private Long idPassage;
+
 	private String pseudoUsager;
 
 	@SuppressWarnings("unused")
@@ -19,9 +20,16 @@ public class Trajet {
 		this.pseudoUsager = pseudoUsager;
 	}
 
+	public Long getId() {
+		return id;
+	}
 
 	public Long getIdPassage() {
 		return idPassage;
+	}
+	
+	public void setIdPassage(Long idPassage) {
+		this.idPassage = idPassage;
 	}
 
 	public String getPseudoUsager() {

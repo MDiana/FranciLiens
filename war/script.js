@@ -166,7 +166,7 @@ function affichageProchainsDepart(arr){
 		for(j = 0; j<4; j++){
 			var td = document.createElement('td');
 			if(j==3){
-				var url = "/enregistrementTrajet?idPassage="+idPassage;
+				var url = "/enregistrertrajet?idPassage="+idPassage;
 				var adr = document.createElement('a');
 				adr.setAttribute('href', url);
 				

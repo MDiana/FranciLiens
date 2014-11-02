@@ -57,6 +57,8 @@ public class AccueilServlet extends HttpServlet {
 			HttpSession session = req.getSession();
 			String pseudo = (String)session.getAttribute("login");
 			currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
+			Document accueil = Jsoup.connect(url+"accueil.html").get();
+			Element profilElem = accueil.getElementById("encartProfil");
 			
 			if (!firstGetDone) {
 
@@ -64,53 +66,13 @@ public class AccueilServlet extends HttpServlet {
 				 * Construction de la page d'accueil
 				 */
 				Element contentElem = squelette.getElementById("content");
-				Document accueil = Jsoup.connect(url+"accueil.html").get();
 				
 				/*
 				 * Remplir l'encart de profil
 				 */
-				Element profilElem = accueil.getElementById("encartProfil");
 				
 				profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
 				profilElem.getElementById("pseudo").html(pseudo);
-				
-				/*
-				 * Afficher le voyage enregistré s'il existe, un lien pour en 
-				 * enregistrer un sinon.
-				 */
-				
-				List<Trajet> trajetEnregistre = ofy().load().type(Trajet.class).filter("pseudoUsager ==", pseudo).list();
-				Long codePassage=new Long("0");
-				
-				if (trajetEnregistre.size()<1) {
-					
-					// Aucun trajet enregistré
-					profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
-							+ "href=\"/enregistrertrajet\">Enregistrer un trajet</a><br //>");
-					
-					
-				} else {
-					
-					// Il existe un trajet enregistré
-					Trajet trajet = trajetEnregistre.get(0);
-					codePassage=trajet.getIdPassage();
-					
-					// Chercher le passage en gare correspondant à l'id
-					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
-					
-					profilElem.getElementById("trajetUser").html("Votre Trajet "
-							+ "<a href=\"/removetrajet\">"
-							+ "<img src=\"/images/cross24.png\"></a> "
-							+ "<a href=\"/enregistrertrajet\">"
-							+ "<img src=\"/images/edit24.png\"></a>"
-							+ "<div class=\"infosTrajet\">"
-							+ "Gare de départ : <br //>"
-							+ GaresSelectionnees.getNom(passage.getCodeUICGareDepart())+"<br //>"
-							+ "Terminus : <br //>"
-							+ GaresSelectionnees.getNom(passage.getCodeUICTerminus())+"<br //>"
-							+ "Heure : <br //>"
-							+ passage.getDateHeure()+"</div>");
-				}
 				
 				contentElem.appendChild(profilElem);
 				
@@ -127,49 +89,48 @@ public class AccueilServlet extends HttpServlet {
 				 */
 				trajetsElem.getElementById("gareSelect").html(GaresSelectionnees.genererOptionsSelect());
 				
-				if (trajetEnregistre.size()<1) {
-					
-					// Pas de trajet enregistré : utiliser la gare par défaut
-					// => Pas possible. Attendre le POST (si pas de JS), ou laisser
-					// JS faire
-					
-				} else {
-					
-					// TODO Code à revoir si on fait un pré-traitement dans la servlet
-					// car on doit afficher les trajets correspondant à la gare de départ
-					// du passage en gare enregistré
-					
-					// Trajet existant : utiliser le trajet choisi
-					// (codeTrain !=0)					
-//					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
-//							filter("numTrain ==", codePassage).list();
-//
-//					Element trajetsEnrElem = trajetsElem.getElementById("trajets");
-//
-//					// Chercher le passage en gare correspondant à l'id
-//					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
-//					
-//					for (Trajet trajet : trajetsEnregistres) {
-//						
-//						// Récupérer le profil usager correspondant
-//						User user = ofy().load().type(User.class).filter("login ==", trajet.getPseudoUsager())
-//								.list().get(0);
-//						
-//						// Construire la ligne du tableau avec les infos
-//						Element newEntry = trajetsEnrElem.appendElement("tr");
-//						newEntry.html("<td><img class=\"miniavatar\" src="+ user.getAvatarURL()
-//								+"></td><td>" + user.getLogin()
-//								+ "</td><td>" + user.getAge()
-//								+ "</td><td>" + GaresSelectionnees.getNom(passage.getCodeUICTerminus())
-//								+ "</td><td><p class=\"description\">" + user.getDescription()
-//								+ "</p></td><td class=\"invitation\">"
-//								+ "<a href=\"/invite?recipient=" + user.getLogin()
-//								+ "\"><img src=\"images/invite32.png\"></a></td>");
-//					}					
-				}
-				
 				contentElem.appendChild(trajetsElem);
 				firstGetDone=true;
+			}
+			
+
+			
+			/*
+			 * Afficher le voyage enregistré s'il existe, un lien pour en 
+			 * enregistrer un sinon.
+			 */
+			
+			List<Trajet> trajetEnregistre = ofy().load().type(Trajet.class).filter("pseudoUsager ==", pseudo).list();
+			Long codePassage=new Long("0");
+			
+			if (trajetEnregistre.size()<1) {
+				
+				// Aucun trajet enregistré
+				profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
+						+ "href=\"/enregistrertrajet\">Enregistrer un trajet</a><br //>");
+				
+				
+			} else {
+				
+				// Il existe un trajet enregistré
+				Trajet trajet = trajetEnregistre.get(0);
+				codePassage=trajet.getIdPassage();
+				
+				// Chercher le passage en gare correspondant à l'id
+				PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
+				
+				profilElem.getElementById("trajetUser").html("Votre Trajet "
+						+ "<a href=\"/removetrajet\">"
+						+ "<img src=\"/images/cross24.png\"></a> "
+						+ "<a href=\"/enregistrertrajet\">"
+						+ "<img src=\"/images/edit24.png\"></a>"
+						+ "<div class=\"infosTrajet\">"
+						+ "Gare de départ : <br //>"
+						+ GaresSelectionnees.getNom(passage.getCodeUICGareDepart())+"<br //>"
+						+ "Terminus : <br //>"
+						+ GaresSelectionnees.getNom(passage.getCodeUICTerminus())+"<br //>"
+						+ "Heure : <br //>"
+						+ passage.getDateHeure()+"</div>");
 			}
 			
 			req.getSession().setAttribute("prevurl", "/accueil");
