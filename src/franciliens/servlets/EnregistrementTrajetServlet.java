@@ -155,6 +155,8 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 
 				} else {
 
+					System.out.println("il existe un trajet enregistré");
+					
 					// Il existe un trajet enregistré
 					Trajet trajet = trajetEnregistre.get(0);
 					idPassage=trajet.getIdPassage();
@@ -174,6 +176,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 							+ GaresSelectionnees.getNom(passage.getCodeUICTerminus())+"<br //>"
 							+ "Heure : <br //>"
 							+ passage.getDateHeure()+"</div>");
+					System.out.println(profilElem.getElementById("trajetUser").html());
 				}
 
 				req.getSession().setAttribute("prevurl", "/enregistrertrajet");
@@ -181,7 +184,11 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				/*
 				 * Envoyer le résultat
 				 */
+				
 				resp.setContentType("text/html; charset=UTF-8");
+				resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+				resp.setDateHeader("Expires", 0); // Proxies.
 				resp.setStatus(400);
 				PrintWriter out = resp.getWriter();
 				out.println(squelette.html());
