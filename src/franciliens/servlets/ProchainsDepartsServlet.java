@@ -20,6 +20,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
 import franciliens.data.GaresSelectionnees;
 import franciliens.data.PassageEnGare;
+import franciliens.data.ToutesGares;
 
 @SuppressWarnings("serial")
 public class ProchainsDepartsServlet extends HttpServlet {
@@ -64,7 +65,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 				String date =sdf.format(d);
 				passage.put("date",  date);
 				passage.put("mission", t.getMission());
-				passage.put("term", t.getCodeUICTerminus());
+				passage.put("term", ToutesGares.getNom(t.getCodeUICTerminus()));
 				
 				listDespassagesJson.put(passage);
 				passage = new JSONObject();

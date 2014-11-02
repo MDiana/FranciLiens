@@ -135,23 +135,10 @@ function checkEditProfile() {
 }
 
 
-function appelAjax(){
-	var xhr= new XMLHttpRequest();
-	// Rajouter le ?avec le paramètre de la gare :D
-	xhr.open('get', 'http://franci-liens.appspot.com/prochainsDeparts');
-	
-	xmlhttp.onreadystatechange=function(){
-	  if (xmlhttp.readyState==4 && xmlhttp.status==200){
-		  
-	  }
-	} 
-}
-
 function affichageProchainsDepart(arr){
 	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
 	// pour récupérer un objet on peut faire obj.lenom del'attribut qu'on veut (voir dans le servlet des prochains départs)
-	var tableTrajets = document.getElementById('trajetsEnregistres');
-	alert("debut affichage "+arr);
+	var tableTrajets = document.getElementById('trajets');
 	var ligne = "";
 	//var num = "";
 	var idPassage ;
@@ -199,18 +186,18 @@ function affichageProchainsDepart(arr){
 	}
 }
 
+/*
+ * mise à jour des prochains départs
+ */
 function majTrains() {
-	//alert(" appel ajax prochains departs");
 	var gare = document.getElementById('gareSelect').value;
-	//alert("gare" + gare);
-	var url = "http://localhost:8888/prochainsDeparts?gare="+gare;
+	var url = "http://localhost:8888/prochainsdeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
 
 	xhr.open('get', url);
 	
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
-			alert("youhu on est ici");
 			var departsArr =  JSON.parse(xhr.responseText);
 			affichageProchainsDepart(departsArr);
 		}

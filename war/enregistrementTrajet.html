@@ -3,7 +3,7 @@
 <div class="encartProfil" id="encartProfil">
 	<div class="interieurEncart">
 		<h3>Mon Profil</h3>
-		<img class="avatar" id="avatar">
+		<img class="avatar" id="avatar" onload="majTrains();">
 		<br />
 		<span class="pseudo" id="pseudo"></span>
 		<br /><br />
@@ -22,7 +22,7 @@
 		<h3>Prochains départs</h3>
 		<form method="post">
 			<select name="gare" id="gareSelect" onchange="majTrains();">
-				<option value="87271460">Aéroport Ch. De Gaulle 1</option>
+				<!-- <option value="87271460">Aéroport Ch. De Gaulle 1</option>
 				<option value="87001479">Aéroport Ch. De Gaulle 2 TGV</option>
 				<option value="87381848">Argenteuil</option>
 				<option value="87271411">Aulnay-Sous-Bois</option>
@@ -51,7 +51,7 @@
 				<option value="87393009">Versailles Chantiers</option>
 				<option value="87393157">Versailles Château Rive Gauche</option>
 				<option value="87545293">Vitry-Sur-Seine</option>
-				<option value="87113795">Villiers-Sur-Marne Le Plessis Trévise</option>
+				<option value="87113795">Villiers-Sur-Marne Le Plessis Trévise</option> -->
 			</select>
 			<noscript>
 				<button type="submit">Valider</button>
