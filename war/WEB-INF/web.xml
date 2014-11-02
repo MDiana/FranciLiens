@@ -44,10 +44,20 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>EnregistrerTrajet</servlet-name>
 		<servlet-class>franciliens.servlets.EnregistrementTrajetServlet</servlet-class>
 	</servlet>
-		<servlet-mapping>
-				<servlet-name>EnregistrerTrajet</servlet-name>
-				<url-pattern>enregistrertrajet</url-pattern>
-		</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EnregistrerTrajet</servlet-name>
+		<url-pattern>enregistrertrajet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RemoveTrajet</servlet-name>
+		<servlet-class>franciliens.servlets.RemoveTrajetServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RemoveTrajet</servlet-name>
+		<url-pattern>removetrajet</url-pattern>
+	</servlet-mapping>
+		
 	<servlet>
 		<servlet-name>TrajetsEnregistresServlet</servlet-name>
 		<servlet-class>franciliens.servlets.TrajetsEnregistresServlet</servlet-class>
