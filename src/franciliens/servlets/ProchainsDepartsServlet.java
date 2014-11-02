@@ -68,7 +68,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 
 			}	
 
-			envoi.put("Prochains Departs", listDespassagesJson);
+			envoi.put("prochainsDeparts", listDespassagesJson);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

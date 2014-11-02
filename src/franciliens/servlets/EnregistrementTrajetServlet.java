@@ -54,7 +54,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 			// L'utilisateur est loggé : afficher la page 
 			// d'accueil
 
-			if (!firstGetDone) {
+			//if (!firstGetDone) {
 
 				/*
 				 * Construction de la page d'accueil
@@ -179,7 +179,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				out.flush();
 				out.close();
 			}
-		}
+		//}
 	}
 
 	@Override

@@ -151,6 +151,7 @@ function affichageProchainsDepart(arr){
 	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
 	// pour récupérer un objet on peut faire obj.lenom del'attribut qu'on veut (voir dans le servlet des prochains départs)
 	var tableTrajets = document.getElementById('trajetsEnregistres');
+	alert("debut affichage "+arr);
 	var ligne = "";
 	//var num = "";
 	var idPassage ;
@@ -159,8 +160,10 @@ function affichageProchainsDepart(arr){
 	var term = "";
 	var objDepart ;
 	var train = new Array();
-	for (i=0; i< arr.length; i++ ){
-		var objDepart = arr[i];
+	var res = arr.prochainsDeparts;
+	var count = res.length;
+	for (i=0; i< count; i++ ){
+		var objDepart = res[i];
 		//num = objDepart.num;
 		idPassage = objDepart.idPassage;
 		date = objDepart.date;
@@ -197,24 +200,23 @@ function affichageProchainsDepart(arr){
 }
 
 function majTrains() {
-	
+	//alert(" appel ajax prochains departs");
 	var gare = document.getElementById('gareSelect').value;
-	var url = "localhost:8888/prochainsDeparts?gare="+gare;
+	//alert("gare" + gare);
+	var url = "http://localhost:8888/prochainsDeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
-	alert ("xmlHttpRequest=" + xmlHttpRequest); 
-	xhr.open('get', url, true);
+
+	xhr.open('get', url);
 	
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
-			alert("appel ajax fonctionne 1");
+			alert("youhu on est ici");
 			var departsArr =  JSON.parse(xhr.responseText);
 			affichageProchainsDepart(departsArr);
 		}
 	}
 	xhr.send(null);
 }
-
-
 /*
  * mise à jour des trajets enregistrés par les utilisateurs suivant 
  * le gare sélectionnée par l'utilisateur
