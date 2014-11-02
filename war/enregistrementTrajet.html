@@ -1,9 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Enregistrement Trajet </title>
+<meta name="author" content="Julia Wisniewski, Diana Malabard, Fjorilda Gjermizi">
+</head>
+<body>
 <!-- Encart Profil -->
 
 <div class="encartProfil" id="encartProfil">
 	<div class="interieurEncart">
 		<h3>Mon Profil</h3>
-		<img class="avatar" id="avatar" onload="majTrains();">
+		<img class="avatar" src="/images/defaultavatar.png" alt="photo du profil" id="avatar" onload="majTrains();">
 		<br />
 		<span class="pseudo" id="pseudo"></span>
 		<br /><br />
@@ -56,7 +64,7 @@
 			<noscript>
 				<button type="submit">Valider</button>
 			</noscript>
-				<img class= "refr" src="/images/refresh.png" onclick="majTrains()" />
+				<img class= "refr" src="/images/refresh.png" alt="refresh" onclick="majTrains()" />
 		</form>
 		<br />
 		<div class="divTrajets">
@@ -71,3 +79,5 @@
 		</div>
 	</div>
 </div>
+</body>
+</html>

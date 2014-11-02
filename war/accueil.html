@@ -1,9 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Accueil</title>
+<meta name="author" content="Julia Wisniewski, Diana Malabard, Fjorilda Gjermizi">
+</head>
+<body>
 <!-- Encart Profil -->
 
 <div class="encartProfil" id="encartProfil">
 	<div class="interieurEncart">
 		<h3>Mon Profil</h3>
-		<img class="avatar" id="avatar" onload="majTrainsEnregistres();"">
+		<img class="avatar" id="avatar" src="/images/defaultavatar.png" alt="photo du profil" onload="majTrainsEnregistres();">
 		<br />
 		<span class="pseudo" id="pseudo"></span>
 		<br /><br />
@@ -61,7 +69,7 @@
 			<noscript>
 				<button type="submit">Valider</button>
 			</noscript>
-				<img class= "refr" src="/images/refresh.png" onclick="majTrainsEnregistres();" />
+				<img class= "refr" src="/images/refresh.png" alt ="refresh" onclick="majTrainsEnregistres();"/>
 		</form>
 		<br />
 		<div class="divTrajets">
@@ -78,3 +86,5 @@
 		</div>
 	</div>
 </div>
+</body>
+</html>

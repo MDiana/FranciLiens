@@ -171,8 +171,8 @@ function affichageProchainsDepart(arr){
 		date = objDepart.date;
 		mission = objDepart.mission;
 		term = objDepart.term;
-		//construction dynamique d'une ligne de tableau
-	//<a href="/enregistrementTrajet?num=PACA42"><img src="images/check32.png"></a>	
+		alert("idPassage "+idPassage);
+		//construction dynamique d'une ligne de tableau	
 		var infos = new Array();
 		infos.push(date); 
 		infos.push(mission);
