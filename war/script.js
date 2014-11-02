@@ -217,14 +217,11 @@ function majTrains() {
 function majTrainsEnregistres(){
 	var gare= document.getElementById('gareSelect').value;
 	var url= "http://localhost:8888/trajetsenregistresaff?gare="+gare;
-	var xhr = new XMLHttpRequest();
-	alert ("xmlHttpRequest=" + xmlHttpRequest); 
+	var xhr = new XMLHttpRequest(); 
 	xhr.open('get', url, true);
 	
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
-			alert("appel ajax fonctionne 1");
-			// a-t-on vraiment besoin de parser? Ne récupère-t-on pas directement un objet JSON et pas une chaîne de caractère?
 			var data =  JSON.parse(xhr.responseText);
 			affichageTrajetsEnregistres(data);
 		}
@@ -254,8 +251,8 @@ function affichageTrajetsEnregistres(data){
 		miniavatar.setAttribute('class', 'miniavatar');
 		miniavatar.setAttribute('src', photo);
 		td.appendChild(miniavatar);
-		//td.appendChild(photo);
 		tr.appendChild(td);
+		
 		var pseudo = res[i].pseudo;
 		td = document.createElement('td');
 		var text= document.createTextNode(pseudo);
@@ -285,6 +282,7 @@ function affichageTrajetsEnregistres(data){
 		image.setAttribute('src', 'http://localhost:8888/images/invite32.png');
 		a.appendChild(image);
 		td.appendChild(a);
+		tr.appendChild(td);
 		
 		
 		tbody.appendChild(tr);
