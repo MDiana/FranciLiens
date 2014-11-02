@@ -214,6 +214,12 @@ function majTrains() {
 	xhr.send(null);
 }
 
+
+/*
+ * mise à jour des trajets enregistrés par les utilisateurs suivant 
+ * le gare sélectionnée par l'utilisateur
+ */
+
 function majTrainsEnregistres(){
 	var gare= document.getElementById('gareSelect').value;
 	var url= "http://localhost:8888/trajetsenregistresaff?gare="+gare;
@@ -231,8 +237,16 @@ function majTrainsEnregistres(){
 
 
 function affichageTrajetsEnregistres(data){
-	alert("entree dans la fonction ");
 	var tbody= document.getElementById('trajets').getElementsByTagName('tbody')[0];
+	
+	//suppression de tous les éléments à chaque tour
+	var listDesTr = tbody.getElementsByTagName('tr');
+	for(var i=1; i< listDesTr.length; i++){
+		while (listDesTr[i].firstChild) {
+			listDesTr[i].removeChild(listDesTr[i].firstChild);
+			}
+	}
+	
 	var tr, td;
 	var res= data.trajetsEnregistres;
 	var count= res.length;
@@ -291,7 +305,7 @@ function affichageTrajetsEnregistres(data){
 	}else{
 		// remettre le tableau à vide...
 		var listDesTr = tbody.getElementsByTagName('tr');
-		for(var i=0; i< listDesTr.length; i++){
+		for(var i=1; i< listDesTr.length; i++){
 			while (listDesTr[i].firstChild) {
 				listDesTr[i].removeChild(listDesTr[i].firstChild);
 				}
