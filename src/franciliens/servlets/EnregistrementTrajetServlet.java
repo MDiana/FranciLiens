@@ -56,8 +56,14 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 			 */
 
 			// Tester si l'argument idPassage est présent
-			Long idPassage = (Long) req.getAttribute("idPassage");
-			System.out.println(req.getAttribute("idPassage"));
+			
+			Long idPassage;
+			if(req.getParameter("idPassage")==null){
+			idPassage= null;
+			}else{
+			idPassage= new Long(req.getParameter("idPassage"));
+			System.out.println(req.getParameter("idPassage"));
+			}
 
 			if (idPassage != null) {
 

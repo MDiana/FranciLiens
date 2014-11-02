@@ -140,18 +140,12 @@ function affichageProchainsDepart(arr){
 	// pour récupérer un objet on peut faire obj.lenom del'attribut qu'on veut (voir dans le servlet des prochains départs)
 	var tableTrajets = document.getElementById('trajets');
 	
-//	var tbody = tableTrajets.getElementsByTagName('tbody');
-//	var listDesTr = tbody.children;
-//	for(var i=1; i< listDesTr.length; i++){
-//		while (listDesTr[i].firstChild) {
-//			listDesTr[i].removeChild(listDesTr[i].firstChild);
-//			}
-//	}
 	var listDesTr = tableTrajets.getElementsByTagName('tr');
 	for(var i=1; i< listDesTr.length; i++){
 		while (listDesTr[i].firstChild) {
 			listDesTr[i].removeChild(listDesTr[i].firstChild);
 			}
+		//tableTrajets.removeChild(listDesTr[i]);
 	}
 	
 	var ligne = "";
