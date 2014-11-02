@@ -85,7 +85,8 @@ public class AccueilServlet extends HttpServlet {
 				if (trajetEnregistre.size()<1) {
 					
 					// Aucun trajet enregistré
-					profilElem.getElementById("trajetUser").html("<a class=\"lien\" " + "href=\"/enregistrertrajet.html\">Enregistrer un trajet</a><br //>");
+					profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
+							+ "href=\"/enregistrertrajet\">Enregistrer un trajet</a><br //>");
 					
 					
 				} else {
@@ -98,9 +99,9 @@ public class AccueilServlet extends HttpServlet {
 					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
 					
 					profilElem.getElementById("trajetUser").html("Votre Trajet "
-							+ "<a href=\"/removeTrajet\">"
+							+ "<a href=\"/removetrajet\">"
 							+ "<img src=\"/images/cross24.png\"></a> "
-							+ "<a href=\"/enregistrementTrajet\">"
+							+ "<a href=\"/enregistrertrajet\">"
 							+ "<img src=\"/images/edit24.png\"></a>"
 							+ "<div class=\"infosTrajet\">"
 							+ "Gare de départ : <br //>"

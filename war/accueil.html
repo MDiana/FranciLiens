@@ -20,8 +20,12 @@
 <div class="encartTrajets" id="encartTrajets">
 	<div class="interieurEncart">
 		<h3>Trajets enregistrés par les Franciliens</h3>
+		<p>Vous trouverez ci-dessous la liste des trajets enregistrés par nos membres.
+		Pour connaître l'heure de départ, envoyez-leur une invitation. L'heure et le lieu de rendez-vous 
+		vous seront envoyés si l'invitation est acceptée.</p>
 		<form method="post">
-			<select name="gare" id="gareSelect" onchange="majTrainsEnregistres();">
+			<select name="gare" id="gareSelect"
+				onchange="majTrainsEnregistres();">
 				<option value="87271460">Aéroport Ch. De Gaulle 1</option>
 				<option value="87001479">Aéroport Ch. De Gaulle 2 TGV</option>
 				<option value="87381848">Argenteuil</option>
@@ -51,7 +55,8 @@
 				<option value="87393009">Versailles Chantiers</option>
 				<option value="87393157">Versailles Château Rive Gauche</option>
 				<option value="87545293">Vitry-Sur-Seine</option>
-				<option value="87113795">Villiers-Sur-Marne Le Plessis Trévise</option>
+				<option value="87113795">Villiers-Sur-Marne Le Plessis
+					Trévise</option>
 			</select>
 			<noscript>
 				<button type="submit">Valider</button>
@@ -60,14 +65,14 @@
 		<br />
 		<div class="divTrajets">
 			<table id="trajets" class="trajets">
-		<tr>
+				<tr>
 					<th>Photo</th>
 					<th>Pseudo</th>
 					<th>Age</th>
 					<th>Terminus</th>
 					<th>Description</th>
 					<th>Inviter ?</th>
-			</tr> 
+				</tr>
 			</table>
 		</div>
 	</div>
