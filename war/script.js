@@ -216,3 +216,21 @@ function majTrains() {
 	}
 	xhr.send(null);
 }
+
+function majTrainsEnregistres(){
+	var url= "localhost:8888/prochainsDeparts?gare="+gare;
+	var xhr = new XMLHttpRequest();
+	alert ("xmlHttpRequest=" + xmlHttpRequest); 
+	xhr.open('get', url, true);
+	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			alert("appel ajax fonctionne 1");
+			var trajets =  JSON.parse(xhr.responseText);
+			affichageTrajetsEnregistres(trajets);
+		}
+	}
+	xhr.send(null);
+}
+
+
