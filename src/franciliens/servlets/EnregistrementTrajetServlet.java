@@ -98,7 +98,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 					// Chercher le train correspondans au code
 					PassageEnGare train = ofy().load().type(PassageEnGare.class).id(codeTrain).now();
 					
-					profilElem.getElementById("trajetUser").html("Votre Trajet "
+			/*		profilElem.getElementById("trajetUser").html("Votre Trajet "
 							+ "<a href=\"/removeTrajet\">"
 							+ "<img src=\"/images/cross24.png\"></a> "
 							+ "<a href=\"/enregistrementTrajet\">"
@@ -109,10 +109,10 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 							+ "Terminus : <br //>"
 							+ GaresSelectionnees.getNom(train.getCodeUICTerminus())+"<br //>"
 							+ "Heure : <br //>"
-							+ train.getDateHeure()+"</div>");
+							+ train.getDateHeure()+"</div>");   */
 				}
 				
-				contentElem.appendChild(profilElem);
+				//contentElem.appendChild(profilElem);
 				
 				/*
 				 * TODO Remplir la liste des trajets suivant la gare :
@@ -122,42 +122,43 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				
 				Element trajetsElem = accueil.getElementById("encartTrajets");
 				
-				if (trajetEnregistre.size()<1) {
-					
-					// Pas de trajet enregistré : utiliser la gare par défaut
-					// => Pas possible. Attendre le POST (si pas de JS), ou laisser
-					// JS faire
-					
-				} else {
-					
+//				if (trajetEnregistre.size()<1) {
+//					
+//					// Pas de trajet enregistré : utiliser la gare par défaut
+//					// => Pas possible. Attendre le POST (si pas de JS), ou laisser
+//					// JS faire
+//					
+//				} else {
+				
+				//if( trajetEnregistre.size() >= 1 ){
 					// Trajet existant : utiliser la gare choisie
 					// (codeTrajet !=0)					
-					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
-							filter("numTrain ==", codeTrain).list();
+				//	List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
+				//			filter("numTrain ==", codeTrain).list();
 
-					Element trajetsEnrElem = trajetsElem.getElementById("trajets");
+				//	Element trajetsEnrElem = trajetsElem.getElementById("trajets");
 					
-					for (Trajet trajet : trajetsEnregistres) {
+				//	for (Trajet trajet : trajetsEnregistres) {
 						
 						// Récupérer le profil usager correspondant
-						User user = ofy().load().type(User.class).filter("login ==", trajet.getPseudoUsager())
-								.list().get(0);
+						//User user = ofy().load().type(User.class).filter("login ==", trajet.getPseudoUsager())
+						//		.list().get(0);
 						
 						// Construire la ligne du tableau avec les infos
-						Element newEntry = trajetsEnrElem.appendElement("tr");
-						newEntry.html("<td><img class=\"miniavatar\" src="+ user.getAvatarURL()
+						//Element newEntry = trajetsEnrElem.appendElement("tr");
+						/*newEntry.html("<td><img class=\"miniavatar\" src="+ user.getAvatarURL()
 								+"></td><td>" + user.getLogin()
 								+ "</td><td>" + user.getAge()
 								+ "</td><td>" + GaresSelectionnees.getNom(codeTrain)
 								+ "</td><td><p class=\"description\">" + user.getDescription()
 								+ "</p></td><td class=\"invitation\">"
 								+ "<a href=\"/invite?recipient=" + user.getLogin()
-								+ "\"><img src=\"images/invite32.png\"></a></td>");
-					}					
-				}
+								+ "\"><img src=\"images/invite32.png\"></a></td>"); */
+					//}					
+				//}
 				
-				contentElem.appendChild(trajetsElem);
-				firstGetDone=true;
+				//contentElem.appendChild(trajetsElem);
+				//firstGetDone=true;
 			}
 			
 			req.getSession().setAttribute("prevurl", "/enregistrerTrajet");
