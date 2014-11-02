@@ -128,25 +128,19 @@ function checkEditProfile() {
  * via le select
  */
 
+
 function affichageProchainsDepart(arr){
 	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
 	// pour récupérer un objet on peut faire obj.lenom de l'attribut qu'on veut (voir dans 
 	// le servlet des prochains départs)
 	var tableTrajets = document.getElementById('trajets');
-
-//	var tbody = tableTrajets.getElementsByTagName('tbody');
-//	var listDesTr = tbody.children;
-//	for(var i=1; i< listDesTr.length; i++){
-//	while (listDesTr[i].firstChild) {
-//	listDesTr[i].removeChild(listDesTr[i].firstChild);
-//	}
-//	}
 	var listDesTr = tableTrajets.getElementsByTagName('tr');
 	for(var i=1; i< listDesTr.length; i++){
 		while (listDesTr[i].firstChild) {
 			listDesTr[i].removeChild(listDesTr[i].firstChild);
 		}
 	}
+
 
 	var ligne = "";
 	//var num = "";
@@ -240,17 +234,16 @@ function affichageTrajetsEnregistres(data){
 	//suppression de tous les éléments à chaque tour
 	var listDesTr = tbody.getElementsByTagName('tr');
 	for (var i=1; i< listDesTr.length; i++) {
-//		while (listDesTr[i].firstChild) {
-//			listDesTr[i].removeChild(listDesTr[i].firstChild);
-			listDesTr[i].remove();
-//		}
+		while (listDesTr[i].firstChild) {
+			listDesTr[i].removeChild(listDesTr[i].firstChild);
+//			listDesTr[i].remove();
+		}
 	}
 
 	var tr, td;
 	var res = data.trajetsEnregistres;
 	var count = res.length;
 	if (count>0) {
-		alert('je rentre dans le count');
 		for (var i=0; i<count; i++) {
 
 			//création de la ligne
