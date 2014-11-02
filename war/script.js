@@ -218,14 +218,14 @@ function majTrains() {
 }
 
 function majTrainsEnregistres(){
-	var url= "localhost:8888/prochainsDeparts?gare="+gare;
+	var garenom= document.getElementById('gareSelect').value;
+	var url= "http://localhost:8888/trajetsenregistresaff?gare="+garenom;
 	var xhr = new XMLHttpRequest();
-	alert ("xmlHttpRequest=" + xmlHttpRequest); 
 	xhr.open('get', url, true);
-	
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			alert("appel ajax fonctionne 1");
+			// a-t-on vraiment besoin de parser? Ne récupère-t-on pas directement un objet JSON et pas une chaîne de caractère?
 			var trajets =  JSON.parse(xhr.responseText);
 			affichageTrajetsEnregistres(trajets);
 		}
@@ -233,4 +233,45 @@ function majTrainsEnregistres(){
 	xhr.send(null);
 }
 
-
+function affichageTrajetsEnregistres(tabTrajets){
+	alert('entree dans cette putain de fonction!');
+	var tableauOuAfficher= document.getElementById('trajets');
+	var tr, td;
+	for(var i=0; i<tabTrajets.length; i++){
+		//création de la ligne
+		tr = document.createElement('tr');
+		
+		
+		//puis des colonnes
+		var photo = tabTrajets[i].avatarmini;
+		td = document.createElement('td');
+		td.appendChild(photo);
+		tr.appendChild(td);
+		var pseudo = tabTrajets[i].pseudo;
+		td = document.createElement('td');
+		td.appendChild(pseudo);
+		tr.appendChild(td);
+		var age = tabTrajets[i].age;
+		td = document.createElement('td');
+		td.appendChild(age);
+		tr.appendChild(td);
+		var term = tabTrajets[i].term;
+		td = document.createElement('td');
+		td.appendChild(term);
+		tr.appendChild(td);
+		var description = tabTrajets[i].description;
+		td = document.createElement('td');
+		td.appendChild(description);
+		tr.appendChild(td);
+		td = document.createElement('td');
+		var a= document.createElement('a');
+		a.setAttribute('href', 'http://google.com');
+		var img= document.createElement('img');
+		img.setAttribute('src', 'images/invite32.png');
+		a.appendChild(img);
+		td.appendChild(a);
+		
+		tableauOuAfficher.appendChild(tr);
+	}
+	
+}

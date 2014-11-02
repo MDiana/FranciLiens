@@ -39,6 +39,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Logout</servlet-name>
 		<url-pattern>logout</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>EnregistrementTrajetServlet</servlet-name>
 		<servlet-class>franciliens.servlets.EnregistrementTrajetServlet</servlet-class>

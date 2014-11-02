@@ -57,4 +57,13 @@ public enum GaresSelectionnees {
 		}
 		return null;
 	}
+	
+	public static int getCode(String nom) {
+		for (GaresSelectionnees g : GaresSelectionnees.values()) {
+			if (g.getNom()==nom) {
+				return g.getCode();
+			}
+		}
+		return 0;
+	}
 }
