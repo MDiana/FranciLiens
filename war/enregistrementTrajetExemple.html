@@ -16,109 +16,99 @@
 
 <body class="accueil">
 	<header>
-	<a href="/accueil"><h1 class="titre">Franci'Liens</h1></a>
+		<a href="/accueil"><h1 class="titre">Franci'Liens</h1></a>
 
-	<p class="accroche">Le site web qui rapproche les Franciliens</p>
+		<p class="accroche">Le site web qui rapproche les Franciliens</p>
 
 	</header>
 
 	<div id="content" class="content">
-	
 		<!-- Encart Profil -->
-		
-		<div class="encartProfil">
+
+		<div class="encartProfil" id="encartProfil">
 			<div class="interieurEncart">
 				<h3>Mon Profil</h3>
-				<img class="avatar" id="avatar" src="images/defaultAvatar.png">
+				<img class="avatar" id="avatar"> <br /> <span class="pseudo"
+					id="pseudo"></span> <br />
+				<br /> <a href="editionprofil" class="lien">Editer mon profil</a> <br />
 				<br />
-				<span class="pseudo" id="pseudo">Mon Pseudo</span>
-				<br /><br />
-				<a href="editionProfil" class="lien">Editer mon profil</a>
-				<br /><br />
-				<div id="trajetUser">
-					Votre Trajet : 
-					<div class="infosTrajet">
-						Gare de départ : <br />
-						Mon Cul<br />
-						Terminus : <br />
-						La commode<br />
-						Heure : <br />
-						10:00 
-					</div>
-				</div>
-				<br /><br />
-				<a href="/logout" class="lien">Se déconnecter</a>
+				<div id="trajetUser"></div>
+				<br />
+				<br /> <a href="/logout" class="lien">Se déconnecter</a>
 			</div>
 		</div>
-		
-		<!-- Encart "Trajets enregistrés -->
-		
-		<div class="encartTrajets">
+
+		<!-- Encart "Prochains départs" -->
+
+		<div class="encartTrajets" id="encartTrajets">
 			<div class="interieurEncart">
-				<h3>Trajets enregistrés par les Franciliens</h3>
+				<h3>Prochains départs</h3>
 				<form method="post">
-				<select onchange="majTrainsEnregistres();">
-					<option value="87271460">Aéroport Ch. De Gaulle 1</option>
-					<option value="87001479">Aéroport Ch. De Gaulle 2 TGV</option>
-					<option value="87381848">Argenteuil</option>
-					<option value="87271411">Aulnay-Sous-Bois</option>
-					<option value="87393116">Bellevue</option>
-					<option value="87328328">Bibliothèque François Mitterrand</option>
-					<option value="87113407">Bondy</option>
-					<option value="87758607">Châtelet les Halles</option>
-					<option value="87381087">Colombes</option>
-					<option value="87271205">Gennevilliers</option>
-					<option value="87758011">Le Défense Grande Arche</option>
-					<option value="87386680">Les Mureaux</option>
-					<option value="87386318">Nanterres Université</option>
-					<option value="87271486">Parc des Expositions</option>
-					<option value="87547026">Paris Austerlitz</option>
-					<option value="87686667">Paris Bercy</option>
-					<option value="87113001">Paris Est</option>
-					<option value="87686006">Paris Gare de Lyon</option>
-					<option value="87391003">Paris Montparnasse</option>
-					<option value="87271007">Paris Nord</option>
-					<option value="87384008">Paris Saint-Lazare</option>
-					<option value="87382382">Puteaux</option>
-					<option value="87393223">Saint-Cyr</option>
-					<option value="87382804">Saint-Germain-En-Laye GC</option>
-					<option value="87393843">Saint-Quentin en Y. Montigny le B.</option>
-					<option value="87164780">Stade de France Saint-Denis</option>
-					<option value="87393009">Versailles Chantiers</option>
-					<option value="87393157">Versailles Château Rive Gauche</option>
-					<option value="87545293">Vitry-Sur-Seine</option>
-					<option value="87113795">Villiers-Sur-Marne Le Plessis Trévise</option>
-				</select>
-				<noscript><button type="submit">Valider</button></noscript>
+					<select name="gare" id="gareSelect" onchange="majTrains();">
+						<option value="87271460">Aéroport Ch. De Gaulle 1</option>
+						<option value="87001479">Aéroport Ch. De Gaulle 2 TGV</option>
+						<option value="87381848">Argenteuil</option>
+						<option value="87271411">Aulnay-Sous-Bois</option>
+						<option value="87393116">Bellevue</option>
+						<option value="87328328">Bibliothèque François Mitterrand</option>
+						<option value="87113407">Bondy</option>
+						<option value="87758607">Châtelet les Halles</option>
+						<option value="87381087">Colombes</option>
+						<option value="87271205">Gennevilliers</option>
+						<option value="87758011">Le Défense Grande Arche</option>
+						<option value="87386680">Les Mureaux</option>
+						<option value="87386318">Nanterres Université</option>
+						<option value="87271486">Parc des Expositions</option>
+						<option value="87547026">Paris Austerlitz</option>
+						<option value="87686667">Paris Bercy</option>
+						<option value="87113001">Paris Est</option>
+						<option value="87686006">Paris Gare de Lyon</option>
+						<option value="87391003">Paris Montparnasse</option>
+						<option value="87271007" selected>Paris Nord</option>
+						<option value="87384008">Paris Saint-Lazare</option>
+						<option value="87382382">Puteaux</option>
+						<option value="87393223">Saint-Cyr</option>
+						<option value="87382804">Saint-Germain-En-Laye GC</option>
+						<option value="87393843">Saint-Quentin en Y. Montigny le
+							B.</option>
+						<option value="87164780">Stade de France Saint-Denis</option>
+						<option value="87393009">Versailles Chantiers</option>
+						<option value="87393157">Versailles Château Rive Gauche</option>
+						<option value="87545293">Vitry-Sur-Seine</option>
+						<option value="87113795">Villiers-Sur-Marne Le Plessis
+							Trévise</option>
+					</select>
+					<noscript>
+						<button type="submit">Valider</button>
+					</noscript>
 				</form>
 				<br />
 				<div class="divTrajets">
-					<table id="trajetsEnregistres" class="trajets" onchange="majTrains()">
+					<table id="trajets" class="trajets" onchange="majTrains();">
 						<tr>
-						<th>Heure de départ</th>
-						<th>Mission</th>
-						<th>Terminus</th>
-						<th>Enregistrer ?</th>
+							<th>Heure de départ</th>
+							<th>Mission</th>
+							<th>Terminus</th>
+							<th>Enregistrer ?</th>
 						</tr>
 						<tr>
-						<td>12:12</td>
-						<td>PACA</td>
-						<td>CDG</td>
-						<!--  y a un problème dans cette ligne là on dirait qu'il n'a pas fermé la balise TD  -->
-						
-						<td> <a href="/enregistrementTrajet?num=PACA42"><img src="images/check32.png"></a> </td>
+							<td>12 : 12</td>
+							<td>PACA</td>
+							<td>CDG1</td>
+							<td class="enregistrement"><a href=""><img src="images/check32.png"></a></td>
 						</tr>
 					</table>
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 	<footer>
-	<p class="footer">
-		<a class="lienFooter" href="apropos.html">À propos</a> | <a class="lienFooter"
-			href="contact.html">Contact</a>
-	</p>
+		<p class="footer">
+			<a class="lienFooter" href="apropos.html">À propos</a> | <a
+				class="lienFooter" href="contact.html">Contact</a>
+		</p>
 	</footer>
 </body>
 </html>
