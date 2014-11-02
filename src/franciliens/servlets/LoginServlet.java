@@ -4,7 +4,6 @@ import static franciliens.data.OfyService.ofy;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +16,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import franciliens.data.Trajet;
 import franciliens.data.User;
 
 @SuppressWarnings("serial")
@@ -26,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
-	private String url= "http://localhost:8888/";
+	private String url= "http://franci-liens.appspot.com/";
 
 	@Override
 	public void init() {
@@ -152,15 +150,6 @@ public class LoginServlet extends HttpServlet {
 				}
 				
 				req.getSession(true).setAttribute("login", u.getLogin());
-				
-				/*
-				 * Charger l'id du trajet enregistré en session s'il existe
-				 */
-				List<Trajet> t = ofy().load().type(Trajet.class).filter("pseudoUsager", u.getLogin()).list();
-				if (t.size()>0) {
-					Trajet trajet = t.get(0);
-					req.getSession().setAttribute("trajetEnregistre", trajet.getId());
-				}
 				resp.sendRedirect("/accueil");
 			}
 		}		
