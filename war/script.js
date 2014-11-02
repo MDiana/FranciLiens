@@ -292,7 +292,7 @@ function affichageTrajetsEnregistres(data){
 		td = document.createElement('td');
 		var a= document.createElement('a');
 		var image= document.createElement('img');
-		a.setAttribute('href', 'http://google.com');
+		a.setAttribute('href', 'http://localhost:8888/invite?recipient=' + pseudo);
 		image.setAttribute('src', 'http://localhost:8888/images/invite32.png');
 		a.appendChild(image);
 		td.appendChild(a);

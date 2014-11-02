@@ -135,33 +135,37 @@ public class AccueilServlet extends HttpServlet {
 					
 				} else {
 					
+					// TODO Code à revoir si on fait un pré-traitement dans la servlet
+					// car on doit afficher les trajets correspondant à la gare de départ
+					// du passage en gare enregistré
+					
 					// Trajet existant : utiliser le trajet choisi
 					// (codeTrain !=0)					
-					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
-							filter("numTrain ==", codePassage).list();
-
-					Element trajetsEnrElem = trajetsElem.getElementById("trajets");
-
-					// Chercher le passage en gare correspondant à l'id
-					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
-					
-					for (Trajet trajet : trajetsEnregistres) {
-						
-						// Récupérer le profil usager correspondant
-						User user = ofy().load().type(User.class).filter("login ==", trajet.getPseudoUsager())
-								.list().get(0);
-						
-						// Construire la ligne du tableau avec les infos
-						Element newEntry = trajetsEnrElem.appendElement("tr");
-						newEntry.html("<td><img class=\"miniavatar\" src="+ user.getAvatarURL()
-								+"></td><td>" + user.getLogin()
-								+ "</td><td>" + user.getAge()
-								+ "</td><td>" + GaresSelectionnees.getNom(passage.getCodeUICTerminus())
-								+ "</td><td><p class=\"description\">" + user.getDescription()
-								+ "</p></td><td class=\"invitation\">"
-								+ "<a href=\"/invite?recipient=" + user.getLogin()
-								+ "\"><img src=\"images/invite32.png\"></a></td>");
-					}					
+//					List<Trajet> trajetsEnregistres = ofy().load().type(Trajet.class).
+//							filter("numTrain ==", codePassage).list();
+//
+//					Element trajetsEnrElem = trajetsElem.getElementById("trajets");
+//
+//					// Chercher le passage en gare correspondant à l'id
+//					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
+//					
+//					for (Trajet trajet : trajetsEnregistres) {
+//						
+//						// Récupérer le profil usager correspondant
+//						User user = ofy().load().type(User.class).filter("login ==", trajet.getPseudoUsager())
+//								.list().get(0);
+//						
+//						// Construire la ligne du tableau avec les infos
+//						Element newEntry = trajetsEnrElem.appendElement("tr");
+//						newEntry.html("<td><img class=\"miniavatar\" src="+ user.getAvatarURL()
+//								+"></td><td>" + user.getLogin()
+//								+ "</td><td>" + user.getAge()
+//								+ "</td><td>" + GaresSelectionnees.getNom(passage.getCodeUICTerminus())
+//								+ "</td><td><p class=\"description\">" + user.getDescription()
+//								+ "</p></td><td class=\"invitation\">"
+//								+ "<a href=\"/invite?recipient=" + user.getLogin()
+//								+ "\"><img src=\"images/invite32.png\"></a></td>");
+//					}					
 				}
 				
 				contentElem.appendChild(trajetsElem);
