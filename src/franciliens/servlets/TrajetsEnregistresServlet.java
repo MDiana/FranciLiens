@@ -29,13 +29,13 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 
 
 
-	@Override
-	public void init() throws ServletException {
-		Trajet tr1= new Trajet(new Long("4925812092436480") ,"DieNah");
-		ofy().save().entity(tr1).now();
-		Trajet tr2= new Trajet(new Long("6051711999279104") ,"Juju");
-		ofy().save().entity(tr2).now();
-	}
+//	@Override
+//	public void init() throws ServletException {
+//		Trajet tr1= new Trajet(new Long("4925812092436480") ,"DieNah");
+//		ofy().save().entity(tr1).now();
+//		Trajet tr2= new Trajet(new Long("6051711999279104") ,"Juju");
+//		ofy().save().entity(tr2).now();
+//	}
 
 
 
@@ -49,8 +49,7 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 
 		// récupérer les départs d'une gare et regarder si un des num de trains appartient au num 
 		// de la liste des trajets enregistrés
-		String nomGarePasse =req.getParameter("gare");
-		int codeGare= GaresSelectionnees.getCode(nomGarePasse);
+		int codeGare= Integer.parseInt(req.getParameter("gare"));
 		listpassageGare = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
 
 		try {

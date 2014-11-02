@@ -101,17 +101,7 @@ function compare(){
 	}
 }
 
-/*
- * Màj dynamique de la liste des trains enregistrés par les
- * autres usagers lorsque l'utilisateur change la gare de départ
- * via le select
- */
-function majTrainsEnregistres() {
-	
-	var codeGare = document.getElementById('gareSelect').value;
-	
-	
-}
+
 
 function checkAvatar() {
 	var elem = document.getElementById('avatar');
@@ -217,9 +207,16 @@ function majTrains() {
 	xhr.send(null);
 }
 
+
+/*
+ * Màj dynamique de la liste des trains enregistrés par les
+ * autres usagers lorsque l'utilisateur change la gare de départ
+ * via le select
+ */
+
 function majTrainsEnregistres(){
 	var garenom= document.getElementById('gareSelect').value;
-	var url= "http://localhost:8888/trajetsenregistresaff?gare="+garenom;
+	var url= "http://localhost:8888/trajetsenregistresaff?gare="+gare;
 	var xhr = new XMLHttpRequest();
 	xhr.open('get', url, true);
 	xhr.onreadystatechange = function(){
@@ -227,6 +224,7 @@ function majTrainsEnregistres(){
 			alert("appel ajax fonctionne 1");
 			// a-t-on vraiment besoin de parser? Ne récupère-t-on pas directement un objet JSON et pas une chaîne de caractère?
 			var trajets =  JSON.parse(xhr.responseText);
+			//var trajets = eval('(' + xhr.responseText + ')');
 			affichageTrajetsEnregistres(trajets);
 		}
 	}
@@ -234,13 +232,14 @@ function majTrainsEnregistres(){
 }
 
 function affichageTrajetsEnregistres(tabTrajets){
-	alert('entree dans cette putain de fonction!');
-	var tableauOuAfficher= document.getElementById('trajets');
+	alert('entree dans la fonction');
+	var tbody= document.getElementById('trajets').getElementsByTagName('tbody')[0];
 	var tr, td;
 	for(var i=0; i<tabTrajets.length; i++){
+
+		alert('on a un élément');
 		//création de la ligne
 		tr = document.createElement('tr');
-		
 		
 		//puis des colonnes
 		var photo = tabTrajets[i].avatarmini;
@@ -270,8 +269,10 @@ function affichageTrajetsEnregistres(tabTrajets){
 		img.setAttribute('src', 'images/invite32.png');
 		a.appendChild(img);
 		td.appendChild(a);
+		alert("age" + age);
 		
-		tableauOuAfficher.appendChild(tr);
+		tbody.appendChild(tr);
+		//tableauOuAfficher.appendChild(tbody);
 	}
 	
 }

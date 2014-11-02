@@ -47,9 +47,9 @@ public class ProchainsDepartsServlet extends HttpServlet {
 		TimeZone.setDefault(pdt);
 		Date d= new Date();
 
-		String nomGare=req.getParameter("gare");
 		// récupérer les données grâce au paramètre du code UIC dans la requête et renvoyer en format JSON les données de la gare
-		int codeGare= GaresSelectionnees.getCode(nomGare);
+		
+		int codeGare= Integer.parseInt(req.getParameter("gare"));
 		listPassages = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
 		try {
 			for(PassageEnGare t : listPassages){
@@ -72,6 +72,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		PrintWriter out= resp.getWriter();
 		out.print(envoi);
