@@ -334,3 +334,8 @@ table tr:nth-child(even){
 	margin: auto;
 	padding: 1em;
 }
+
+.refr{
+	cursor: pointer;
+	margin-left:0.5em;
+}
