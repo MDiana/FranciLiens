@@ -290,9 +290,11 @@ function affichageTrajetsEnregistres(data){
 	
 	}else{
 		// remettre le tableau à vide...
-		var listDesTd = tbody.getElementsByTagName('td');
-		for(var i=0; i< listDesTd.length; i++){
-			tbody.removeChild(listDesTd[i]);
+		var listDesTr = tbody.getElementsByTagName('tr');
+		for(var i=0; i< listDesTr.length; i++){
+			while (listDesTr[i].firstChild) {
+				listDesTr[i].removeChild(listDesTr[i].firstChild);
+				}
 		}
 		
 	}

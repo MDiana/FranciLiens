@@ -290,6 +290,10 @@ table tr:nth-child(even){
 	width: 5em;
 }
 
+.enregistrement {
+	width: 7em;
+}
+
 .miniavatar {
 	width: 7em;
 	height: auto;
