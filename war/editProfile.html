@@ -1,5 +1,12 @@
-
-<div name ="formulaireeditionprofil" id="editionprofil" class="editionprofilform">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Edition Profil </title>
+<meta name="author" content="Julia Wisniewski, Diana Malabard, Fjorilda Gjermizi">
+</head>
+<body>
+<div id="editionprofil" class="editionprofilform">
 	
 	<form id="editionprofilform" name="formulaireeditionprofil" action="editionprofil" method="post"
 		accept-charset="utf-8" >
@@ -20,8 +27,9 @@
 			<label for="description">Décrivez-vous</label><br />
 			<textarea name="description" id="description"
 					rows="5" cols="40" placeholder=""></textarea><br /><br/>
+					
+			<input type="button" value="Annuler" onClick="javascript:location.href = '/accueil';" />
 			
-			<a href="/accueil"><input type="button" value="Annuler"></a>
 			
 			<noscript>
 			    <input type="submit" value="Valider">
@@ -33,3 +41,5 @@
 		</fieldset>
 	</form>
 </div>
+</body>
+</html>

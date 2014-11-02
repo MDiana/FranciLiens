@@ -1,28 +1,35 @@
-	
-<div name ="formulaireinscription" id="register" class="registerform">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+<meta name="author" content="Julia Wisniewski, Diana Malabard, Fjorilda Gjermizi">
+</head>
+<body>	
+<div id="register" class="registerform">
 	
 	<form id="Register" name="formulaireinscription" action="register" method="post"
 		accept-charset="utf-8" >
 		<fieldset class="registerfieldset">
 			<legend>Inscription</legend>
 			
-			<label for="login">Login * <span class="rouge" id="veriflogin"></span> </label>
+			<label>Login * <span class="rouge" id="veriflogin"></span> </label>
 			<input type="text" name="login" id="Login"
 					placeholder="votre identifiant" required autofocus >
 			
-			<label for="mail">Email * <span class="rouge" id="verifmail1"></span></label>
+			<label>Email * <span class="rouge" id="verifmail1"></span></label>
 			<input type="email" name="mail" id="email"
 					placeholder="votremail@email.com" required>			
 			
-			<label for="mailconf">Confirmation de l'email * <span class="rouge" id="verifmail"></span></label>
+			<label>Confirmation de l'email * <span class="rouge" id="verifmail"></span></label>
 			<input type="email" name="mailconf" id="emailconf"
 					placeholder="votremail@email.com" required>			
 			
-			<label for="password">Mot de passe * <span class="rouge" id="verifpassword"></span></label>
+			<label>Mot de passe * <span class="rouge" id="verifpassword"></span></label>
 			<input type="password" name="password" id="Password"
 					placeholder="password" required >			
 
-			<label for="age">Âge <span class="rouge" id="verifage"></span> </label>
+			<label>Âge <span class="rouge" id="verifage"></span> </label>
 			<input type="number" step="1" min="16" max="120" name="age" id="ageu"
 					placeholder="votre âge" required>
 			<br /><br />
@@ -40,3 +47,5 @@
 		</fieldset>
 	</form>
 </div>
+</body>
+</html>
