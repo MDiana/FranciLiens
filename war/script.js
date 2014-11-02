@@ -101,7 +101,17 @@ function compare(){
 	}
 }
 
-
+/*
+ * Màj dynamique de la liste des trains enregistrés par les
+ * autres usagers lorsque l'utilisateur change la gare de départ
+ * via le select
+ */
+function majTrainsEnregistres() {
+	
+	var codeGare = document.getElementById('gareSelect').value;
+	
+	
+}
 
 function checkAvatar() {
 	var elem = document.getElementById('avatar');
@@ -173,9 +183,8 @@ function affichageProchainsDepart(arr){
 				var imgSrc = "images/check32.png";
 				var img = document.createElement('img');
 				img.setAttribute('src', imgSrc);
-				
+				adr.appendChild(img);
 				td.appendChild(adr);
-				td.appendChild(img);
 			}
 			else{
 				td.appendChild(document.createTextNode(infos[j]));
@@ -189,9 +198,7 @@ function affichageProchainsDepart(arr){
 
 function majTrains() {
 	
-	var gare = document.getElementById('gare').value;
-	
-	//var url = "http://franci-liens.appspot.com/prochainsDeparts?"+gare;
+	var gare = document.getElementById('gareSelect').value;
 	var url = "localhost:8888/prochainsDeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
 	alert ("xmlHttpRequest=" + xmlHttpRequest); 
@@ -207,30 +214,24 @@ function majTrains() {
 	xhr.send(null);
 }
 
-
-/*
- * Màj dynamique de la liste des trains enregistrés par les
- * autres usagers lorsque l'utilisateur change la gare de départ
- * via le select
- */
-
 function majTrainsEnregistres(){
 	var gare= document.getElementById('gareSelect').value;
 	var url= "http://localhost:8888/trajetsenregistresaff?gare="+gare;
 	var xhr = new XMLHttpRequest();
+	alert ("xmlHttpRequest=" + xmlHttpRequest); 
 	xhr.open('get', url, true);
+	
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			alert("appel ajax fonctionne 1");
 			// a-t-on vraiment besoin de parser? Ne récupère-t-on pas directement un objet JSON et pas une chaîne de caractère?
 			var data =  JSON.parse(xhr.responseText);
-			alert("response=" + xhr.responseText);
-			alert("response=" + JSON.parse(xhr.responseText));
 			affichageTrajetsEnregistres(data);
 		}
 	}
 	xhr.send(null);
 }
+
 
 function affichageTrajetsEnregistres(data){
 	alert("entree dans la fonction ");
@@ -299,3 +300,4 @@ function affichageTrajetsEnregistres(data){
 	}
 	
 }
+
