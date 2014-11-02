@@ -56,11 +56,11 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 			 */
 
 			// Tester si l'argument idPassage est présent
-			Long idPassage = (Long) req.getAttribute("idPassage");
-			System.out.println(req.getAttribute("idPassage"));
+			String param = req.getParameter("idPassage");
 
-			if (idPassage != null) {
+			if (param != null) {
 
+				Long idPassage = Long.parseLong(param);
 				/*
 				 * Récupérer le trajet éventuellement enregistré par 
 				 * l'utilisateur
@@ -143,7 +143,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				 */
 
 				List<Trajet> trajetEnregistre = ofy().load().type(Trajet.class).filter("pseudoUsager ==", pseudo).list();
-				idPassage=(long) 0;
+				Long idPassage=(long) 0;
 
 				if (trajetEnregistre.size()<1) {
 
