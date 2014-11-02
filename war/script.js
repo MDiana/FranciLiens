@@ -5,7 +5,7 @@
 /*fonctions qui vérifient les données saisies avant submit */
 function compareMail() {
 	var para= document.getElementById('notif');
-	
+
 	// vérif des mails
 	if (document.getElementById('email').value != document.getElementById('emailconf').value) {
 		para.innerHTML = 'Le mail et sa confirmation ne sont pas les mêmes.';
@@ -15,26 +15,26 @@ function compareMail() {
 		return true;
 	}
 }
-	
+
 function veriflogin(){	
 	//verif du login
 	if( (document.getElementById('Login').value.length<1)
-		|| (document.getElementById('Login').value.length >15)){
-		
+			|| (document.getElementById('Login').value.length >15)){
+
 		document.getElementById('veriflogin').innerHTML= ' Incorrect';
 		return false;
-		
+
 	} else {
 		document.getElementById('veriflogin').innerHTML= '';
 		return true;
 	}
-	
+
 }
 
 function verifpassword(){
 	//verif du password
 	if(document.getElementById('Password').value.length <8){
-		
+
 		document.getElementById('verifpassword').innerHTML = ' Invalide ';
 		return false;
 	} else {
@@ -47,30 +47,30 @@ function verifpassword(){
 function verifmail(){
 	var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
 	if((document.getElementById('email').value.length<1)
-		|| (!regex.test(document.getElementById('email').value))){
-		
+			|| (!regex.test(document.getElementById('email').value))){
+
 		document.getElementById('verifmail1').innerHTML = ' Invalide';
 		return false;
 	} else {
 		document.getElementById('verifmail1').innerHTML = '';
 		return true;
 	}
-	
+
 }	
-	
+
 //verif du mail
 function verifmail2(){
 	var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
 	if((document.getElementById('emailconf').value.length<1) 
-		|| (!regex.test(document.getElementById('emailconf').value))){
-		
+			|| (!regex.test(document.getElementById('emailconf').value))){
+
 		document.getElementById('verifmail').innerHTML = ' Invalide';
 		return false;
 	} else {
 		document.getElementById('verifmail').innerHTML = '';
 		return true;
 	}
-	
+
 }
 
 
@@ -83,7 +83,7 @@ function verifage(){
 		document.getElementById('verifage').innerHTML = '';
 		return true;
 	}
-	
+
 }
 
 function compare(){
@@ -94,23 +94,11 @@ function compare(){
 	var verifmailOk = verifmail2();
 	var verifmail2Ok= verifmail();
 	var verifageOk= verifage();
-	
+
 	if(comparemailOK && verifloginOk && verifpasswordOK && verifmailOk && verifmail2Ok && verifageOk)
 	{
 		document.getElementById('Register').submit();
 	}
-}
-
-/*
- * Màj dynamique de la liste des trains enregistrés par les
- * autres usagers lorsque l'utilisateur change la gare de départ
- * via le select
- */
-function majTrainsEnregistres() {
-	
-	var codeGare = document.getElementById('gareSelect').value;
-	
-	
 }
 
 function checkAvatar() {
@@ -134,26 +122,32 @@ function checkEditProfile() {
 	}
 }
 
+/*
+ * Màj dynamique de la liste des trains enregistrés par les
+ * autres usagers lorsque l'utilisateur change la gare de départ
+ * via le select
+ */
 
 function affichageProchainsDepart(arr){
 	// récupérer l'encart et ajouter un element de la liste pour tous les objets récupérés
-	// pour récupérer un objet on peut faire obj.lenom del'attribut qu'on veut (voir dans le servlet des prochains départs)
+	// pour récupérer un objet on peut faire obj.lenom de l'attribut qu'on veut (voir dans 
+	// le servlet des prochains départs)
 	var tableTrajets = document.getElementById('trajets');
-	
+
 //	var tbody = tableTrajets.getElementsByTagName('tbody');
 //	var listDesTr = tbody.children;
 //	for(var i=1; i< listDesTr.length; i++){
-//		while (listDesTr[i].firstChild) {
-//			listDesTr[i].removeChild(listDesTr[i].firstChild);
-//			}
+//	while (listDesTr[i].firstChild) {
+//	listDesTr[i].removeChild(listDesTr[i].firstChild);
+//	}
 //	}
 	var listDesTr = tableTrajets.getElementsByTagName('tr');
 	for(var i=1; i< listDesTr.length; i++){
 		while (listDesTr[i].firstChild) {
 			listDesTr[i].removeChild(listDesTr[i].firstChild);
-			}
+		}
 	}
-	
+
 	var ligne = "";
 	//var num = "";
 	var idPassage ;
@@ -172,7 +166,7 @@ function affichageProchainsDepart(arr){
 		mission = objDepart.mission;
 		term = objDepart.term;
 		//construction dynamique d'une ligne de tableau
-	//<a href="/enregistrementTrajet?num=PACA42"><img src="images/check32.png"></a>	
+		//<a href="/enregistrementTrajet?num=PACA42"><img src="images/check32.png"></a>	
 		var infos = new Array();
 		infos.push(date); 
 		infos.push(mission);
@@ -184,18 +178,17 @@ function affichageProchainsDepart(arr){
 				var url = "/enregistrertrajet?idPassage="+idPassage;
 				var adr = document.createElement('a');
 				adr.setAttribute('href', url);
-				
+
 				var imgSrc = "images/check32.png";
 				var img = document.createElement('img');
 				img.setAttribute('src', imgSrc);
 				adr.appendChild(img);
 				td.appendChild(adr);
-			}
-			else{
+			} else {
 				td.appendChild(document.createTextNode(infos[j]));
 			}
 			tr.appendChild(td);
-			
+
 		}
 		tableTrajets.appendChild(tr);
 	}
@@ -206,11 +199,11 @@ function affichageProchainsDepart(arr){
  */
 function majTrains() {
 	var gare = document.getElementById('gareSelect').value;
-	var url = "http://localhost:8888/prochainsdeparts?gare="+gare;
+	var url = "/prochainsdeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
 
 	xhr.open('get', url);
-	
+
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			var departsArr =  JSON.parse(xhr.responseText);
@@ -225,11 +218,12 @@ function majTrains() {
  */
 
 function majTrainsEnregistres(){
+	
 	var gare= document.getElementById('gareSelect').value;
-	var url= "http://localhost:8888/trajetsenregistresaff?gare="+gare;
+	var url= "/trajetsenregistresaff?gare="+gare;
 	var xhr = new XMLHttpRequest(); 
 	xhr.open('get', url, true);
-	
+
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			var data =  JSON.parse(xhr.responseText);
@@ -242,78 +236,69 @@ function majTrainsEnregistres(){
 
 function affichageTrajetsEnregistres(data){
 	var tbody= document.getElementById('trajets').getElementsByTagName('tbody')[0];
-	
+
 	//suppression de tous les éléments à chaque tour
 	var listDesTr = tbody.getElementsByTagName('tr');
-	for(var i=1; i< listDesTr.length; i++){
-		while (listDesTr[i].firstChild) {
-			listDesTr[i].removeChild(listDesTr[i].firstChild);
-			}
+	for (var i=1; i< listDesTr.length; i++) {
+//		while (listDesTr[i].firstChild) {
+//			listDesTr[i].removeChild(listDesTr[i].firstChild);
+			listDesTr[i].remove();
+//		}
 	}
-	
-	var tr, td;
-	var res= data.trajetsEnregistres;
-	var count= res.length;
-	if(count>0){
-	for(var i=0; i<count; i++){
 
-		//création de la ligne
-		tr = document.createElement('tr');
-		
-		//puis des colonnes
-		var photo = res[i].avatarmini;
-		td = document.createElement('td');
-		var miniavatar= document.createElement('img');
-		miniavatar.setAttribute('class', 'miniavatar');
-		miniavatar.setAttribute('src', photo);
-		td.appendChild(miniavatar);
-		tr.appendChild(td);
-		
-		var pseudo = res[i].pseudo;
-		td = document.createElement('td');
-		var text= document.createTextNode(pseudo);
-		td.appendChild(text);
-		tr.appendChild(td);
-		var age = res[i].age;
-		td = document.createElement('td');
-		var text= document.createTextNode(age);
-		td.appendChild(text);
-		tr.appendChild(td);
-		var term = res[i].term;
-		td = document.createElement('td');
-		var text= document.createTextNode(term);
-		td.appendChild(text);
-		tr.appendChild(td);
-		var description = res[i].description;
-		td = document.createElement('td');
-		td.setAttribute('class', description);
-		var text= document.createTextNode(description);
-		td.appendChild(text);
-		tr.appendChild(td);
-		
-		td = document.createElement('td');
-		var a= document.createElement('a');
-		var image= document.createElement('img');
-		a.setAttribute('href', 'http://localhost:8888/invite?recipient=' + pseudo);
-		image.setAttribute('src', 'http://localhost:8888/images/invite32.png');
-		a.appendChild(image);
-		td.appendChild(a);
-		tr.appendChild(td);
-		
-		
-		tbody.appendChild(tr);
-	}
-	
-	}else{
-		// remettre le tableau à vide...
-		var listDesTr = tbody.getElementsByTagName('tr');
-		for(var i=1; i< listDesTr.length; i++){
-			while (listDesTr[i].firstChild) {
-				listDesTr[i].removeChild(listDesTr[i].firstChild);
-				}
+	var tr, td;
+	var res = data.trajetsEnregistres;
+	var count = res.length;
+	if (count>0) {
+		alert('je rentre dans le count');
+		for (var i=0; i<count; i++) {
+
+			//création de la ligne
+			tr = document.createElement('tr');
+
+			//puis des colonnes
+			var photo = res[i].avatarmini;
+			td = document.createElement('td');
+			var miniavatar= document.createElement('img');
+			miniavatar.setAttribute('class', 'miniavatar');
+			miniavatar.setAttribute('src', photo);
+			td.appendChild(miniavatar);
+			tr.appendChild(td);
+
+			var pseudo = res[i].pseudo;
+			td = document.createElement('td');
+			var text= document.createTextNode(pseudo);
+			td.appendChild(text);
+			tr.appendChild(td);
+			var age = res[i].age;
+			td = document.createElement('td');
+			var text= document.createTextNode(age);
+			td.appendChild(text);
+			tr.appendChild(td);
+			var term = res[i].term;
+			td = document.createElement('td');
+			var text= document.createTextNode(term);
+			td.appendChild(text);
+			tr.appendChild(td);
+			var description = res[i].description;
+			td = document.createElement('td');
+			td.setAttribute('class', description);
+			var text= document.createTextNode(description);
+			td.appendChild(text);
+			tr.appendChild(td);
+
+			td = document.createElement('td');
+			var a= document.createElement('a');
+			var image= document.createElement('img');
+			a.setAttribute('href', '/invite?recipient=' + pseudo);
+			image.setAttribute('src', '/images/invite32.png');
+			a.appendChild(image);
+			td.appendChild(a);
+			tr.appendChild(td);
+
+
+			tbody.appendChild(tr);
 		}
-		
 	}
-	
 }
 
