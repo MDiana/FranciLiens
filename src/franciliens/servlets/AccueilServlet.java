@@ -80,7 +80,7 @@ public class AccueilServlet extends HttpServlet {
 				 */
 				
 				List<Trajet> trajetEnregistre = ofy().load().type(Trajet.class).filter("pseudoUsager ==", pseudo).list();
-				Long codePassage=(long) 0;
+				Long codePassage=new Long("0");
 				
 				if (trajetEnregistre.size()<1) {
 					

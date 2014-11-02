@@ -17,6 +17,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
+import franciliens.data.GaresSelectionnees;
 import franciliens.data.PassageEnGare;
 
 @SuppressWarnings("serial")
@@ -24,16 +25,16 @@ public class ProchainsDepartsServlet extends HttpServlet {
 
 	private List<PassageEnGare> listPassages;
 
-	@Override
-	public void init() throws ServletException {
-		super.init();
-		PassageEnGare p1 = new PassageEnGare("12345", new Date(), "PACA", 1, 2);
-		ofy().save().entity(p1).now();
-		PassageEnGare p2 = new PassageEnGare("12346", new Date(), "PACA", 1, 2);
-		ofy().save().entity(p2).now();
-		PassageEnGare p3 = new PassageEnGare("12347", new Date(), "PACA", 2, 3);
-		ofy().save().entity(p3).now();
-	}
+//	@Override
+//	public void init() throws ServletException {
+//		super.init();
+//		PassageEnGare p1 = new PassageEnGare("12345", new Date(), "PACA", 87758607, 87758011);
+//		ofy().save().entity(p1).now();
+//		PassageEnGare p2 = new PassageEnGare("12346", new Date(), "PACA", 87758607, 87381848);
+//		ofy().save().entity(p2).now();
+//		PassageEnGare p3 = new PassageEnGare("12347", new Date(), "PACA", 87758607, 87382002);
+//		ofy().save().entity(p3).now();
+//	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -47,6 +48,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 		Date d= new Date();
 
 		// récupérer les données grâce au paramètre du code UIC dans la requête et renvoyer en format JSON les données de la gare
+		
 		int codeGare= Integer.parseInt(req.getParameter("gare"));
 		listPassages = ofy().load().type(PassageEnGare.class).filter("codeUICGareDepart", codeGare).list();
 		try {
@@ -70,6 +72,7 @@ public class ProchainsDepartsServlet extends HttpServlet {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("application/json");
 		PrintWriter out= resp.getWriter();
 		out.print(envoi);

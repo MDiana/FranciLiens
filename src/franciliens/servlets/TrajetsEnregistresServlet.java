@@ -15,6 +15,7 @@ import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
 
+import franciliens.data.GaresSelectionnees;
 import franciliens.data.PassageEnGare;
 import franciliens.data.ToutesGares;
 import franciliens.data.Trajet;
@@ -30,9 +31,9 @@ public class TrajetsEnregistresServlet extends HttpServlet {
 
 //	@Override
 //	public void init() throws ServletException {
-//		Trajet tr1= new Trajet(new Long("4785074604081152") ,"DieNah");
+//		Trajet tr1= new Trajet(new Long("4925812092436480") ,"DieNah");
 //		ofy().save().entity(tr1).now();
-//		Trajet tr2= new Trajet(new Long("4785074604081152") ,"Juju");
+//		Trajet tr2= new Trajet(new Long("6051711999279104") ,"Juju");
 //		ofy().save().entity(tr2).now();
 //	}
 
