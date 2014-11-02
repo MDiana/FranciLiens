@@ -427,7 +427,7 @@ public enum ToutesGares {
 	}
 	
 	public static String getNom(int code) {
-		for (GaresSelectionnees g : GaresSelectionnees.values()) {
+		for (ToutesGares g : ToutesGares.values()) {
 			if (g.getCode()==code) {
 				return g.getNom();
 			}
