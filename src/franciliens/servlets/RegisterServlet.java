@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		firstGetDone=false;
+		firstGetDone=false;
 		errorList=new ArrayList<String>();
 	}
 
