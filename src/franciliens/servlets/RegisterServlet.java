@@ -26,7 +26,7 @@ public class RegisterServlet extends HttpServlet {
 	// localhost:8888
 	//franci-liens.appspot.com
 	private Document squelette;
-	private boolean firstGetDone; // a-t-on déjà fait un get ?
+//	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private String url= "http://localhost:8888/";
 	private ArrayList<String> errorList;
 
@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		firstGetDone=false;
+//		firstGetDone=false;
 		errorList=new ArrayList<String>();
 	}
 
@@ -55,7 +55,7 @@ public class RegisterServlet extends HttpServlet {
 			/*
 			 * Ne créer la page que si on accède à la page pour la première fois
 			 */
-			if (!firstGetDone) {
+//			if (!firstGetDone) {
 
 				/*
 				 * Construction de la page register
@@ -64,8 +64,8 @@ public class RegisterServlet extends HttpServlet {
 				Document register = Jsoup.connect(url+"register.html").get();
 				Element registerElem = register.getElementById("register");
 				contentElem.appendChild(registerElem);
-				firstGetDone=true;
-			}
+//				firstGetDone=true;
+//			}
 
 			/*
 			 * Envoyer le résultat
