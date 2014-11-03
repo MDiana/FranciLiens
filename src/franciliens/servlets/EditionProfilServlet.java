@@ -53,37 +53,39 @@ public class EditionProfilServlet extends HttpServlet {
 			/*
 			 * Ne créer la page que si on accède à la page pour la première fois
 			 */
+
+			Element contentElem = squelette.getElementById("content");
+			Document editProfile = Jsoup.connect(url+"editProfile.html").get();
+			Element editProfileElem = editProfile.getElementById("editionprofil");
+			
 			if (!firstGetDone) {
 
 				/*
 				 * Construction de la page d'édition
 				 */
-				Element contentElem = squelette.getElementById("content");
-				Document editProfile = Jsoup.connect(url+"editProfile.html").get();
-				Element editProfileElem = editProfile.getElementById("editionprofil");
 				contentElem.appendChild(editProfileElem);
 				
-				/*
-				 * Récupérer la description courante si elle existe pour pré-remplir
-				 * la description
-				 */
-				String pseudo = (String) req.getSession().getAttribute("login");
-				User user = ofy().load().type(User.class).
-						filter("login ==", pseudo).list().get(0); //existe obligatoirement
-				Text description = user.getDescription();
-				if (description!=null && description.getValue().compareTo("")!=0) {
-					editProfileElem.getElementById("description").val(description.getValue());
-				}
-				
-				/*
-				 * Récupérer l'avatar courant s'il existe pour pré-remplir le champ
-				 */
-				String avatar = user.getAvatarURL();
-				if (avatar!=null && avatar.length()>0 && avatar.compareTo("images/defaultAvatar.png")!=0) {
-					editProfileElem.getElementById("avatar").val(avatar);
-				}
-				
 				firstGetDone=true;
+			}
+			
+			/*
+			 * Récupérer la description courante si elle existe pour pré-remplir
+			 * la description
+			 */
+			String pseudo = (String) req.getSession().getAttribute("login");
+			User user = ofy().load().type(User.class).
+					filter("login ==", pseudo).list().get(0); //existe obligatoirement
+			Text description = user.getDescription();
+			if (description!=null && description.getValue().compareTo("")!=0) {
+				editProfileElem.getElementById("description").val(description.getValue());
+			}
+			
+			/*
+			 * Récupérer l'avatar courant s'il existe pour pré-remplir le champ
+			 */
+			String avatar = user.getAvatarURL();
+			if (avatar!=null && avatar.length()>0 && avatar.compareTo("images/defaultAvatar.png")!=0) {
+				editProfileElem.getElementById("avatar").val(avatar);
 			}
 
 			/*
