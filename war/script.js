@@ -171,7 +171,6 @@ function affichageProchainsDepart(arr){
 		date = objDepart.date;
 		mission = objDepart.mission;
 		term = objDepart.term;
-		alert("idPassage "+idPassage);
 		//construction dynamique d'une ligne de tableau	
 		var infos = new Array();
 		infos.push(date); 
@@ -295,7 +294,7 @@ function affichageTrajetsEnregistres(data){
 		var a= document.createElement('a');
 		var image= document.createElement('img');
 		a.setAttribute('href', 'invite?recipient=' + pseudo);
-		image.setAttribute('src', 'images/invite32.png');
+		image.setAttribute('src', 'ximages/invite32.png');
 		a.appendChild(image);
 		td.appendChild(a);
 		tr.appendChild(td);
