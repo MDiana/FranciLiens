@@ -206,7 +206,7 @@ function affichageProchainsDepart(arr){
  */
 function majTrains() {
 	var gare = document.getElementById('gareSelect').value;
-	var url = "http://localhost:8888/prochainsdeparts?gare="+gare;
+	var url = "http://franci-liens.appspot.com/prochainsdeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
 
 	xhr.open('get', url);
@@ -226,7 +226,7 @@ function majTrains() {
 
 function majTrainsEnregistres(){
 	var gare= document.getElementById('gareSelect').value;
-	var url= "http://localhost:8888/trajetsenregistresaff?gare="+gare;
+	var url= "http://franci-liens.appspot.com/trajetsenregistresaff?gare="+gare;
 	var xhr = new XMLHttpRequest(); 
 	xhr.open('get', url, true);
 	
@@ -294,8 +294,8 @@ function affichageTrajetsEnregistres(data){
 		td = document.createElement('td');
 		var a= document.createElement('a');
 		var image= document.createElement('img');
-		a.setAttribute('href', 'http://localhost:8888/invite?recipient=' + pseudo);
-		image.setAttribute('src', 'http://localhost:8888/images/invite32.png');
+		a.setAttribute('href', 'http://franci-liens.appspot.com/invite?recipient=' + pseudo);
+		image.setAttribute('src', 'http://franci-liens.appspot.com/images/invite32.png');
 		a.appendChild(image);
 		td.appendChild(a);
 		tr.appendChild(td);
