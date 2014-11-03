@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import franciliens.data.PassageEnGare;
 import franciliens.data.Trajet;
 import franciliens.data.User;
@@ -36,11 +38,11 @@ public class ResponseServlet extends HttpServlet {
 		} else {
 
 			// Récupérer le destinataire du mail
-			String recipient = (String) req.getParameter("recipient");
+			String recipient = StringEscapeUtils.escapeHtml4(req.getParameter("recipient"));
 			// Récupérer le sender
-			String sender = (String) req.getParameter("sender");
+			String sender = StringEscapeUtils.escapeHtml4(req.getParameter("sender"));
 			// Récupérer l'action
-			String action = (String) req.getParameter("action");
+			String action = StringEscapeUtils.escapeHtml4(req.getParameter("action"));
 
 			if (recipient!=null && sender!=null && action!=null) {
 
