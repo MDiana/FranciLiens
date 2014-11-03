@@ -124,7 +124,7 @@ public class InviteServlet extends HttpServlet {
 		}
 		profile += (user.getAge()+" ans. ");
 		if (user.getDescription()!=null && user.getDescription().toString().length()>0) {
-			profile += ("Voici comment ce membre se décrit :\n"+user.getDescription());
+			 profile += ("Voici comment ce membre se décrit :\n"+user.getDescription().getValue());
 		}
 
 		return profile;
