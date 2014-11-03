@@ -50,16 +50,16 @@ public class EditionProfilServlet extends HttpServlet {
 			resp.sendRedirect("/login");
 			
 		} else {
+
 			/*
 			 * Ne créer la page que si on accède à la page pour la première fois
 			 */
-
-			Element contentElem = squelette.getElementById("content");
-			Document editProfile = Jsoup.connect(url+"editProfile.html").get();
-			Element editProfileElem = editProfile.getElementById("editionprofil");
 			
 			if (!firstGetDone) {
 
+				Element contentElem = squelette.getElementById("content");
+				Document editProfile = Jsoup.connect(url+"editProfile.html").get();
+				Element editProfileElem = editProfile.getElementById("editionprofil");
 				/*
 				 * Construction de la page d'édition
 				 */
@@ -77,7 +77,7 @@ public class EditionProfilServlet extends HttpServlet {
 					filter("login ==", pseudo).list().get(0); //existe obligatoirement
 			Text description = user.getDescription();
 			if (description!=null && description.getValue().compareTo("")!=0) {
-				editProfileElem.getElementById("description").val(description.getValue());
+				squelette.getElementById("description").val(description.getValue());
 			}
 			
 			/*
@@ -85,7 +85,7 @@ public class EditionProfilServlet extends HttpServlet {
 			 */
 			String avatar = user.getAvatarURL();
 			if (avatar!=null && avatar.length()>0 && avatar.compareTo("images/defaultAvatar.png")!=0) {
-				editProfileElem.getElementById("avatar").val(avatar);
+				squelette.getElementById("avatar").val(avatar);
 			}
 
 			/*

@@ -59,13 +59,13 @@ public class AccueilServlet extends HttpServlet {
 			currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
 			Document accueil = Jsoup.connect(url+"accueil.html").get();
 			Element profilElem = accueil.getElementById("encartProfil");
-
-			/*
-			 * Construction de la page d'accueil
-			 */
-			Element contentElem = squelette.getElementById("content");
 			
 			if (!firstGetDone) {
+
+				/*
+				 * Construction de la page d'accueil
+				 */
+				Element contentElem = squelette.getElementById("content");
 				
 				contentElem.appendChild(profilElem);
 				
@@ -84,8 +84,8 @@ public class AccueilServlet extends HttpServlet {
 			 * Remplir l'encart de profil
 			 */
 			
-			profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
-			profilElem.getElementById("pseudo").html(pseudo);
+			squelette.getElementById("avatar").attr("src", currentUser.getAvatarURL());
+			squelette.getElementById("pseudo").html(pseudo);
 			
 			/*
 			 * Afficher le voyage enregistré s'il existe, un lien pour en 
@@ -98,7 +98,7 @@ public class AccueilServlet extends HttpServlet {
 			if (trajetEnregistre.size()<1) {
 				
 				// Aucun trajet enregistré
-				profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
+				squelette.getElementById("trajetUser").html("<a class=\"lien\" "
 						+ "href=\"/enregistrertrajet\">Enregistrer un trajet</a><br //>");
 				
 				
@@ -112,7 +112,7 @@ public class AccueilServlet extends HttpServlet {
 				// Chercher le passage en gare correspondant à l'id
 				PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
 				
-				profilElem.getElementById("trajetUser").html("Votre Trajet "
+				squelette.getElementById("trajetUser").html("Votre Trajet "
 						+ "<a href=\"/removetrajet\">"
 						+ "<img src=\"/images/cross24.png\"></a> "
 						+ "<a href=\"/enregistrertrajet\">"
