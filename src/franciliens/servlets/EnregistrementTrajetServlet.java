@@ -109,12 +109,12 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				Document accueil = Jsoup.connect(url+"enregistrementTrajet.html").get();
 				Element profilElem = accueil.getElementById("encartProfil");
 
+				/*
+				 * Construction de la page
+				 */
+				Element contentElem = squelette.getElementById("content");
+
 				if (!firstGetDone) {
-					
-					/*
-					 * Construction de la page
-					 */
-					Element contentElem = squelette.getElementById("content");
 
 					contentElem.appendChild(profilElem);
 
@@ -135,8 +135,8 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 
 				User currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
 
-				squelette.getElementById("avatar").attr("src", currentUser.getAvatarURL());
-				squelette.getElementById("pseudo").html(pseudo);
+				profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
+				profilElem.getElementById("pseudo").html(pseudo);
 				
 				/*
 				 * Afficher le voyage enregistré s'il existe, un lien pour en 
@@ -149,7 +149,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				if (trajetEnregistre.size()<1) {
 
 					// Aucun trajet enregistré
-					squelette.getElementById("trajetUser").html("<a class=\"lien\" "
+					profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
 							+ "href=\"/enregistrerTrajet\">Enregistrer un trajet</a><br //>");
 
 
@@ -164,8 +164,8 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 					// Chercher le train correspondant au code
 					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(idPassage).now();
 
-					squelette.getElementById("trajetUser").html("Votre Trajet "
-							+ "<a href=\"/removetrajet\">"
+					profilElem.getElementById("trajetUser").html("Votre Trajet "
+							+ "<a href=\"/removeTrajet\">"
 							+ "<img src=\"/images/cross24.png\"></a> "
 							+ "<a href=\"/enregistrertrajet\">"
 							+ "<img src=\"/images/edit24.png\"></a>"
