@@ -57,15 +57,15 @@ public class AccueilServlet extends HttpServlet {
 			HttpSession session = req.getSession();
 			String pseudo = (String)session.getAttribute("login");
 			currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
-			Document accueil = Jsoup.connect(url+"accueil.html").get();
-			Element profilElem = accueil.getElementById("encartProfil");
-
-			/*
-			 * Construction de la page d'accueil
-			 */
-			Element contentElem = squelette.getElementById("content");
 			
 			if (!firstGetDone) {
+
+				/*
+				 * Construction de la page d'accueil
+				 */
+				Element contentElem = squelette.getElementById("content");
+				Document accueil = Jsoup.connect(url+"accueil.html").get();
+				Element profilElem = accueil.getElementById("encartProfil");
 				
 				contentElem.appendChild(profilElem);
 				
@@ -84,8 +84,8 @@ public class AccueilServlet extends HttpServlet {
 			 * Remplir l'encart de profil
 			 */
 			
-			profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
-			profilElem.getElementById("pseudo").html(pseudo);
+			squelette.getElementById("avatar").attr("src", currentUser.getAvatarURL());
+			squelette.getElementById("pseudo").html(pseudo);
 			
 			/*
 			 * Afficher le voyage enregistré s'il existe, un lien pour en 
@@ -98,7 +98,7 @@ public class AccueilServlet extends HttpServlet {
 			if (trajetEnregistre.size()<1) {
 				
 				// Aucun trajet enregistré
-				profilElem.getElementById("trajetUser").html("<a class=\"lien\" "
+				squelette.getElementById("trajetUser").html("<a class=\"lien\" "
 						+ "href=\"/enregistrertrajet\">Enregistrer un trajet</a><br //>");
 				
 				
@@ -112,7 +112,7 @@ public class AccueilServlet extends HttpServlet {
 				// Chercher le passage en gare correspondant à l'id
 				PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
 				
-				profilElem.getElementById("trajetUser").html("Votre Trajet "
+				squelette.getElementById("trajetUser").html("Votre Trajet "
 						+ "<a href=\"/removetrajet\">"
 						+ "<img src=\"/images/cross24.png\"></a> "
 						+ "<a href=\"/enregistrertrajet\">"
@@ -124,7 +124,7 @@ public class AccueilServlet extends HttpServlet {
 						+ GaresSelectionnees.getNom(passage.getCodeUICTerminus())+"<br //>"
 						+ "Heure : <br //>"
 						+ passage.getDateHeure()+"</div>");
-				System.out.println(profilElem.getElementById("trajetUser").html());
+				System.out.println(squelette.getElementById("trajetUser").html());
 			}
 			
 			req.getSession().setAttribute("prevurl", "/accueil");

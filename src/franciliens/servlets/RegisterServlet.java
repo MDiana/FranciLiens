@@ -180,10 +180,12 @@ public class RegisterServlet extends HttpServlet {
 				String e= "<p id=\"errorMessage\" class=\"errorMessage\">Le mot de passe doit contenir au minimum 8 caracteres.  \" </p> ";
 				errorList.add(e);
 			}
+			
 			Element errorElem;
 			while ((errorElem  = squelette.getElementById("errorMessage")) != null) {
 				errorElem.remove();
 			}
+			
 			if (infosOk) {
 
 				/*
