@@ -115,7 +115,7 @@ public class AccueilServlet extends HttpServlet {
 				
 				// Chercher le passage en gare correspondant à l'id
 				PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(codePassage).now();
-				Date d= new Date(passage.getDateHeure().getTime()-3600000);
+				Date d = new Date(passage.getDateHeure().getTime()-3600000);
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'à' HH:mm");
 				String date =sdf.format(d);
 				squelette.getElementById("trajetUser").html("Votre Trajet "

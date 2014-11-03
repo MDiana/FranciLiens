@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 
 import franciliens.data.GaresSelectionnees;
 import franciliens.data.PassageEnGare;
+import franciliens.data.Trajet;
 
 @SuppressWarnings("serial")
 public class BackendServlet extends HttpServlet {
@@ -68,6 +69,14 @@ public class BackendServlet extends HttpServlet {
 		if(!listeDesAnciensDeparts.isEmpty()){
 			ofy().delete().entities(listeDesAnciensDeparts).now();
 			
+		}
+		// supprimer les trajets enregistrés des utilisateurs correspondant au passage supprimé
+		List <Trajet> t;
+		for(PassageEnGare peg : listeDesAnciensDeparts){
+			t= ofy().load().type(Trajet.class).filter("idPassage", peg.getId()).list();
+			if(t.size()>0){
+				ofy().delete().entities(t).now();
+			}
 		}
 
 		for (GaresSelectionnees gare : lesFameuses30Gares) {
