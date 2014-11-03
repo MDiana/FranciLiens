@@ -60,7 +60,6 @@ public class InviteServlet extends HttpServlet {
 				} 
 			}
 
-			// Il y a eu un problème : renvoyer vers l'accueil
 			resp.sendRedirect("/accueil");
 		}
 	}
@@ -73,8 +72,10 @@ public class InviteServlet extends HttpServlet {
 		String msgBody = "Bonjour, "+recipientU.getLogin()
 				+" ! Vous avez reçu une invitation de la part de "+sender
 				+".\n\n"+getProfile(sender)
-				+"\n\nSouhaitez-vous accepter ("+ url + "accept?sender=" + sender
-				+ ") ou refuser ("+ url + "refuse?sender=" + sender
+				+"\n\nSouhaitez-vous accepter ("+ url + "response?action=accept&recipient=" + sender
+				+ "&sender="+recipientU.getLogin()
+				+ ") ou refuser ("+ url + "response?action=refuse&recipient=" + sender
+				+ "&sender="+recipientU.getLogin()
 				+ ") ce rendez-vous ?</body></html>";
 
 		Properties props = new Properties();
