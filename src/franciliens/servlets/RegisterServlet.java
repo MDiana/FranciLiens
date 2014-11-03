@@ -64,6 +64,7 @@ public class RegisterServlet extends HttpServlet {
 				Document register = Jsoup.connect(url+"register.html").get();
 				Element registerElem = register.getElementById("register");
 				contentElem.appendChild(registerElem);
+				
 				firstGetDone=true;
 			}
 

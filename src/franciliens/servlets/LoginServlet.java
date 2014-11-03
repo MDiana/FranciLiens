@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
 				Document login = Jsoup.connect(url+"login.html").get();
 				Element loginElem = login.getElementById("login");
 				contentElem.appendChild(loginElem);
+				
 				firstGetDone=true;
 			}
 

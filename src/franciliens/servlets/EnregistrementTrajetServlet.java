@@ -65,38 +65,38 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				 * Récupérer le trajet éventuellement enregistré par 
 				 * l'utilisateur
 				 */
-				
+
 				HttpSession session = req.getSession();
 				String pseudo = (String) session.getAttribute("login");
-				
-//				Long idTrajet = (Long) session.getAttribute("trajetEnregistre");
+
+				//				Long idTrajet = (Long) session.getAttribute("trajetEnregistre");
 				List<Trajet> t = ofy().load().type(Trajet.class).filter("pseudoUsager", pseudo).list();
-				
-				
+
+
 				Trajet trajet;
-				
+
 				if (t.size() < 1) {
 
 					/*
 					 * Si aucun trajet n'existe : en créer un
 					 */
-					
+
 					trajet = new Trajet(idPassage, pseudo);
-//					session.setAttribute("trajetEnregistre", trajet.getId());
-					
+					//					session.setAttribute("trajetEnregistre", trajet.getId());
+
 				} else {
-					
+
 					/*
 					 * Sinon, écraser le trajet existant
 					 */
 					System.out.println("on écrase");
-					
+
 					trajet = t.get(0);
 					trajet.setIdPassage(idPassage);
 				}
-				
+
 				ofy().save().entity(trajet).now();
-				
+
 				req.removeAttribute("idPassage");
 				resp.sendRedirect("/accueil");
 
@@ -112,7 +112,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 					/*
 					 * Construction de la page
 					 */
-					
+
 					Document accueil = Jsoup.connect(url+"enregistrementTrajet.html").get();
 					Element profilElem = accueil.getElementById("encartProfil");
 					Element contentElem = squelette.getElementById("content");
@@ -138,7 +138,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 
 				squelette.getElementById("avatar").attr("src", currentUser.getAvatarURL());
 				squelette.getElementById("pseudo").html(pseudo);
-				
+
 				/*
 				 * Afficher le voyage enregistré s'il existe, un lien pour en 
 				 * enregistrer un sinon.
@@ -157,7 +157,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				} else {
 
 					System.out.println("il existe un trajet enregistré");
-					
+
 					// Il existe un trajet enregistré
 					Trajet trajet = trajetEnregistre.get(0);
 					idPassage=trajet.getIdPassage();
@@ -185,11 +185,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				/*
 				 * Envoyer le résultat
 				 */
-				
-				resp.setContentType("text/html; charset=UTF-8");
-				resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
-				resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-				resp.setDateHeader("Expires", 0); // Proxies.
+
 				resp.setStatus(400);
 				PrintWriter out = resp.getWriter();
 				out.println(squelette.html());
