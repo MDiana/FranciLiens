@@ -151,7 +151,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 
 					// Aucun trajet enregistré
 					squelette.getElementById("trajetUser").html("<a class=\"lien\" "
-							+ "href=\"/enregistrerTrajet\">Enregistrer un trajet</a><br //>");
+							+ "href=\"/enregistrertrajet\">Enregistrer un trajet</a><br //>");
 
 
 				} else {
@@ -166,7 +166,7 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(idPassage).now();
 
 					squelette.getElementById("trajetUser").html("Votre Trajet "
-							+ "<a href=\"/removeTrajet\">"
+							+ "<a href=\"/removetrajet\">"
 							+ "<img src=\"/images/cross24.png\"></a> "
 							+ "<a href=\"/enregistrertrajet\">"
 							+ "<img src=\"/images/edit24.png\"></a>"
