@@ -25,6 +25,7 @@ public class LoginServlet extends HttpServlet {
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
 	private boolean isErrorMessageDisplayed; // le message d'erreur est-il présent ?
 	private String url= "http://franci-liens.appspot.com/";
+	
 
 	@Override
 	public void init() {

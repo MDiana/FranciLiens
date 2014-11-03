@@ -35,8 +35,6 @@ public class InviteServlet extends HttpServlet {
 			resp.sendRedirect("/login");
 		} else {
 
-			boolean ok=true;
-
 			// Récupérer le destinataire du mail
 			String recipient = (String) req.getAttribute("recipient");
 
@@ -60,23 +58,16 @@ public class InviteServlet extends HttpServlet {
 						resp.sendRedirect("/accueil");
 					}
 
-				} else {
+				} 
 
-					ok = false;
+			} 
 
-				}
-
-			} else {
-
-				ok = false;
-			}
-
-			if (!ok) {
+			
 
 				// Il y a eu un problème : renvoyer vers l'accueil
 				resp.sendRedirect("/accueil");
 
-			}
+			
 
 		}
 	}
