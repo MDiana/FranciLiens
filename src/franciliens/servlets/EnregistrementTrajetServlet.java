@@ -2,6 +2,8 @@ package franciliens.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import org.jsoup.nodes.Element;
 
 import franciliens.data.GaresSelectionnees;
 import franciliens.data.PassageEnGare;
+import franciliens.data.ToutesGares;
 import franciliens.data.Trajet;
 import franciliens.data.User;
 import static franciliens.data.OfyService.ofy;
@@ -164,7 +167,10 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 
 					// Chercher le train correspondant au code
 					PassageEnGare passage = ofy().load().type(PassageEnGare.class).id(idPassage).now();
-
+					Date d= new Date(passage.getDateHeure().getTime()-3600000);
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'à' HH:mm");
+					String date =sdf.format(d);
+					
 					squelette.getElementById("trajetUser").html("Votre Trajet "
 							+ "<a href=\"/removetrajet\">"
 							+ "<img src=\"/images/cross24.png\"></a> "
@@ -174,9 +180,9 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 							+ "Gare de départ : <br //>"
 							+ GaresSelectionnees.getNom(passage.getCodeUICGareDepart())+"<br //>"
 							+ "Terminus : <br //>"
-							+ GaresSelectionnees.getNom(passage.getCodeUICTerminus())+"<br //>"
+							+ ToutesGares.getNom(passage.getCodeUICTerminus())+"<br //>"
 							+ "Heure : <br //>"
-							+ passage.getDateHeure()+"</div>");
+							+ date+"</div>");
 					System.out.println(squelette.getElementById("trajetUser").html());
 				}
 

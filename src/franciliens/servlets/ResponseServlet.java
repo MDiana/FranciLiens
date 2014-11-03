@@ -81,12 +81,12 @@ public class ResponseServlet extends HttpServlet {
 		if (action.compareTo("accept")==0) {
 			PassageEnGare p = ofy().load().type(PassageEnGare.class).id(trajet.getIdPassage()).now();
 			msgBody = "Bonjour, "+recipient.getLogin()
-					+" ! L'invitation que vous avez envoyée à "+sender
-					+"a été acceptée.\n\nRendez-vous à l'accueil de votre gare 5 minutes avant votre départ"
+					+" ! L'invitation que vous avez envoyée à "+sender.getLogin()
+					+" a été acceptée.\n\nRendez-vous à l'accueil de votre gare 5 minutes avant votre départ"
 					+ " qui est à "+ p.getDateHeure()+ ".";
 		} else {
 			msgBody = "Bonjour, "+recipient.getLogin()
-					+" . Nous sommes au regret de vous informer que "+sender
+					+" . Nous sommes au regret de vous informer que "+sender.getLogin()
 					+" a décliné votre invitation. N'hésitez pas à rententer votre chance sur Franci'Liens !";
 		}
 
