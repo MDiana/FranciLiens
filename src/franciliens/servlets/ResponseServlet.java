@@ -55,6 +55,12 @@ public class ResponseServlet extends HttpServlet {
 					// Tout va bien : créer et envoyer le mail
 					try {
 						envoyerMail(resS.get(0), resR.get(0), action, resT.get(0));
+						
+						// TODO Supprimer le trajet enregistré par le sender une fois le mail envoyé, 
+						// si l'invitation a été acceptée.
+						if (action.compareTo("accept")==0) {
+							ofy().delete().entity(resT.get(0)).now();
+						}
 					} catch (Exception e) {
 						resp.sendRedirect("/accueil");
 					}
