@@ -25,7 +25,7 @@ public class AccueilServlet extends HttpServlet {
 	
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 
 	@Override
 	public void init() {
@@ -59,28 +59,15 @@ public class AccueilServlet extends HttpServlet {
 			currentUser = ofy().load().type(User.class).filter("login ==", pseudo).list().get(0);
 			Document accueil = Jsoup.connect(url+"accueil.html").get();
 			Element profilElem = accueil.getElementById("encartProfil");
+
+			/*
+			 * Construction de la page d'accueil
+			 */
+			Element contentElem = squelette.getElementById("content");
 			
 			if (!firstGetDone) {
-
-				/*
-				 * Construction de la page d'accueil
-				 */
-				Element contentElem = squelette.getElementById("content");
-				
-				/*
-				 * Remplir l'encart de profil
-				 */
-				
-				profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
-				profilElem.getElementById("pseudo").html(pseudo);
 				
 				contentElem.appendChild(profilElem);
-				
-				/*
-				 * TODO Remplir la liste des trajets suivant la gare :
-				 * - Du trajet enregistré s'il existe
-				 * - De la gare sélectionnée par défaut sinon.
-				 */
 				
 				Element trajetsElem = accueil.getElementById("encartTrajets");
 				
@@ -92,6 +79,13 @@ public class AccueilServlet extends HttpServlet {
 				contentElem.appendChild(trajetsElem);
 				firstGetDone=true;
 			}
+			
+			/*
+			 * Remplir l'encart de profil
+			 */
+			
+			profilElem.getElementById("avatar").attr("src", currentUser.getAvatarURL());
+			profilElem.getElementById("pseudo").html(pseudo);
 			
 			/*
 			 * Afficher le voyage enregistré s'il existe, un lien pour en 

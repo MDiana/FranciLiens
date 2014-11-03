@@ -27,7 +27,7 @@ public class RegisterServlet extends HttpServlet {
 	//franci-liens.appspot.com
 	private Document squelette;
 	private boolean firstGetDone; // a-t-on déjà fait un get ?
-	private String url= "http://franci-liens.appspot.com/";
+	private String url= "http://localhost:8888/";
 	private ArrayList<String> errorList;
 
 	@Override
@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		firstGetDone=false;
+//		firstGetDone=false;
 		errorList=new ArrayList<String>();
 	}
 
