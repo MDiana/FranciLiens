@@ -69,7 +69,6 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 				HttpSession session = req.getSession();
 				String pseudo = (String) session.getAttribute("login");
 
-				//				Long idTrajet = (Long) session.getAttribute("trajetEnregistre");
 				List<Trajet> t = ofy().load().type(Trajet.class).filter("pseudoUsager", pseudo).list();
 
 
@@ -82,7 +81,6 @@ public class EnregistrementTrajetServlet extends HttpServlet {
 					 */
 
 					trajet = new Trajet(idPassage, pseudo);
-					//					session.setAttribute("trajetEnregistre", trajet.getId());
 
 				} else {
 
