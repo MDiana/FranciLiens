@@ -171,7 +171,6 @@ function affichageProchainsDepart(arr){
 		date = objDepart.date;
 		mission = objDepart.mission;
 		term = objDepart.term;
-		alert("idPassage "+idPassage);
 		//construction dynamique d'une ligne de tableau	
 		var infos = new Array();
 		infos.push(date); 
@@ -206,7 +205,8 @@ function affichageProchainsDepart(arr){
  */
 function majTrains() {
 	var gare = document.getElementById('gareSelect').value;
-	var url = "http://franci-liens.appspot.com/prochainsdeparts?gare="+gare;
+
+	var url = "prochainsdeparts?gare="+gare;
 	var xhr = new XMLHttpRequest();
 
 	xhr.open('get', url);
@@ -226,7 +226,7 @@ function majTrains() {
 
 function majTrainsEnregistres(){
 	var gare= document.getElementById('gareSelect').value;
-	var url= "http://franci-liens.appspot.com/trajetsenregistresaff?gare="+gare;
+	var url= "trajetsenregistresaff?gare="+gare;
 	var xhr = new XMLHttpRequest(); 
 	xhr.open('get', url, true);
 	
@@ -294,8 +294,8 @@ function affichageTrajetsEnregistres(data){
 		td = document.createElement('td');
 		var a= document.createElement('a');
 		var image= document.createElement('img');
-		a.setAttribute('href', 'http://franci-liens.appspot.com/invite?recipient=' + pseudo);
-		image.setAttribute('src', 'http://franci-liens.appspot.com/images/invite32.png');
+		a.setAttribute('href', 'invite?recipient=' + pseudo);
+		image.setAttribute('src', 'ximages/invite32.png');
 		a.appendChild(image);
 		td.appendChild(a);
 		tr.appendChild(td);
