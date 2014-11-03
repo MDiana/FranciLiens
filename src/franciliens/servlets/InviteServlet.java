@@ -36,7 +36,7 @@ public class InviteServlet extends HttpServlet {
 		} else {
 
 			// Récupérer le destinataire du mail
-			String recipient = (String) req.getAttribute("recipient");
+			String recipient = (String) req.getParameter("recipient");
 
 			// Vérifier que le destinataire existe
 
@@ -57,24 +57,17 @@ public class InviteServlet extends HttpServlet {
 					} catch (Exception e) {
 						resp.sendRedirect("/accueil");
 					}
-
 				} 
+			}
 
-			} 
-
-			
-
-				// Il y a eu un problème : renvoyer vers l'accueil
-				resp.sendRedirect("/accueil");
-
-			
-
+			// Il y a eu un problème : renvoyer vers l'accueil
+			resp.sendRedirect("/accueil");
 		}
 	}
 
 	private void envoyerMail(String sender, User recipientU)
 			throws MessagingException, UnsupportedEncodingException {
-		
+
 		String url = "http://franci-liens.appspot.com/";
 
 		String msgBody = "Bonjour, "+recipientU.getLogin()
@@ -85,33 +78,33 @@ public class InviteServlet extends HttpServlet {
 				+ ") ce rendez-vous ?</body></html>";
 
 		Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
+		Session session = Session.getDefaultInstance(props, null);
 
-        try {
+		try {
 
-            
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("franciliensDAR@gmail.com", "Franci'Liens"));
-            
-            message.addRecipient(
-                    Message.RecipientType.TO,
-                    new InternetAddress(recipientU.getEmail()));
 
-            
-            message.setSubject("Vous avez reçu une nouvelle invitation !");
-            message.setText(msgBody);
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("franciliensDAR@gmail.com", "Franci'Liens"));
 
-            
-            Transport.send(message);
+			message.addRecipient(
+					Message.RecipientType.TO,
+					new InternetAddress(recipientU.getEmail()));
 
-            
-        } catch (AddressException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+			message.setSubject("Vous avez reçu une nouvelle invitation !");
+			message.setText(msgBody);
+
+
+			Transport.send(message);
+
+
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private String getProfile(String sender) {
@@ -133,7 +126,7 @@ public class InviteServlet extends HttpServlet {
 		if (user.getDescription()!=null && user.getDescription().toString().length()>0) {
 			profile += ("Voici comment ce membre se décrit :\n"+user.getDescription());
 		}
-		
+
 		return profile;
 	}
 
